@@ -1,0 +1,32 @@
+name: Build application
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+
+    - name: Install dependencies
+      run: yarn install --frozen-lockfile
+
+    - name: Build app
+      run: DISABLE_ESLINT_PLUGIN=true yarn build
+
+    - name: Test if build succeeds
+      run: |
+        if [ -d "build" ]; then
+          echo "Build successful"
+          exit 0
+        else
+          echo "Build failed"
+          exit 1
+        fi
