@@ -1,9 +1,13 @@
-import { Vector3 } from "@react-three/fiber";
-
+// position isn't a Vector3 to make Object serializable. 
+// see https://redux.js.org/faq/organizing-state#can-i-put-functions-promises-or-other-non-serializable-items-in-my-store-state for reference
 export interface Object {
   id: number;
   name: string;
-  position: Vector3;
+  position: {
+    x: number;
+    y: number;
+    z: number;
+  };
   active: boolean;
   hovered: boolean;
 }

@@ -2,6 +2,8 @@ import { createSlice, Dispatch, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from ".";
 import { Scene } from "../types/Scene";
 
+// todo address warnings
+
 interface SceneState {
   scene: Scene;
   // temp
@@ -9,12 +11,18 @@ interface SceneState {
   active: boolean;
 }
 
+interface ClickPayload {
+  id: number,
+  value: number,
+}
+
 export const initialState: SceneState = {
   scene: {
+    // todo make it a map
     objects: [
-      { id: 1, name: "box", position: [0, 0, 0], active: false, hovered: false },
-      { id: 2, name: "box", position: [0, 1, 0], active: false, hovered: false },
-      { id: 3, name: "box", position: [0, 1, -1], active: false, hovered: false }
+      { id: 0, name: "box", position: { x: 0, y: 0, z: 0 }, active: false, hovered: false },
+      { id: 1, name: "box", position: { x: 0, y: 2, z: 0 }, active: false, hovered: false },
+      { id: 2, name: "box", position: { x: 0, y: 0, z: 2 }, active: false, hovered: false }
     ]
   },
   hovered: false,
@@ -31,10 +39,18 @@ const sceneSlice = createSlice({
     click: (state) => {
       state.active = !state.active;
     },
+    move: (state, action: PayloadAction<ClickPayload>) => {
+      const id = action.payload.id
+      const val = action.payload.value
+      const object = state.scene.objects.find(obj => obj.id === id);
+      if (object) {
+        object.position = { x: object.position.x, y: val, z: object.position.z };
+      }
+    }
   }
 })
 
-export const { hover, click } = sceneSlice.actions;
+export const { hover, click, move } = sceneSlice.actions;
 
 export const sceneSelector = (state: RootState) => ({
   hovered: state.sceneReducer.hovered,
@@ -53,5 +69,11 @@ export function changeHoveredState(hovered: boolean) {
 export function changeActiveState() {
   return async (dispatch: Dispatch) => {
     dispatch(click())
+  }
+}
+
+export function moveObject(id: number, newValue: number) {
+  return async (dispatch: Dispatch) => {
+    dispatch(move({ id: id, value: newValue }))
   }
 }
