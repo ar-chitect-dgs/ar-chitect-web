@@ -1,0 +1,15 @@
+.Editor {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+}
+
+.Display {
+  flex: 3;
+  border: #282c34 solid 2px;
+}
+
+.GUI {
+  flex: 1;
+}
