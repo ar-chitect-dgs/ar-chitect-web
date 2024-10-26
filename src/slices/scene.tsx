@@ -11,9 +11,16 @@ interface SceneState {
   active: boolean;
 }
 
+export enum Axis {
+  X,
+  Y,
+  Z,
+}
+
 interface ClickPayload {
   id: number,
   value: number,
+  axis: Axis,
 }
 
 export const initialState: SceneState = {
@@ -42,9 +49,22 @@ const sceneSlice = createSlice({
     move: (state, action: PayloadAction<ClickPayload>) => {
       const id = action.payload.id
       const val = action.payload.value
+      const axis = action.payload.axis
+
       const object = state.scene.objects.find(obj => obj.id === id);
       if (object) {
-        object.position = { x: object.position.x, y: val, z: object.position.z };
+        switch (axis) {
+          case Axis.X:
+            object.position = { x: val, y: object.position.y, z: object.position.z };
+            break;
+          case Axis.Y:
+            object.position = { x: object.position.x, y: val, z: object.position.z };
+            break;
+          case Axis.Z:
+            object.position = { x: object.position.x, y: object.position.z, z: val };
+            break;
+        }
+
       }
     }
   }
@@ -72,8 +92,8 @@ export function changeActiveState() {
   }
 }
 
-export function moveObject(id: number, newValue: number) {
+export function moveObject(id: number, newValue: number, axis: Axis) {
   return async (dispatch: Dispatch) => {
-    dispatch(move({ id: id, value: newValue }))
+    dispatch(move({ id: id, value: newValue, axis }))
   }
 }

@@ -1,32 +1,38 @@
-import { Slider } from '@mui/material';
 import { Object } from '../../types/Scene';
 import './Properties.css';
-import { moveObject } from '../../slices/scene';
+import { Axis, moveObject } from '../../slices/scene';
 import { useAppDispatch } from '../..';
+import { positionToString } from '../../utils/utils';
+import { PositionSlider } from './PositionSlider/PositionSlider';
 
-interface PropertiesProps {
-  object: Object
-}
-
-function Properties({ object }: PropertiesProps) {
+function Properties(props: { object: Object }) {
   const dispatch = useAppDispatch();
 
-  function handleChange(event: Event, newValue: number | number[]) {
-    console.log("hii")
-    dispatch(moveObject(object.id, newValue as number))
+  const id = props.object.id
+  const name = props.object.name
+  const pos = props.object.position
+
+  function handleChangeX(event: Event, newValue: number | number[]) {
+    dispatch(moveObject(id, newValue as number, Axis.X))
+  }
+  function handleChangeY(event: Event, newValue: number | number[]) {
+    dispatch(moveObject(id, newValue as number, Axis.Y))
+  }
+  function handleChangeZ(event: Event, newValue: number | number[]) {
+    dispatch(moveObject(id, newValue as number, Axis.Z))
   }
 
   return (
     <div className="container">
       <div className="name">
-        {object.name}
+        {name}
       </div>
       <div className="position">
-        {object.position.toString()}
+        {positionToString(pos)}
       </div>
-      <div className="slider">
-        <Slider onChange={handleChange} min={-3} max={3} step={0.1} />
-      </div>
+      <PositionSlider value={pos.x} label={"x"} handleChange={handleChangeX} />
+      <PositionSlider value={pos.y} label={"y"} handleChange={handleChangeY} />
+      <PositionSlider value={pos.z} label={"z"} handleChange={handleChangeZ} />
     </div>
   )
 }
