@@ -2,7 +2,7 @@
 import { Canvas, MeshProps, useFrame } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
 import * as THREE from 'three';
-import { Object, Scene } from "../../../types/Scene";
+import { Object } from "../../../types/Scene";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../..";
 import { sceneSelector, changeActiveState, changeHoveredState } from "../../../slices/scene";
@@ -38,11 +38,9 @@ function Box(props: MeshProps) {
   )
 }
 
-interface DisplayProps {
-  scene: Scene;
-}
+function Display() {
+  const { scene } = useSelector(sceneSelector)
 
-function Display({ scene }: DisplayProps) {
   return (
     <Canvas
       camera={{ fov: 45, near: 0.1, far: 2000, position: [5, 5, 5] }}
@@ -52,7 +50,6 @@ function Display({ scene }: DisplayProps) {
       <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} decay={0} intensity={Math.PI} />
       <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
       {scene.objects.map((val: Object) => <Box key={val.id} position={val.position} />)}
-      {/* <Box position={[0, 0, 0]} /> */}
     </Canvas>
   );
 }

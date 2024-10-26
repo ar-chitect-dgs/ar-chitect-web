@@ -1,12 +1,12 @@
+import { useSelector } from 'react-redux';
 import Properties from '../../../components/properties/Properties';
-import { Object, Scene } from '../../../types/Scene';
+import { Object } from '../../../types/Scene';
 import './GUI.css';
+import { sceneSelector } from '../../../slices/scene';
 
-interface GUIProps {
-  scene: Scene;
-}
+function GUI() {
+  const { scene } = useSelector(sceneSelector);
 
-function GUI({ scene }: GUIProps) {
   return (
     <div>
       <div className="header">GUI</div>
