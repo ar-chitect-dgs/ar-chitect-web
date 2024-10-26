@@ -1,5 +1,5 @@
 import { createSlice, Dispatch, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from ".";
+import { RootState } from "..";
 
 interface SceneState {
   active: boolean,

@@ -3,8 +3,8 @@ import { Canvas, MeshProps, useFrame } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import * as THREE from 'three';
-import { sceneSelector, changeHoveredState, changeActiveState } from "../../slices/scene";
-import { useAppDispatch } from "../..";
+import { sceneSelector, changeHoveredState, changeActiveState } from "../../redux/slices/scene";
+import { useAppDispatch } from "../../redux";
 
 function Box(props: MeshProps) {
   const meshRef = useRef<THREE.Mesh>(null!)

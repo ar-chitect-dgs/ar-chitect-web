@@ -1,25 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
-import { Provider, useDispatch } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
+import { Provider } from 'react-redux';
 
 import App from './App';
-import rootReducer from './slices';
 
 import './index.css';
-
-const store = configureStore({ reducer: rootReducer })
-
-export type AppDispatch = typeof store.dispatch
-export const useAppDispatch = useDispatch.withTypes<AppDispatch>()
+import { _store } from './redux';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
+    <Provider store={_store}>
       <App />
     </Provider>
   </React.StrictMode>
