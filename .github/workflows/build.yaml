@@ -22,7 +22,7 @@ jobs:
         node-version: '22'
 
     - name: Install dependencies
-      run: yarn install --frozen-lockfile
+      run: yarn install
 
     - name: Build app
       run: DISABLE_ESLINT_PLUGIN=true yarn build
