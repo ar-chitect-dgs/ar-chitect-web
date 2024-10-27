@@ -28,7 +28,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint . --ext .ts --ext .tsx",
-    "lint-and-fix": "eslint . --ext .ts --fix"
+    "lint-and-fix": "eslint  --fix . --ext .ts"
   },
   "browserslist": {
     "production": [
@@ -49,7 +49,7 @@
     "typescript-eslint": "^8.9.0",
     "@typescript-eslint/eslint-plugin": "^4.15.1",
     "@typescript-eslint/parser": "^4.15.1",
-    "eslint": "^7.20.0",
+    "eslint": "^9.0.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-import-resolver-typescript": "^3.6.1",
