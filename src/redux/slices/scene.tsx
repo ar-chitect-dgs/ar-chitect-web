@@ -35,15 +35,15 @@ export const sceneSelector = (state: RootState): SceneState => ({
 
 export default sceneSlice.reducer;
 
-export function changeHoveredState(
-  hovered: boolean,
-): (dispatch: Dispatch) => Promise<void> {
+export function changeHoveredState(hovered: boolean) {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   return async (dispatch: Dispatch) => {
     dispatch(hover(hovered));
   };
 }
 
 export function changeActiveState() {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   return async (dispatch: Dispatch) => {
     dispatch(click());
   };

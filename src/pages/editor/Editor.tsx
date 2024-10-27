@@ -11,6 +11,7 @@ import {
 import { useAppDispatch } from '../../redux';
 
 function Box({ position }: MeshProps) {
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const meshRef = useRef<THREE.Mesh>(null!);
   const { hovered, active } = useSelector(sceneSelector);
   const dispatch = useAppDispatch();
