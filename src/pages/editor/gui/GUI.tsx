@@ -4,17 +4,19 @@ import { SceneObject } from '../../../types/Scene';
 import './GUI.css';
 import { sceneSelector } from '../../../slices/scene';
 
-function GUI() {
+function GUI(): JSX.Element {
   const { scene } = useSelector(sceneSelector);
 
   return (
     <div>
       <div className="header">GUI</div>
       <div className="PropertiesPanel">
-        {Array.from(scene.objects.values()).map((val: SceneObject) => <Properties key={val.id} object={val} />)}
+        {Array.from(scene.objects.values()).map(
+          (val: SceneObject) => <Properties key={val.id} object={val} />,
+        )}
       </div>
     </div>
   );
 }
 
-export default GUI
+export default GUI;

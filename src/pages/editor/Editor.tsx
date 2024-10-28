@@ -1,8 +1,8 @@
-import './Editor.css';
-import Display from "./display/Display";
-import GUI from "./gui/GUI";
+/* eslint-disable react/no-unknown-property */
+import Display from './display/Display';
+import GUI from './gui/GUI';
 
-function Editor() {
+function Editor(): JSX.Element {
   return (
     <div className="Editor">
       <div className="Display">
@@ -15,4 +15,4 @@ function Editor() {
   );
 }
 
-export default Editor
+export default Editor;

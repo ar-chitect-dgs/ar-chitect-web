@@ -1,4 +1,4 @@
-// position isn't a Vector3 to make Object serializable. 
+// position isn't a Vector3 to make Object serializable.
 // see https://redux.js.org/faq/organizing-state#can-i-put-functions-promises-or-other-non-serializable-items-in-my-store-state for reference
 export interface SceneObject {
   id: number;
