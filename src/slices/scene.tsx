@@ -30,12 +30,12 @@ interface MovePayload {
 
 export const initialState: SceneState = {
   scene: {
-    // todo make it a map
-    objects: [
-      { id: 0, name: "box", position: { x: 0, y: 0, z: 0 }, active: false, hovered: false },
-      { id: 1, name: "box", position: { x: 0, y: 2, z: 0 }, active: false, hovered: false },
-      { id: 2, name: "box", position: { x: 0, y: 0, z: 2 }, active: false, hovered: false }
-    ]
+    objectIds: [0, 1, 2],
+    objects: new Map([
+      [0, { id: 0, name: "box", position: { x: 0, y: 0, z: 0 }, active: false, hovered: false }],
+      [1, { id: 1, name: "box", position: { x: 0, y: 2, z: 0 }, active: false, hovered: false }],
+      [2, { id: 2, name: "box", position: { x: 0, y: 0, z: 2 }, active: false, hovered: false }]
+    ]),
   },
   hovered: false,
   active: false,
@@ -46,31 +46,49 @@ const sceneSlice = createSlice({
   initialState,
   reducers: {
     hover: (state, action: PayloadAction<HoverPayload>) => {
-      console.log(action.payload.id)
-      state.scene.objects[action.payload.id].hovered = action.payload.hovered;
+      const id = action.payload.id
+      const object = state.scene.objects.get(id)
+
+      if (!object) {
+        console.warn(`No object with id ${id} found.`)
+        return
+      }
+
+      object.hovered = action.payload.hovered;
     },
     click: (state, action: PayloadAction<number>) => {
-      state.scene.objects[action.payload].active = !state.scene.objects[action.payload].active;
+      const id = action.payload
+      const object = state.scene.objects.get(id)
+
+      if (!object) {
+        console.warn(`No object with id ${id} found.`)
+        return
+      }
+
+      object.active = !object.active;
     },
     move: (state, action: PayloadAction<MovePayload>) => {
       const id = action.payload.id
       const val = action.payload.value
       const axis = action.payload.axis
 
-      const object = state.scene.objects.find(obj => obj.id === id);
-      if (object) {
-        switch (axis) {
-          case Axis.X:
-            object.position = { x: val, y: object.position.y, z: object.position.z };
-            break;
-          case Axis.Y:
-            object.position = { x: object.position.x, y: val, z: object.position.z };
-            break;
-          case Axis.Z:
-            object.position = { x: object.position.x, y: object.position.z, z: val };
-            break;
-        }
+      const object = state.scene.objects.get(id);
 
+      if (!object) {
+        console.warn(`No object with id ${id} found.`)
+        return
+      }
+
+      switch (axis) {
+        case Axis.X:
+          object.position = { x: val, y: object.position.y, z: object.position.z };
+          break;
+        case Axis.Y:
+          object.position = { x: object.position.x, y: val, z: object.position.z };
+          break;
+        case Axis.Z:
+          object.position = { x: object.position.x, y: object.position.z, z: val };
+          break;
       }
     }
   }

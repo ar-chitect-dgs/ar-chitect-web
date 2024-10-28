@@ -1,6 +1,6 @@
 // position isn't a Vector3 to make Object serializable. 
 // see https://redux.js.org/faq/organizing-state#can-i-put-functions-promises-or-other-non-serializable-items-in-my-store-state for reference
-export interface Object {
+export interface SceneObject {
   id: number;
   name: string;
   position: {
@@ -13,5 +13,6 @@ export interface Object {
 }
 
 export interface Scene {
-  objects: Array<Object>;
+  objectIds: Array<number>;
+  objects: Map<number, SceneObject>;
 }

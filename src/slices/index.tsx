@@ -1,6 +1,9 @@
 import { combineReducers } from "@reduxjs/toolkit";
+import { enableMapSet } from "immer";
 
 import sceneReducer from "./scene";
+
+enableMapSet();
 
 const rootReducer = combineReducers({
   sceneReducer,

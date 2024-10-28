@@ -1,11 +1,11 @@
-import { Object } from '../../types/Scene';
+import { SceneObject } from '../../types/Scene';
 import './Properties.css';
 import { Axis, moveObject } from '../../slices/scene';
 import { useAppDispatch } from '../..';
 import { positionToString } from '../../utils/utils';
 import { PositionSlider } from './PositionSlider/PositionSlider';
 
-function Properties(props: { object: Object }) {
+function Properties(props: { object: SceneObject }) {
   const dispatch = useAppDispatch();
 
   const id = props.object.id
