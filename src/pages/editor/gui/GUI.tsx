@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 import Properties from '../../../components/properties/Properties';
 import { SceneObject } from '../../../types/Scene';
 import './GUI.css';
-import { sceneSelector } from '../../../slices/scene';
+import { sceneSelector } from '../../../redux/slices/scene';
 
 function GUI(): JSX.Element {
   const { scene } = useSelector(sceneSelector);

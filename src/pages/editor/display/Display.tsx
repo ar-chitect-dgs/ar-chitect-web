@@ -4,11 +4,11 @@ import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../../redux';
-import { sceneSelector, changeActiveState, changeHoveredState } from '../../../slices/scene';
 import { SceneObject } from '../../../types/Scene';
+import { sceneSelector, changeActiveState, changeHoveredState } from '../../../redux/slices/scene';
 
 // todo should it be object
-function Box({ _id, ...meshProps }: MeshProps & { _id: number }): JSX.Element {
+function Box({ id, ...meshProps }: MeshProps & { id: number }): JSX.Element {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const meshRef = useRef<THREE.Mesh>(null!);
   const { scene } = useSelector(sceneSelector);
@@ -17,7 +17,6 @@ function Box({ _id, ...meshProps }: MeshProps & { _id: number }): JSX.Element {
   // eslint-disable-next-line no-return-assign
   useFrame((_state, delta) => (meshRef.current.rotation.x += delta));
 
-  const id = meshProps.key as number;
   const object = scene.objects.get(id);
   if (!object) {
     console.warn(`No object with id ${id} found.`);
@@ -64,7 +63,10 @@ function Display(): JSX.Element {
       <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
       {Array.from(scene.objects.values()).map(
         (obj: SceneObject) =>
-          <Box _id={1} key={obj.id} position={[obj.position.x, obj.position.y, obj.position.z]} />,
+          <Box
+            id={obj.id}
+            key={obj.id}
+            position={[obj.position.x, obj.position.y, obj.position.z]} />,
       )}
     </Canvas>
   );

@@ -1,10 +1,11 @@
 import { useCallback } from 'react';
 import { SceneObject } from '../../types/Scene';
 import './Properties.css';
-import { Axis, moveObject } from '../../slices/scene';
+
 import { useAppDispatch } from '../../redux';
 import { positionToString } from '../../utils/utils';
 import { PositionSlider } from './PositionSlider/PositionSlider';
+import { moveObject, Axis } from '../../redux/slices/scene';
 
 function Properties({ object }: { object: SceneObject }): JSX.Element {
   const dispatch = useAppDispatch();
