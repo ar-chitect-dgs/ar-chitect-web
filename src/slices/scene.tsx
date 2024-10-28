@@ -17,7 +17,12 @@ export enum Axis {
   Z,
 }
 
-interface ClickPayload {
+interface HoverPayload {
+  id: number,
+  hovered: boolean,
+}
+
+interface MovePayload {
   id: number,
   value: number,
   axis: Axis,
@@ -40,13 +45,14 @@ const sceneSlice = createSlice({
   name: 'scene',
   initialState,
   reducers: {
-    hover: (state, action: PayloadAction<boolean>) => {
-      state.hovered = action.payload;
+    hover: (state, action: PayloadAction<HoverPayload>) => {
+      console.log(action.payload.id)
+      state.scene.objects[action.payload.id].hovered = action.payload.hovered;
     },
-    click: (state) => {
-      state.active = !state.active;
+    click: (state, action: PayloadAction<number>) => {
+      state.scene.objects[action.payload].active = !state.scene.objects[action.payload].active;
     },
-    move: (state, action: PayloadAction<ClickPayload>) => {
+    move: (state, action: PayloadAction<MovePayload>) => {
       const id = action.payload.id
       const val = action.payload.value
       const axis = action.payload.axis
@@ -80,15 +86,15 @@ export const sceneSelector = (state: RootState) => ({
 
 export default sceneSlice.reducer;
 
-export function changeHoveredState(hovered: boolean) {
+export function changeHoveredState(id: number, hovered: boolean) {
   return async (dispatch: Dispatch) => {
-    dispatch(hover(hovered))
+    dispatch(hover({ id, hovered }))
   }
 }
 
-export function changeActiveState() {
+export function changeActiveState(id: number) {
   return async (dispatch: Dispatch) => {
-    dispatch(click())
+    dispatch(click(id))
   }
 }
 

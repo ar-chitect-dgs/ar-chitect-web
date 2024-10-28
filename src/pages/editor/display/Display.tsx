@@ -7,12 +7,16 @@ import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../..";
 import { sceneSelector, changeActiveState, changeHoveredState } from "../../../slices/scene";
 
-function Box(props: MeshProps) {
+// todo should it be object
+function Box(props: MeshProps & { id: number }) {
   const meshRef = useRef<THREE.Mesh>(null!)
-  const { hovered, active } = useSelector(sceneSelector)
+  const { scene } = useSelector(sceneSelector)
   const dispatch = useAppDispatch();
 
   useFrame((state, delta) => (meshRef.current.rotation.x += delta))
+
+  const hovered = scene.objects[props.id].hovered
+  const active = scene.objects[props.id].active
 
   const color = hovered ? 'hotpink' : '#2f74c0'
   const scale = active ? 1.5 : 1;
@@ -28,9 +32,9 @@ function Box(props: MeshProps) {
       position={props.position}
       ref={meshRef}
       scale={scale}
-      onClick={() => dispatch(changeActiveState())}
-      onPointerOver={() => dispatch(changeHoveredState(true))}
-      onPointerOut={() => dispatch(changeHoveredState(false))}
+      onClick={() => dispatch(changeActiveState(props.id as number))}
+      onPointerOver={() => dispatch(changeHoveredState(props.id as number, true))}
+      onPointerOut={() => dispatch(changeHoveredState(props.id as number, false))}
     >
       <boxGeometry args={[1, 1, 1]} />
       <meshStandardMaterial color={color} />
@@ -49,7 +53,7 @@ function Display() {
       <ambientLight intensity={Math.PI / 2} />
       <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} decay={0} intensity={Math.PI} />
       <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
-      {scene.objects.map((val: Object) => <Box key={val.id} position={[val.position.x, val.position.y, val.position.z]} />)}
+      {scene.objects.map((val: Object) => <Box id={val.id} position={[val.position.x, val.position.y, val.position.z]} />)}
     </Canvas>
   );
 }
