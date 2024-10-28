@@ -5,6 +5,17 @@
   border-radius: 10px;
   height: max-content;
   text-align: center;
+  cursor: pointer;
+}
+
+.hovered {
+  color: cornflowerblue;
+  background-color: aliceblue;
+}
+
+.active {
+  color: darkgreen;
+  background-color: azure;
 }
 
 .name {

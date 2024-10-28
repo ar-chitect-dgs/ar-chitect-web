@@ -6,9 +6,6 @@ import { Scene } from '../../types/Scene';
 
 interface SceneState {
   scene: Scene;
-  // temp
-  hovered: boolean;
-  active: boolean;
 }
 
 export enum Axis {
@@ -43,8 +40,6 @@ export const initialState: SceneState = {
       }],
     ]),
   },
-  hovered: false,
-  active: false,
 };
 
 const sceneSlice = createSlice({
@@ -106,8 +101,6 @@ const sceneSlice = createSlice({
 export const { hover, click, move } = sceneSlice.actions;
 
 export const sceneSelector = (state: RootState): SceneState => ({
-  hovered: state.sceneReducer.hovered,
-  active: state.sceneReducer.active,
   scene: state.sceneReducer.scene,
 });
 

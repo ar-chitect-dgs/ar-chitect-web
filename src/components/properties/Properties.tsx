@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+// ^todo for the future
 import { useCallback } from 'react';
 import { SceneObject } from '../../types/Scene';
 import './Properties.css';
@@ -5,13 +7,16 @@ import './Properties.css';
 import { useAppDispatch } from '../../redux';
 import { positionToString } from '../../utils/utils';
 import { PositionSlider } from './PositionSlider/PositionSlider';
-import { moveObject, Axis } from '../../redux/slices/scene';
+import {
+  moveObject, Axis, changeActiveState, changeHoveredState,
+} from '../../redux/slices/scene';
 
 function Properties({ object }: { object: SceneObject }): JSX.Element {
   const dispatch = useAppDispatch();
 
-  const { id } = object;
-  const { name } = object;
+  const {
+    id, name, hovered, active,
+  } = object;
   const pos = object.position;
 
   const handleChangeX = useCallback((_event: Event, newValue: number | number[]) => {
@@ -24,17 +29,36 @@ function Properties({ object }: { object: SceneObject }): JSX.Element {
     dispatch(moveObject(id, newValue as number, Axis.Z));
   }, []);
 
+  const handleHover = useCallback(() => {
+    dispatch(changeHoveredState(id, true));
+  }, []);
+  const handleUnhover = useCallback(() => {
+    dispatch(changeHoveredState(id, false));
+  }, []);
+  const handleClick = useCallback(() => {
+    dispatch(changeActiveState(id));
+  }, []);
+
   return (
-    <div className="container">
+    <div
+      className={`container ${active ? 'active ' : ''}${hovered ? 'hovered ' : ''}`}
+      onClick={handleClick}
+      onMouseEnter={handleHover}
+      onMouseLeave={handleUnhover}
+    >
       <div className="name">
         {name}
       </div>
       <div className="position">
         {positionToString(pos)}
       </div>
-      <PositionSlider value={pos.x} label="x" handleChange={handleChangeX} />
-      <PositionSlider value={pos.y} label="y" handleChange={handleChangeY} />
-      <PositionSlider value={pos.z} label="z" handleChange={handleChangeZ} />
+      {active ? (
+        <div className="sliders" onClick={(e) => e.stopPropagation()}>
+          <PositionSlider value={pos.x} label="x" handleChange={handleChangeX} />
+          <PositionSlider value={pos.y} label="y" handleChange={handleChangeY} />
+          <PositionSlider value={pos.z} label="z" handleChange={handleChangeZ} />
+        </div>
+      ) : <></>}
     </div>
   );
 }
