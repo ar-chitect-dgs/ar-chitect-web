@@ -1,10 +1,7 @@
 import { combineReducers, configureStore, Dispatch } from '@reduxjs/toolkit';
 
 import { useDispatch } from 'react-redux';
-import { enableMapSet } from 'immer';
 import sceneReducer from './slices/scene';
-
-enableMapSet();
 
 const rootReducer = combineReducers({
   sceneReducer,

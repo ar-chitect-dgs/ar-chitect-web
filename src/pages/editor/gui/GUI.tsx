@@ -11,7 +11,7 @@ function GUI(): JSX.Element {
     <div>
       <div className="header">GUI</div>
       <div className="PropertiesPanel">
-        {Array.from(scene.objects.values()).map(
+        {Object.values(scene.objects).map(
           (val: SceneObject) => <Properties key={val.id} object={val} />,
         )}
       </div>

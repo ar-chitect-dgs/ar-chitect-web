@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unknown-property */
 import Display from './display/Display';
 import GUI from './gui/GUI';
 

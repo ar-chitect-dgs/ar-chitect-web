@@ -20,7 +20,7 @@ export function PositionSlider({
         min={-3}
         max={3}
         step={0.1}
-        defaultValue={value}
+        value={value || 0} // prevents the slider from being uncontrolled
         valueLabelDisplay="auto"
       />
       <p className="value-label">{value}</p>

@@ -13,6 +13,6 @@ export interface SceneObject {
 }
 
 export interface Scene {
-  objectIds: Array<number>;
-  objects: Map<number, SceneObject>;
+  objectIds: number[];
+  objects: { [id: number]: SceneObject };
 }

@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-// ^todo for the future
+// todo for the future^
 import { useCallback } from 'react';
 import { SceneObject } from '../../types/Scene';
 import './Properties.css';

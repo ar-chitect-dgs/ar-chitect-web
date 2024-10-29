@@ -1,8 +1,8 @@
-import { createSlice, Dispatch, PayloadAction } from '@reduxjs/toolkit';
+import {
+  createSlice, Dispatch, lruMemoize, PayloadAction,
+} from '@reduxjs/toolkit';
 import { RootState, ThunkActionVoid } from '..';
 import { Scene } from '../../types/Scene';
-
-// todo address warnings
 
 interface SceneState {
   scene: Scene;
@@ -28,17 +28,17 @@ interface MovePayload {
 export const initialState: SceneState = {
   scene: {
     objectIds: [0, 1, 2],
-    objects: new Map([
-      [0, {
+    objects: {
+      0: {
         id: 0, name: 'box', position: { x: 0, y: 0, z: 0 }, active: false, hovered: false,
-      }],
-      [1, {
-        id: 1, name: 'box', position: { x: 0, y: 2, z: 0 }, active: false, hovered: false,
-      }],
-      [2, {
-        id: 2, name: 'box', position: { x: 0, y: 0, z: 2 }, active: false, hovered: false,
-      }],
-    ]),
+      },
+      1: {
+        id: 1, name: 'box', position: { x: 0, y: 0, z: -2 }, active: false, hovered: false,
+      },
+      2: {
+        id: 2, name: 'box', position: { x: 0, y: 2, z: 0 }, active: false, hovered: false,
+      },
+    },
   },
 };
 
@@ -48,7 +48,7 @@ const sceneSlice = createSlice({
   reducers: {
     hover: (state, action: PayloadAction<HoverPayload>) => {
       const { id } = action.payload;
-      const object = state.scene.objects.get(id);
+      const object = state.scene.objects[id];
 
       if (!object) {
         console.warn(`No object with id ${id} found.`);
@@ -59,7 +59,7 @@ const sceneSlice = createSlice({
     },
     click: (state, action: PayloadAction<number>) => {
       const id = action.payload;
-      const object = state.scene.objects.get(id);
+      const object = state.scene.objects[id];
 
       if (!object) {
         console.warn(`No object with id ${id} found.`);
@@ -73,7 +73,7 @@ const sceneSlice = createSlice({
       const val = action.payload.value;
       const { axis } = action.payload;
 
-      const object = state.scene.objects.get(id);
+      const object = state.scene.objects[id];
 
       if (!object) {
         console.warn(`No object with id ${id} found.`);
@@ -88,7 +88,7 @@ const sceneSlice = createSlice({
           object.position = { x: object.position.x, y: val, z: object.position.z };
           break;
         case Axis.Z:
-          object.position = { x: object.position.x, y: object.position.z, z: val };
+          object.position = { x: object.position.x, y: object.position.y, z: val };
           break;
         default:
           console.warn(`Wrong axis ${axis}`);
@@ -100,9 +100,7 @@ const sceneSlice = createSlice({
 
 export const { hover, click, move } = sceneSlice.actions;
 
-export const sceneSelector = (state: RootState): SceneState => ({
-  scene: state.sceneReducer.scene,
-});
+export const sceneSelector = lruMemoize((state: RootState) => state.sceneReducer);
 
 export default sceneSlice.reducer;
 
