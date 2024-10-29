@@ -69,9 +69,7 @@ const sceneSlice = createSlice({
       object.active = !object.active;
     },
     move: (state, action: PayloadAction<MovePayload>) => {
-      const { id } = action.payload;
-      const val = action.payload.value;
-      const { axis } = action.payload;
+      const { id, axis, value } = action.payload;
 
       const object = state.scene.objects[id];
 
@@ -82,13 +80,13 @@ const sceneSlice = createSlice({
 
       switch (axis) {
         case Axis.X:
-          object.position = { x: val, y: object.position.y, z: object.position.z };
+          object.position = { x: value, y: object.position.y, z: object.position.z };
           break;
         case Axis.Y:
-          object.position = { x: object.position.x, y: val, z: object.position.z };
+          object.position = { x: object.position.x, y: value, z: object.position.z };
           break;
         case Axis.Z:
-          object.position = { x: object.position.x, y: object.position.y, z: val };
+          object.position = { x: object.position.x, y: object.position.y, z: value };
           break;
         default:
           console.warn(`Wrong axis ${axis}`);
