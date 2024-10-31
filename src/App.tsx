@@ -10,7 +10,7 @@ const App = (): JSX.Element => (
   <Router>
     <div style={{ display: 'flex' }}>
       <Sidebar />
-      <div style={{ flex: 1, padding: '16px' }}>
+      <div style={{ flex: 1, padding: '16px', height: '100vh' }}>
         <Routes>
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<LogIn />} />
