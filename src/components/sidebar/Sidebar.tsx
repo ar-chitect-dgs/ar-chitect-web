@@ -1,3 +1,4 @@
+// Sidebar.tsx
 import {
   Drawer,
   List,
@@ -6,12 +7,15 @@ import {
   ListItemText,
   Typography,
   Box,
+  Divider,
 } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
 import './Sidebar.css';
 
 const Sidebar = (): JSX.Element => {
   const location = useLocation();
+  const user = useAuth();
 
   const isSelected = (path: string) => location.pathname === path;
 
@@ -43,42 +47,69 @@ const Sidebar = (): JSX.Element => {
       {/* Navigation links */}
       <List>
         <ListItem disablePadding>
-          <ListItemButton component={Link} to="/signup">
+          <ListItemButton
+            component={Link}
+            to="/projects"
+            selected={isSelected('/projects')}
+          >
             <ListItemText
-              disableTypography
-              primary="Sign Up"
-              sx={{ fontWeight: isSelected('/signup') ? 'bold' : 'normal' }}
-            />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton component={Link} to="/login">
-            <ListItemText
-              disableTypography
-              primary="Log In"
-              sx={{ fontWeight: isSelected('/login') ? 'bold' : 'normal' }}
-            />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton component={Link} to="/projects">
-            <ListItemText
-              disableTypography
               primary="Projects"
               sx={{ fontWeight: isSelected('/projects') ? 'bold' : 'normal' }}
             />
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
-          <ListItemButton component={Link} to="/editor">
+          <ListItemButton
+            component={Link}
+            to="/editor"
+            selected={isSelected('/editor')}
+          >
             <ListItemText
-              disableTypography
               primary="Editor"
               sx={{ fontWeight: isSelected('/editor') ? 'bold' : 'normal' }}
             />
           </ListItemButton>
         </ListItem>
       </List>
+      <Divider />
+      {!user && (
+        <Box sx={{ paddingTop: '16px' }}>
+          <ListItem disablePadding>
+            <ListItemButton
+              component={Link}
+              to="/signup"
+              selected={isSelected('/signup')}
+            >
+              <ListItemText
+                primary="Sign Up"
+                sx={{ fontWeight: isSelected('/signup') ? 'bold' : 'normal' }}
+              />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton
+              component={Link}
+              to="/login"
+              selected={isSelected('/login')}
+            >
+              <ListItemText
+                primary="Log In"
+                sx={{ fontWeight: isSelected('/login') ? 'bold' : 'normal' }}
+              />
+            </ListItemButton>
+          </ListItem>
+        </Box>
+      )}
+      {user && (
+        <Box sx={{ paddingTop: '16px' }}>
+          <ListItemButton component={Link} to="/profile">
+            <ListItemText
+              primary="Profile"
+              sx={{ fontWeight: isSelected('/profile') ? 'bold' : 'normal' }}
+            />
+          </ListItemButton>
+        </Box>
+      )}
     </Drawer>
   );
 };
