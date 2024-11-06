@@ -16,8 +16,8 @@ function Ground() {
     cellColor: '#6f6f6f',
     sectionSize: 3,
     sectionThickness: 1,
-    sectionColor: '#9d4b4b',
-    fadeDistance: 30,
+    sectionColor: '#595959',
+    fadeDistance: 50,
     fadeStrength: 1,
     followCamera: false,
     infiniteGrid: true,
@@ -67,7 +67,7 @@ function Display(): JSX.Element {
       gl={{ antialias: true }}
       scene={{}}
     >
-      <CameraControls ref={cameraControlRef} />
+      <CameraControls ref={cameraControlRef} maxDistance={30} maxPolarAngle={Math.PI / 2} />
       <ambientLight intensity={Math.PI / 2} />
       <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} decay={0} intensity={Math.PI} />
       <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
