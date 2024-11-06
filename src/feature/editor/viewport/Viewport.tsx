@@ -1,11 +1,11 @@
 /* eslint-disable react/no-unknown-property */
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useEffect, useRef } from 'react';
-import * as THREE from 'three';
 import { useSelector } from 'react-redux';
+import * as THREE from 'three';
 import { useAppDispatch } from '../../../redux';
+import { changeActiveState, changeHoveredState, sceneSelector } from '../../../redux/slices/scene';
 import { SceneObject } from '../../../types/Scene';
-import { sceneSelector, changeActiveState, changeHoveredState } from '../../../redux/slices/scene';
 
 function Box({
   id, position, hovered, active,
@@ -43,7 +43,7 @@ function Box({
   );
 }
 
-function Display(): JSX.Element {
+function Viewport(): JSX.Element {
   const { scene } = useSelector(sceneSelector);
 
   return (
@@ -71,4 +71,4 @@ function Display(): JSX.Element {
   );
 }
 
-export default Display;
+export default Viewport;

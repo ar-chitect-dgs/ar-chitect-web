@@ -1,13 +1,16 @@
 // App.tsx
 import {
-  BrowserRouter as Router, Route, Routes, Navigate,
+  Navigate,
+  Route,
+  BrowserRouter as Router,
+  Routes,
 } from 'react-router-dom';
 import Sidebar from './components/sidebar/Sidebar';
-import SignUp from './pages/SignUp';
+import Editor from './feature/editor/Editor';
 import Login from './pages/LogIn';
-import Projects from './pages/Projects';
-import Editor from './pages/editor/Editor';
 import Profile from './pages/Profile';
+import Projects from './pages/Projects';
+import SignUp from './pages/SignUp';
 
 function App(): JSX.Element {
   return (
