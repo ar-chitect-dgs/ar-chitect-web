@@ -4,7 +4,7 @@ import { useCallback } from 'react';
 import { SceneObject } from '../../../../types/Scene';
 import './Properties.css';
 
-import { PositionSlider } from '../../../../components/PositionSlider/PositionSlider';
+import { PositionSlider } from '../../../../components/positionSlider/PositionSlider';
 import { useAppDispatch } from '../../../../redux';
 import {
   Axis, changeActiveState, changeHoveredState,
