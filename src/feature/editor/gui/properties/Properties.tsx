@@ -1,15 +1,16 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 // todo for the future^
 import { useCallback } from 'react';
-import { SceneObject } from '../../types/Scene';
+import { SceneObject } from '../../../../types/Scene';
 import './Properties.css';
 
-import { useAppDispatch } from '../../redux';
-import { positionToString } from '../../utils/utils';
-import { PositionSlider } from './PositionSlider/PositionSlider';
+import { PositionSlider } from '../../../../components/positionSlider/PositionSlider';
+import { useAppDispatch } from '../../../../redux';
 import {
-  moveObject, Axis, changeActiveState, changeHoveredState,
-} from '../../redux/slices/scene';
+  Axis, changeActiveState, changeHoveredState,
+  moveObject,
+} from '../../../../redux/slices/scene';
+import { positionToString } from '../../../../utils/utils';
 
 function Properties({ object }: { object: SceneObject }): JSX.Element {
   const dispatch = useAppDispatch();

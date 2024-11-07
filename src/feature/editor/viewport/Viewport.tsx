@@ -55,7 +55,7 @@ function Box({
   );
 }
 
-function Display(): JSX.Element {
+function Viewport(): JSX.Element {
   const { scene } = useSelector(sceneSelector);
   const cameraControlRef = useRef<CameraControls | null>(null);
 
@@ -84,4 +84,4 @@ function Display(): JSX.Element {
   );
 }
 
-export default Display;
+export default Viewport;
