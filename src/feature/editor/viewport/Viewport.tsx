@@ -12,7 +12,6 @@ import {
   sceneSelector,
 } from '../../../redux/slices/scene';
 import { SceneObject } from '../../../types/Scene';
-import { test } from '../../../utils/utils';
 
 function Ground() {
   const gridConfig = {
@@ -61,7 +60,7 @@ function Box({ id, position, hovered, active }: SceneObject): JSX.Element {
 function Viewport(): JSX.Element {
   const { scene } = useSelector(sceneSelector);
   const cameraControlRef = useRef<CameraControls | null>(null);
-  test();
+
   return (
     <Canvas
       camera={{
