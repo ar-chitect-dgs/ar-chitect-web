@@ -6,8 +6,13 @@ import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import * as THREE from 'three';
 import { useAppDispatch } from '../../../redux';
-import { changeActiveState, changeHoveredState, sceneSelector } from '../../../redux/slices/scene';
+import {
+  changeActiveState,
+  changeHoveredState,
+  sceneSelector,
+} from '../../../redux/slices/scene';
 import { SceneObject } from '../../../types/Scene';
+import { test } from '../../../utils/utils';
 
 function Ground() {
   const gridConfig = {
@@ -25,9 +30,7 @@ function Ground() {
   return <Grid position={[0, -0.01, 0]} args={[10.5, 10.5]} {...gridConfig} />;
 }
 
-function Box({
-  id, position, hovered, active,
-}: SceneObject): JSX.Element {
+function Box({ id, position, hovered, active }: SceneObject): JSX.Element {
   const meshRef = useRef<THREE.Mesh>(null);
   const dispatch = useAppDispatch();
 
@@ -58,27 +61,35 @@ function Box({
 function Viewport(): JSX.Element {
   const { scene } = useSelector(sceneSelector);
   const cameraControlRef = useRef<CameraControls | null>(null);
-
+  test();
   return (
     <Canvas
       camera={{
-        fov: 45, near: 0.1, far: 2000, position: [5, 5, 5],
+        fov: 45,
+        near: 0.1,
+        far: 2000,
+        position: [5, 5, 5],
       }}
       gl={{ antialias: true }}
       scene={{}}
     >
-      <CameraControls ref={cameraControlRef} maxDistance={30} maxPolarAngle={Math.PI / 2} />
+      <CameraControls
+        ref={cameraControlRef}
+        maxDistance={30}
+        maxPolarAngle={Math.PI / 2}
+      />
       <ambientLight intensity={Math.PI / 2} />
-      <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} decay={0} intensity={Math.PI} />
+      <spotLight
+        position={[10, 10, 10]}
+        angle={0.15}
+        penumbra={1}
+        decay={0}
+        intensity={Math.PI}
+      />
       <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
-      {Object.values(scene.objects).map(
-        (obj: SceneObject) => (
-          <Box
-            key={obj.id}
-            {...obj}
-          />
-        ),
-      )}
+      {Object.values(scene.objects).map((obj: SceneObject) => (
+        <Box key={obj.id} {...obj} />
+      ))}
       <Ground />
     </Canvas>
   );
