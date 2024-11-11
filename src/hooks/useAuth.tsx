@@ -7,13 +7,11 @@ export const useAuth = (): { user: User | null; isLoggedIn: boolean } => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   useEffect(() => {
-    // Listen for auth state changes
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      setIsLoggedIn(!!currentUser); // Set to true if a user is logged in
+      setIsLoggedIn(!!currentUser);
     });
 
-    // Cleanup subscription on unmount
     return () => unsubscribe();
   }, []);
 
