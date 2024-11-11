@@ -12,7 +12,7 @@ const firebaseConfig = {
   appId: '1:558103318787:web:c0eab668e0ca87f56a5936',
   measurementId: 'G-9F0J5M30R4',
 };
-
+console.log(process.env, process.env.REACT_APP_FIREBASE_API_KEY);
 const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
