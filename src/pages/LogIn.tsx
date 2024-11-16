@@ -67,7 +67,8 @@ const Login = (): JSX.Element => {
           <FilledButton onClick={handleLogin}>Log In</FilledButton>
 
           <div className="signup-text">
-            Don&apos;t have an account?{' '}
+            Don&apos;t have an account?
+            {' '}
             <Link to="/signup" className="signup-link">
               Sign-up
             </Link>
