@@ -8,7 +8,7 @@ import { useAuth } from '../hooks/useAuth';
 import { auth } from '../firebaseConfig';
 
 const Profile = (): JSX.Element => {
-  const user = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = async () => {

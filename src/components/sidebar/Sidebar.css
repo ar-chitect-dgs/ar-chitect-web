@@ -1,7 +1,43 @@
-.logoContainer {
+/* Sidebar.css */
+
+.sidebar {
+  width: 240px;
+  height: 100vh;
+  background: linear-gradient(to bottom, #C7C0FF, #96A7FF);
+  color: white;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 80px;
-  background-color: #d3d3d3;
+  flex-direction: column;
+}
+
+.logoContainer {
+  text-align: left;
+  padding: 20px;
+  padding-top: 24px;
+}
+
+.appLogo {
+  max-width: 80%;
+  height: auto;
+}
+
+.navList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.groups {
+  padding-top: 30px;
+}
+
+.group {
+  padding-bottom: 50px;
+}
+
+.groupSeparator {
+  margin: 8px 18px;
+  border: none;
+  border-top: 1px solid var(--text-color); /* Light separator line */
 }
