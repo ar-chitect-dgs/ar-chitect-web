@@ -9,4 +9,5 @@ export const ROUTES = {
   MOBILE: '/mobile',
   SETTINGS: '/settings',
   TEMPLATES: '/templates',
+  DEV: '/dev',
 };
