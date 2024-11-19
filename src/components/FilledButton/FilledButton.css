@@ -1,0 +1,19 @@
+.button {
+  color: white;
+  border: none;
+  padding: 5px 25px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 25px;
+  font-size: 18px;
+  font-weight: normal;
+  background: var( --purple-accent-button);
+}
+
+.button:hover {
+  opacity: 0.8;
+}
+
+.disabled {
+  background: #c5ddcf;
+}
