@@ -19,6 +19,7 @@ import Settings from '../../pages/Settings';
 import About from '../../pages/About';
 import Mobile from '../../pages/Mobile';
 import Templates from '../../pages/Templates';
+import Dev from '../../pages/Dev';
 import { useAuth } from '../../hooks/useAuth';
 
 const AppRouter = (): JSX.Element => {
@@ -43,6 +44,7 @@ const AppRouter = (): JSX.Element => {
             <Route path={ROUTES.ABOUT} element={<About />} />
             <Route path={ROUTES.MOBILE} element={<Mobile />} />
             <Route path={ROUTES.TEMPLATES} element={<Templates />} />
+            <Route path={ROUTES.DEV} element={<Dev />} />
           </Routes>
         </div>
       </div>
