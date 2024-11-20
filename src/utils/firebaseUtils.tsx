@@ -1,29 +1,45 @@
 import {
-  doc, getDoc, setDoc, updateDoc,
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+  collection,
+  addDoc,
+  getDocs,
 } from 'firebase/firestore';
 import { ref, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../firebaseConfig';
-import { Projects, Scene, Vector3D } from '../types/Scene';
+import { Project, Projects, Scene, Vector3D } from '../types/Scene';
 import { mapProjectToScene, mapSceneToProject } from './mappers';
 
 const MODELS_DIRECTORY = 'models/';
-
 export const fetchProjectsData = async (userId: string): Promise<Projects> => {
-  const projectsDoc = await getDoc(doc(db, 'projects', userId));
-  const projectsData = projectsDoc.data() as Projects;
+  const projectsRef = collection(db, 'projects', userId, 'projects');
+  const querySnapshot = await getDocs(projectsRef);
+
+  const projectsData: Projects = {};
+
+  querySnapshot.docs.forEach((doc) => {
+    const projectData = doc.data() as Project;
+    projectsData[doc.id] = projectData;
+  });
+
   return projectsData;
 };
 
 export const getProject = async (
   projectId: string,
-  projects: Projects,
+  userId: string,
 ): Promise<Scene> => {
-  const project = projects.projects.find((p) => p.projectId === projectId);
+  // Pobieranie konkretnego projektu z kolekcji
+  const projectRef = doc(db, 'projects', userId, 'projects', projectId);
+  const projectDoc = await getDoc(projectRef);
 
-  if (!project) {
+  if (!projectDoc.exists()) {
     throw new Error(`Project with ID ${projectId} not found.`);
   }
 
+  const project = projectDoc.data() as Project;
   const scene = await mapProjectToScene(project);
   return scene;
 };
@@ -50,7 +66,8 @@ export const fetchGLBUrl = async (
 };
 
 function generateRandomProjectId(): string {
-  const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const charset =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   const length = 8;
   let randomPart = '';
   for (let i = 0; i < length; i += 1) {
@@ -70,19 +87,12 @@ export const saveProject = async (
   corners: Vector3D[],
 ): Promise<boolean> => {
   const projectId = generateRandomProjectId();
-  const project = mapSceneToProject(scene, projectId, projectName, corners);
-  const userProjectsRef = doc(db, 'projects', userId);
+  const project = mapSceneToProject(scene, projectName, corners);
 
-  const userProjectsDoc = await getDoc(userProjectsRef);
+  const projectsRef = collection(db, 'projects', userId, 'projects');
+  const projectRef = doc(projectsRef, projectId);
 
-  if (userProjectsDoc.exists()) {
-    const userProjects = userProjectsDoc.data()?.projects || [];
-    userProjects.push(project);
-
-    await updateDoc(userProjectsRef, { projects: userProjects });
-  } else {
-    await setDoc(userProjectsRef, { projects: [project] });
-  }
+  await setDoc(projectRef, project);
 
   console.log(`Project "${projectName}" has been saved for user ${userId}.`);
   return true;

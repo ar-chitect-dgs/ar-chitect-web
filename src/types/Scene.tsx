@@ -31,7 +31,6 @@ export interface Object3D {
 }
 
 export interface Project {
-  projectId: string;
   projectName: string;
   objects: Object3D[];
   corners: Vector3D[];
@@ -42,5 +41,5 @@ export interface Project {
 }
 
 export interface Projects {
-  projects: Project[];
+  [projectId: string]: Project;
 }

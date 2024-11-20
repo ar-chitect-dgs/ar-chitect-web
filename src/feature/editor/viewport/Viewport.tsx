@@ -33,9 +33,7 @@ function Ground() {
   return <Grid position={[0, -0.01, 0]} args={[10.5, 10.5]} {...gridConfig} />;
 }
 
-function Box({
-  id, position, hovered, active,
-}: SceneObject): JSX.Element {
+function Box({ id, position, hovered, active }: SceneObject): JSX.Element {
   const meshRef = useRef<THREE.Mesh>(null);
   const dispatch = useAppDispatch();
 
@@ -68,7 +66,9 @@ function Viewport(): JSX.Element {
   const cameraControlRef = useRef<CameraControls | null>(null);
 
   // function to download data, but we have to add setting state to use it
-  // const [models, setModels] = useState(scene.objects);
+  // const [models, setModels] = useState<
+  //   { [id: number]: SceneObject } | undefined
+  // >(undefined);
   // useEffect(() => {
   //   const loadProjectData = async (): Promise<void> => {
   //     const user = auth.currentUser;
@@ -76,9 +76,19 @@ function Viewport(): JSX.Element {
   //       const userId = user.uid;
   //       try {
   //         const projects: Projects = await fetchProjectsData(userId);
-  //         const projectId = 'c7MwA1Uj-m3pup1qk';
-  //         const scene = await getProject(projectId, projects);
-  //         const modelsArray = scene.objects;
+
+  //         const projectIds = Object.keys(projects);
+
+  //         if (projectIds.length === 0) {
+  //           console.warn('No projects found for the user.');
+  //           return;
+  //         }
+
+  //         const firstProjectId = projectIds[0];
+
+  //         const project = await getProject(firstProjectId, userId);
+
+  //         const modelsArray = project.objects;
   //         console.log(modelsArray);
   //         setModels(modelsArray);
   //       } catch (error) {
@@ -89,6 +99,7 @@ function Viewport(): JSX.Element {
   //       }
   //     }
   //   };
+
   //   loadProjectData();
   // }, []);
 

@@ -9,7 +9,6 @@ import { fetchGLBUrl } from './firebaseUtils';
 
 export function mapSceneToProject(
   scene: Scene,
-  projectId: string,
   projectName: string,
   corners: Vector3D[],
 ): Project {
@@ -27,7 +26,6 @@ export function mapSceneToProject(
   });
 
   return {
-    projectId,
     projectName,
     objects,
     corners,
