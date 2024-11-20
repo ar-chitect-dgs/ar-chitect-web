@@ -16,7 +16,7 @@ import { mapProjectToScene, mapSceneToProject } from './mappers';
 
 const MODELS_DIRECTORY = 'models/';
 export const fetchProjectsData = async (userId: string): Promise<Projects> => {
-  const projectsRef = collection(db, 'projects', userId, 'projects');
+  const projectsRef = collection(db, 'users', userId, 'projects');
   const querySnapshot = await getDocs(projectsRef);
 
   const projectsData: Projects = {};
