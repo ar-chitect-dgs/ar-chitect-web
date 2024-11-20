@@ -9,7 +9,9 @@ import {
 } from 'firebase/firestore';
 import { ref, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../firebaseConfig';
-import { Project, Projects, Scene, Vector3D } from '../types/Scene';
+import {
+  Project, Projects, Scene, Vector3D,
+} from '../types/Scene';
 import { mapProjectToScene, mapSceneToProject } from './mappers';
 
 const MODELS_DIRECTORY = 'models/';
@@ -31,7 +33,6 @@ export const getProject = async (
   projectId: string,
   userId: string,
 ): Promise<Scene> => {
-  // Pobieranie konkretnego projektu z kolekcji
   const projectRef = doc(db, 'projects', userId, 'projects', projectId);
   const projectDoc = await getDoc(projectRef);
 
@@ -66,8 +67,7 @@ export const fetchGLBUrl = async (
 };
 
 function generateRandomProjectId(): string {
-  const charset =
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   const length = 8;
   let randomPart = '';
   for (let i = 0; i < length; i += 1) {
