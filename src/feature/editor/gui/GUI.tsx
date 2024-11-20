@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { TextField, Button, Snackbar, Alert } from '@mui/material';
+import {
+  TextField, Button, Snackbar, Alert,
+} from '@mui/material';
 import { sceneSelector } from '../../../redux/slices/scene';
 import { SceneObject, Vector3D } from '../../../types/Scene';
 import './GUI.css';

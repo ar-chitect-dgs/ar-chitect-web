@@ -1,4 +1,6 @@
-import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
+import {
+  doc, getDoc, setDoc, updateDoc,
+} from 'firebase/firestore';
 import { ref, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../firebaseConfig';
 import { Projects, Scene, Vector3D } from '../types/Scene';
@@ -48,8 +50,7 @@ export const fetchGLBUrl = async (
 };
 
 function generateRandomProjectId(): string {
-  const charset =
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   const length = 8;
   let randomPart = '';
   for (let i = 0; i < length; i += 1) {
