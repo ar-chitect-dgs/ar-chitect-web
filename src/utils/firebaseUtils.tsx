@@ -53,7 +53,6 @@ export const getAllProjects = async (userId: string): Promise<Project[]> => {
     const data = doc.data() as Project;
     projects.push({ ...data, id: doc.id });
   });
-  console.log(projects);
   return projects;
 };
 
