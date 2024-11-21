@@ -1,11 +1,24 @@
 /* eslint-disable react/no-unknown-property */
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { Object3D } from '../../types/Project';
+import { SceneObject } from '../../types/Scene';
+import { useAppDispatch } from '../../redux';
+import {
+  changeActiveState,
+  changeHoveredState,
+} from '../../redux/slices/scene';
 
-function Model({ url, position, rotation }: Object3D): JSX.Element {
+function Model({
+  id,
+  url,
+  position,
+  rotation,
+}: SceneObject): JSX.Element {
   const [gltfModel, setGltfModel] = useState<THREE.Group | null>(null);
+
+  const meshRef = useRef<THREE.Mesh>(null);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const loader = new GLTFLoader();
@@ -25,10 +38,14 @@ function Model({ url, position, rotation }: Object3D): JSX.Element {
 
   return gltfModel ? (
     <mesh
-      position={new THREE.Vector3(...position)}
-      rotation={new THREE.Euler(...rotation)}
+      ref={meshRef}
+      position={[position.x, position.y, position.z]}
+      rotation={[rotation.x, rotation.y, rotation.z]}
+      onClick={() => dispatch(changeActiveState(id as number))}
+      onPointerOver={() => dispatch(changeHoveredState(id as number, true))}
+      onPointerOut={() => dispatch(changeHoveredState(id as number, false))}
     >
-      <primitive object={gltfModel} scale={1.5} />
+      <primitive object={gltfModel} />
     </mesh>
   ) : (
     <mesh />

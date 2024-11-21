@@ -1,5 +1,8 @@
 import {
-  createSlice, Dispatch, lruMemoize, PayloadAction,
+  createSlice,
+  Dispatch,
+  lruMemoize,
+  PayloadAction,
 } from '@reduxjs/toolkit';
 import { RootState, ThunkActionVoid } from '..';
 import { Scene } from '../../types/Scene';
@@ -15,28 +18,41 @@ export enum Axis {
 }
 
 interface HoverPayload {
-  id: number,
-  hovered: boolean,
+  id: number;
+  hovered: boolean;
 }
 
 interface MovePayload {
-  id: number,
-  value: number,
-  axis: Axis,
+  id: number;
+  value: number;
+  axis: Axis;
 }
 
 export const initialState: SceneState = {
   scene: {
-    objectIds: [0, 1, 2],
+    objectIds: [0, 1],
     objects: {
       0: {
-        id: 0, name: 'box', position: { x: 0, y: 0, z: 0 }, active: false, hovered: false,
+        id: 0,
+        objectId: 'sofa_1',
+        name: 'box',
+        color: 'default',
+        url: 'https://firebasestorage.googleapis.com/v0/b/ar-chitect-a0b25.appspot.com/o/models%2Fsofa_1_default.glb?alt=media&token=7116eb13-5d8c-48e8-a078-ed742179e772',
+        position: { x: 0, y: 0, z: 0 },
+        rotation: { x: 0, y: 0, z: 0 },
+        active: false,
+        hovered: false,
       },
       1: {
-        id: 1, name: 'box', position: { x: 0, y: 0, z: -2 }, active: false, hovered: false,
-      },
-      2: {
-        id: 2, name: 'box', position: { x: 0, y: 2, z: 0 }, active: false, hovered: false,
+        id: 1,
+        objectId: 'sofa_1',
+        name: 'box',
+        color: 'creme',
+        url: 'https://firebasestorage.googleapis.com/v0/b/ar-chitect-a0b25.appspot.com/o/models%2Fsofa_1_creme.glb?alt=media&token=500fb3cd-dd57-4bee-aaed-f5ce55009981',
+        position: { x: 3, y: 0, z: -2 },
+        rotation: { x: 0, y: Math.PI, z: 0 },
+        active: false,
+        hovered: false,
       },
     },
   },
@@ -80,13 +96,25 @@ const sceneSlice = createSlice({
 
       switch (axis) {
         case Axis.X:
-          object.position = { x: value, y: object.position.y, z: object.position.z };
+          object.position = {
+            x: value,
+            y: object.position.y,
+            z: object.position.z,
+          };
           break;
         case Axis.Y:
-          object.position = { x: object.position.x, y: value, z: object.position.z };
+          object.position = {
+            x: object.position.x,
+            y: value,
+            z: object.position.z,
+          };
           break;
         case Axis.Z:
-          object.position = { x: object.position.x, y: object.position.y, z: value };
+          object.position = {
+            x: object.position.x,
+            y: object.position.y,
+            z: value,
+          };
           break;
         default:
           console.warn(`Wrong axis ${axis}`);
@@ -98,11 +126,16 @@ const sceneSlice = createSlice({
 
 export const { hover, click, move } = sceneSlice.actions;
 
-export const sceneSelector = lruMemoize((state: RootState) => state.sceneReducer);
+export const sceneSelector = lruMemoize(
+  (state: RootState) => state.sceneReducer,
+);
 
 export default sceneSlice.reducer;
 
-export function changeHoveredState(id: number, hovered: boolean): ThunkActionVoid {
+export function changeHoveredState(
+  id: number,
+  hovered: boolean,
+): ThunkActionVoid {
   return async (dispatch: Dispatch) => {
     dispatch(hover({ id, hovered }));
   };
@@ -114,7 +147,11 @@ export function changeActiveState(id: number): ThunkActionVoid {
   };
 }
 
-export function moveObject(id: number, newValue: number, axis: Axis): ThunkActionVoid {
+export function moveObject(
+  id: number,
+  newValue: number,
+  axis: Axis,
+): ThunkActionVoid {
   return async (dispatch: Dispatch) => {
     dispatch(move({ id, value: newValue, axis }));
   };
