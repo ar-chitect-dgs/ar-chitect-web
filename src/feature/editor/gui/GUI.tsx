@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 import {
-  TextField, Button, Snackbar, Alert,
+  Alert,
+  Button, Snackbar,
+  TextField
 } from '@mui/material';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import Properties from '../../../components/properties/Properties';
+import { auth } from '../../../firebaseConfig';
 import { sceneSelector } from '../../../redux/slices/scene';
 import { SceneObject, Vector3D } from '../../../types/Scene';
-import './GUI.css';
-import Properties from './properties/Properties';
 import { saveProject } from '../../../utils/firebaseUtils';
-import { auth } from '../../../firebaseConfig';
+import './GUI.css';
 
 function GUI(): JSX.Element {
   const { scene } = useSelector(sceneSelector);
@@ -57,27 +59,36 @@ function GUI(): JSX.Element {
   };
 
   return (
-    <div>
-      <div className="header">GUI</div>
-      <div className="PropertiesPanel">
-        <TextField
-          label="Project Name"
-          value={projectName}
-          onChange={(e) => setProjectName(e.target.value)}
-          fullWidth
-          margin="normal"
-        />
+    <div className="root">
+      <div className="propertiesPanel">
+        <div className="projectNamePanel">
+          <TextField
+            label="Project Name"
+            value={projectName}
+            onChange={(e) => setProjectName(e.target.value)}
+            fullWidth
+            margin="normal"
+          />
+        </div>
 
-        {Object.values(scene.objects).map((val: SceneObject) => (
-          <Properties key={val.id} object={val} />
-        ))}
+        <div className="addingPanel">
+          <div className="header">Add a model...</div>
+          <div className="modelsList">placeholder</div>
+        </div>
+
+        <div className="editingPanel">
+          <div className="header">Modify selected model:</div>
+          {Object.values(scene.objects).map((val: SceneObject) => (
+            <Properties key={val.id} object={val} />
+          ))}
+        </div>
 
         <Button
+          className="button"
           variant="contained"
           color="primary"
           onClick={handleSaveProject}
           fullWidth
-          style={{ marginTop: '20px' }}
         >
           Save Project
         </Button>
