@@ -2,16 +2,12 @@ import {
   doc,
   getDoc,
   setDoc,
-  updateDoc,
   collection,
-  addDoc,
   getDocs,
 } from 'firebase/firestore';
 import { ref, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../firebaseConfig';
-import {
-  Project, Projects, Scene, Vector3D,
-} from '../types/Scene';
+import { Project, Projects, Scene, Vector3D } from '../types/Scene';
 import { mapProjectToScene, mapSceneToProject } from './mappers';
 
 const MODELS_DIRECTORY = 'models/';
@@ -67,7 +63,8 @@ export const fetchGLBUrl = async (
 };
 
 function generateRandomProjectId(): string {
-  const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const charset =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   const length = 8;
   let randomPart = '';
   for (let i = 0; i < length; i += 1) {
@@ -96,4 +93,32 @@ export const saveProject = async (
 
   console.log(`Project "${projectName}" has been saved for user ${userId}.`);
   return true;
+};
+
+export const fetchModelsList = async (): Promise<
+  { id: string; name: string }[]
+> => {
+  const modelsRef = collection(db, 'models2');
+  const querySnapshot = await getDocs(modelsRef);
+
+  const models = querySnapshot.docs.map((doc) => ({
+    id: doc.id,
+    name: doc.data().name,
+  }));
+
+  return models;
+};
+
+export const fetchModelColors = async (objectId: string): Promise<string[]> => {
+  const modelRef = doc(db, 'models2', objectId);
+  const modelDoc = await getDoc(modelRef);
+
+  if (!modelDoc.exists()) {
+    throw new Error(`Model with ID ${objectId} not found.`);
+  }
+
+  const modelData = modelDoc.data();
+  const colorVariants = modelData.color_variants || {};
+
+  return Object.keys(colorVariants);
 };

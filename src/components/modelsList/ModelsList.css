@@ -1,0 +1,50 @@
+.models-list-container {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.models-list-button:hover {
+  background-color: #005fa3;
+}
+
+.dialog-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.dialog-content {
+  padding: 20px;
+}
+
+.dialog-actions {
+  padding: 10px 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.list-item:hover {
+  background-color: #f0f0f0;
+}
+
+.list-item-text {
+  font-weight: 600;
+}
+
+.color-loader {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.notification-popup {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 999;
+}

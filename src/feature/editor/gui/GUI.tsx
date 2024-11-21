@@ -1,32 +1,32 @@
 import React, { useState } from 'react';
+import { TextField, Box } from '@mui/material';
 import { useSelector } from 'react-redux';
-import {
-  TextField, Button, Snackbar, Alert,
-} from '@mui/material';
 import { sceneSelector } from '../../../redux/slices/scene';
-import { SceneObject, Vector3D } from '../../../types/Scene';
-import './GUI.css';
-import Properties from './properties/Properties';
 import { saveProject } from '../../../utils/firebaseUtils';
 import { auth } from '../../../firebaseConfig';
+import { SceneObject, Vector3D } from '../../../types/Scene';
+import Properties from './properties/Properties';
+import ModelsList from '../../../components/modelsList/ModelsList';
+import NotificationPopup, {
+  initialSnackBarState,
+  SnackBarState,
+} from '../../../components/notificationPopup/NotificationPopup';
+import FilledButton from '../../../components/FilledButton/FilledButton';
 
-function GUI(): JSX.Element {
+const GUI = (): JSX.Element => {
   const { scene } = useSelector(sceneSelector);
   const [projectName, setProjectName] = useState('');
-  const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
-  const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>(
-    'success',
-  );
+  const [snackbar, setSnackbar] = useState<SnackBarState>(initialSnackBarState);
 
   const handleSaveProject = async () => {
     try {
       const user = auth.currentUser;
       if (!user) {
-        // Jeśli użytkownik nie jest zalogowany
-        setSnackbarMessage('You must be logged in to save a project.');
-        setSnackbarSeverity('error');
-        setOpenSnackbar(true);
+        setSnackbar({
+          open: true,
+          message: 'You must be logged in to save a project.',
+          severity: 'error',
+        });
         return;
       }
 
@@ -39,27 +39,32 @@ function GUI(): JSX.Element {
       ];
 
       if (projectName.trim() === '') {
-        setSnackbarMessage('Project name cannot be empty!');
-        setSnackbarSeverity('error');
-        setOpenSnackbar(true);
+        setSnackbar({
+          open: true,
+          message: 'Project name cannot be empty!',
+          severity: 'error',
+        });
         return;
       }
 
       await saveProject(userId, scene, projectName, corners);
-      setSnackbarMessage('Project saved successfully!');
-      setSnackbarSeverity('success');
-      setOpenSnackbar(true);
+      setSnackbar({
+        open: true,
+        message: 'Project saved successfully!',
+        severity: 'success',
+      });
     } catch (error) {
-      setSnackbarMessage('Error saving project');
-      setSnackbarSeverity('error');
-      setOpenSnackbar(true);
+      setSnackbar({
+        open: true,
+        message: 'Error saving project.',
+        severity: 'error',
+      });
     }
   };
 
   return (
-    <div>
-      <div className="header">GUI</div>
-      <div className="PropertiesPanel">
+    <Box sx={{ padding: 2, overflow: 'auto' }}>
+      <Box className="PropertiesPanel">
         <TextField
           label="Project Name"
           value={projectName}
@@ -67,37 +72,25 @@ function GUI(): JSX.Element {
           fullWidth
           margin="normal"
         />
+        <ModelsList />
 
         {Object.values(scene.objects).map((val: SceneObject) => (
           <Properties key={val.id} object={val} />
         ))}
 
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleSaveProject}
-          fullWidth
-          style={{ marginTop: '20px' }}
-        >
-          Save Project
-        </Button>
-      </div>
+        <FilledButton onClick={handleSaveProject}>Save Project</FilledButton>
+      </Box>
 
-      <Snackbar
-        open={openSnackbar}
-        autoHideDuration={6000}
-        onClose={() => setOpenSnackbar(false)}
-      >
-        <Alert
-          onClose={() => setOpenSnackbar(false)}
-          severity={snackbarSeverity}
-          sx={{ width: '100%' }}
-        >
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
-    </div>
+      <NotificationPopup
+        snackbar={snackbar}
+        setOpenSnackbar={(open: boolean) =>
+          setSnackbar((prev: SnackBarState) => ({
+            ...prev,
+            open,
+          }))}
+      />
+    </Box>
   );
-}
+};
 
 export default GUI;
