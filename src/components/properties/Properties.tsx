@@ -1,11 +1,13 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 // todo for the future^
-import { useCallback } from "react";
-import { useAppDispatch } from "../../redux";
-import { Axis, changeActiveState, changeHoveredState, moveObject } from "../../redux/slices/scene";
-import { SceneObject } from "../../types/Scene";
-import { positionToString } from "../../utils/utils";
-import { PositionSlider } from "../positionSlider/PositionSlider";
+import { useCallback } from 'react';
+import { useAppDispatch } from '../../redux';
+import {
+  Axis, changeActiveState, changeHoveredState, moveObject,
+} from '../../redux/slices/scene';
+import { SceneObject } from '../../types/Scene';
+import { positionToString } from '../../utils/utils';
+import { PositionSlider } from '../positionSlider/PositionSlider';
 
 import './Properties.css';
 
