@@ -3,7 +3,7 @@
   margin: 5px;
 }
 
-.PropertiesPanel {
+.properties-panel {
   display: flex;
   flex-direction: column;
 }

@@ -1,28 +1,28 @@
-  .button-group {
-    display: flex;
-    margin-top: 20px;
-  }
+.button-group {
+  display: flex;
+  margin-top: 20px;
+}
 
-  .login-link {
-    color: #C96BFF;
-    text-decoration: none;
-  }
-  
-  .signup-link:hover,
-  .login-link:hover {
-    text-decoration: underline;
-  }
-  
-  img {
-    margin-right: 8px;
-  }
+.login-link {
+  color: #c96bff;
+  text-decoration: none;
+}
 
-  .profile-picture-group {
-    display: flex;
-  }
+.signup-link:hover,
+.login-link:hover {
+  text-decoration: underline;
+}
 
-  h3 {
-    font-weight: normal;
-    font-size: 16px;
-    margin-right: 10px;
-  }
+img {
+  margin-right: 8px;
+}
+
+.profile-picture-group {
+  display: flex;
+}
+
+h3 {
+  font-weight: normal;
+  font-size: 16px;
+  margin-right: 10px;
+}

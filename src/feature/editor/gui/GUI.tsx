@@ -59,7 +59,7 @@ function GUI(): JSX.Element {
   return (
     <div>
       <div className="header">GUI</div>
-      <div className="PropertiesPanel">
+      <div className="properties-panel">
         <TextField
           label="Project Name"
           value={projectName}

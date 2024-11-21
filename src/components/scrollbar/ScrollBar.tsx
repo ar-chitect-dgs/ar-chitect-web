@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import Scrollbars from 'react-custom-scrollbars-2';
+import './ScrollBar.css';
 
 type ScrollBarProps = {
   className?: string;
@@ -12,30 +13,17 @@ const ScrollBar = ({
 }: ScrollBarProps): JSX.Element => (
   <Scrollbars
     className={className}
-    renderTrackHorizontal={() => <div style={{ display: 'none' }} />}
-    renderThumbVertical={({ style, ...props }) => (
+    renderTrackHorizontal={() => <div className="scroll-track-horizontal" />}
+    renderThumbVertical={(props) => (
       <div
-        // eslint-disable-next-line react/jsx-props-no-spreading
         {...props}
-        style={{
-          ...style,
-          backgroundColor: 'rgba(29, 108, 226, 0.27)',
-          borderRadius: 10,
-        }}
+        className="scroll-thumb-vertical"
       />
     )}
-    renderTrackVertical={({ style, ...props }) => (
+    renderTrackVertical={(props) => (
       <div
-        // eslint-disable-next-line react/jsx-props-no-spreading
         {...props}
-        style={{
-          ...style,
-          backgroundColor: 'rgba(29, 108, 226, 0.17)',
-          borderRadius: 10,
-          height: '100%',
-          top: 0,
-          right: 0,
-        }}
+        className="scroll-track-vertical"
       />
     )}
   >

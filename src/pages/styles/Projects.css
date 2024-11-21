@@ -4,7 +4,6 @@
   padding-top: 50px;
   height: 90vh;
   overflow: hidden;
-
 }
 
 .projects-container {
@@ -12,8 +11,4 @@
   flex-wrap: wrap;
   gap: 30px 20px;
   justify-content: flex-start;
-}
-
-.scrollbar {
-  flex: 1;
 }
