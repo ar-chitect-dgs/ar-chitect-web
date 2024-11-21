@@ -28,12 +28,12 @@ const Projects = (): JSX.Element => {
     fetchProjects();
   }, [user]);
 
-  if (loading) {
-    return <div className="projects-message">Loading projects...</div>;
-  }
+  let message = null;
 
-  if (projects.length === 0) {
-    return <div className="projects-message">No projects found.</div>;
+  if (loading) {
+    message = <div className="projects-message">Loading projects...</div>;
+  } else if (projects.length === 0) {
+    message = <div className="projects-message">No projects found. You can create one in the editor!</div>;
   }
 
   const handleProjectClick = (project: Project) => {
@@ -43,6 +43,7 @@ const Projects = (): JSX.Element => {
   return (
     <div className="projects-page">
       <h2>Your latest projects</h2>
+      {message}
       <ScrollBar className="scrollbar">
         <div className="projects-container">
           {' '}
