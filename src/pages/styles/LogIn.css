@@ -1,15 +1,15 @@
-/* Login.css */
 .login-container {
     background-color: var(--background-color);
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    color: var(--text-color);
   }
   
   .login-card {
     min-width: 40%;
-    padding: 50px;
+    padding: 40px;
   }
   
  

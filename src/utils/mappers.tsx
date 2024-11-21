@@ -33,6 +33,9 @@ export function mapSceneToProject(
     latitude: 0,
     longitude: 0,
     orientation: 0,
+    createdAt: Date.now(),
+    modifiedAt: Date.now(),
+    thumb: '',
   };
 }
 
