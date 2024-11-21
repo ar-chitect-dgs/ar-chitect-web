@@ -1,0 +1,23 @@
+.container {
+  border: 2px solid;
+  padding: 20px;
+  margin: 2px;
+  border-radius: 10px;
+  height: max-content;
+  text-align: center;
+  cursor: pointer;
+}
+
+.hovered {
+  color: cornflowerblue;
+  background-color: aliceblue;
+}
+
+.active {
+  color: darkgreen;
+  background-color: azure;
+}
+
+.name {
+  font-weight: bold;
+}
