@@ -2,7 +2,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { CameraControls, Grid } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import * as THREE from 'three';
 import { useAppDispatch } from '../../../redux';
@@ -11,11 +11,8 @@ import {
   changeHoveredState,
   sceneSelector,
 } from '../../../redux/slices/scene';
-import { Projects, SceneObject } from '../../../types/Scene';
+import { SceneObject } from '../../../types/Scene';
 import Model from '../Model';
-import { fetchProjectsData, getProject } from '../../../utils/firebaseUtils';
-import { auth } from '../../../firebaseConfig';
-import { mapProjectToScene } from '../../../utils/mappers';
 
 function Ground() {
   const gridConfig = {

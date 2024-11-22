@@ -5,7 +5,7 @@ import { sceneSelector } from '../../../redux/slices/scene';
 import { saveProject } from '../../../utils/firebaseUtils';
 import { auth } from '../../../firebaseConfig';
 import { SceneObject, Vector3D } from '../../../types/Scene';
-import Properties from './properties/Properties';
+import Properties from '../../../components/properties/Properties';
 import ModelsList from '../../../components/modelsList/ModelsList';
 import NotificationPopup, {
   initialSnackBarState,
@@ -63,23 +63,34 @@ const GUI = (): JSX.Element => {
   };
 
   return (
-    <Box sx={{ padding: 2, overflow: 'auto' }}>
-      <Box className="PropertiesPanel">
-        <TextField
-          label="Project Name"
-          value={projectName}
-          onChange={(e) => setProjectName(e.target.value)}
-          fullWidth
-          margin="normal"
-        />
-        <ModelsList />
+    <div className="root">
+      <div className="propertiesPanel">
+        <div className="projectNamePanel">
+          <TextField
+            label="Project Name"
+            value={projectName}
+            onChange={(e) => setProjectName(e.target.value)}
+            fullWidth
+            margin="normal"
+          />
+        </div>
 
-        {Object.values(scene.objects).map((val: SceneObject) => (
-          <Properties key={val.id} object={val} />
-        ))}
+        <div className="addingPanel">
+          <div className="header">Add a model...</div>
+          <div className="modelsList">
+            <ModelsList />
+          </div>
+        </div>
+
+        <div className="editingPanel">
+          <div className="header">Modify selected model:</div>
+          {Object.values(scene.objects).map((val: SceneObject) => (
+            <Properties key={val.id} object={val} />
+          ))}
+        </div>
 
         <FilledButton onClick={handleSaveProject}>Save Project</FilledButton>
-      </Box>
+      </div>
 
       <NotificationPopup
         snackbar={snackbar}
@@ -87,9 +98,10 @@ const GUI = (): JSX.Element => {
           setSnackbar((prev: SnackBarState) => ({
             ...prev,
             open,
-          }))}
+          }))
+        }
       />
-    </Box>
+    </div>
   );
 };
 
