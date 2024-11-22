@@ -95,8 +95,7 @@ const GUI = (): JSX.Element => {
           setSnackbar((prev: SnackBarState) => ({
             ...prev,
             open,
-          }))
-        }
+          }))}
       />
     </div>
   );

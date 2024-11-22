@@ -151,8 +151,7 @@ const ModelsList = (): JSX.Element => {
           setSnackbar((prev: SnackBarState) => ({
             ...prev,
             open,
-          }))
-        }
+          }))}
       />
     </Box>
   );
