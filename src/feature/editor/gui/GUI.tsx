@@ -64,9 +64,9 @@ const GUI = (): JSX.Element => {
   };
 
   return (
-    <div className="gui-root">
-      <div className="properties-panel">
-        <div className="project-name-panel">
+    <div className="root">
+      <div className="propertiesPanel">
+        <div className="projectNamePanel">
           <TextField
             label="Project Name"
             value={projectName}
@@ -75,13 +75,13 @@ const GUI = (): JSX.Element => {
             margin="normal"
           />
         </div>
-        <div className="adding-panel">
+        <div className="addingPanel">
           <div className="header">Add a model...</div>
-          <div className="models-list">
+          <div className="modelsList">
             <ModelsList />
           </div>
         </div>
-        <div className="editing-panel">
+        <div className="editingPanel">
           <div className="header">Modify selected model:</div>
           {Object.values(scene.objects).map((val: SceneObject) => (
             <Properties key={val.id} object={val} />
