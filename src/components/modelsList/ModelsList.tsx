@@ -91,9 +91,7 @@ const ModelsList = (): JSX.Element => {
 
   return (
     <Box className="models-list-container">
-      <TextButton onClick={() => setOpenModelDialog(true)}>
-        Add Models
-      </TextButton>
+      <TextButton onClick={() => setOpenModelDialog(true)}>Add</TextButton>
       <Dialog open={openModelDialog} onClose={() => setOpenModelDialog(false)}>
         <DialogTitle className="dialog-title">Select a Model</DialogTitle>
         <DialogContent className="dialog-content">

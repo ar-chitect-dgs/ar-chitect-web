@@ -30,7 +30,9 @@ function Ground() {
   return <Grid position={[0, -0.01, 0]} args={[10.5, 10.5]} {...gridConfig} />;
 }
 
-function Box({ id, position, hovered, active }: SceneObject): JSX.Element {
+function Box({
+  id, position, hovered, active,
+}: SceneObject): JSX.Element {
   const meshRef = useRef<THREE.Mesh>(null);
   const dispatch = useAppDispatch();
 

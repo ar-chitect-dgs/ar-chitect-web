@@ -12,6 +12,7 @@ import NotificationPopup, {
   SnackBarState,
 } from '../../../components/notificationPopup/NotificationPopup';
 import FilledButton from '../../../components/FilledButton/FilledButton';
+import './GUI.css';
 
 const GUI = (): JSX.Element => {
   const { scene } = useSelector(sceneSelector);
@@ -53,7 +54,7 @@ const GUI = (): JSX.Element => {
         message: 'Project saved successfully!',
         severity: 'success',
       });
-    } catch (error) {
+    } catch {
       setSnackbar({
         open: true,
         message: 'Error saving project.',
@@ -63,9 +64,9 @@ const GUI = (): JSX.Element => {
   };
 
   return (
-    <div className="root">
-      <div className="propertiesPanel">
-        <div className="projectNamePanel">
+    <div className="gui-root">
+      <div className="properties-panel">
+        <div className="project-name-panel">
           <TextField
             label="Project Name"
             value={projectName}
@@ -74,24 +75,20 @@ const GUI = (): JSX.Element => {
             margin="normal"
           />
         </div>
-
-        <div className="addingPanel">
+        <div className="adding-panel">
           <div className="header">Add a model...</div>
-          <div className="modelsList">
+          <div className="models-list">
             <ModelsList />
           </div>
         </div>
-
-        <div className="editingPanel">
+        <div className="editing-panel">
           <div className="header">Modify selected model:</div>
           {Object.values(scene.objects).map((val: SceneObject) => (
             <Properties key={val.id} object={val} />
           ))}
         </div>
-
         <FilledButton onClick={handleSaveProject}>Save Project</FilledButton>
       </div>
-
       <NotificationPopup
         snackbar={snackbar}
         setOpenSnackbar={(open: boolean) =>
