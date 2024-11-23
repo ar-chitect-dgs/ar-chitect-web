@@ -35,7 +35,6 @@ const ModelsList = (): JSX.Element => {
   const [selectedModel, setSelectedModel] = useState<modelItem | null>(null);
   const [colors, setColors] = useState<string[]>([]);
   const [loadingColors, setLoadingColors] = useState(false);
-  const [openModelDialog, setOpenModelDialog] = useState(false);
   const [openColorDialog, setOpenColorDialog] = useState(false);
   const [snackbar, setSnackbar] = useState<SnackBarState>(initialSnackBarState);
 
@@ -90,33 +89,19 @@ const ModelsList = (): JSX.Element => {
   };
 
   return (
-    <Box className="models-list-container">
-      <TextButton onClick={() => setOpenModelDialog(true)}>Add</TextButton>
-      <Dialog open={openModelDialog} onClose={() => setOpenModelDialog(false)}>
-        <DialogTitle className="dialog-title">Select a Model</DialogTitle>
-        <DialogContent className="dialog-content">
-          <List>
-            {modelsList.map((model) => (
-              <ListItem
-                component="button"
-                key={model.id}
-                onClick={() => {
-                  setOpenModelDialog(false);
-                  handleModelClick(model);
-                }}
-                className="list-item"
-              >
-                <ListItemText className="list-item-text" primary={model.name} />
-              </ListItem>
-            ))}
-          </List>
-        </DialogContent>
-        <DialogActions className="dialog-actions">
-          <TextButton onClick={() => setOpenModelDialog(false)}>
-            Cancel
-          </TextButton>
-        </DialogActions>
-      </Dialog>
+    <div className="models-list-container">
+      <List>
+        {modelsList.map((model) => (
+          <ListItem
+            component="button"
+            key={model.id}
+            onClick={() => handleModelClick(model)}
+            className="list-item"
+          >
+            <ListItemText className="list-item-text" primary={model.name} />
+          </ListItem>
+        ))}
+      </List>
       <Dialog open={openColorDialog} onClose={() => setOpenColorDialog(false)}>
         <DialogTitle className="dialog-title">Select a Color</DialogTitle>
         <DialogContent className="dialog-content">
@@ -151,9 +136,10 @@ const ModelsList = (): JSX.Element => {
           setSnackbar((prev: SnackBarState) => ({
             ...prev,
             open,
-          }))}
+          }))
+        }
       />
-    </Box>
+    </div>
   );
 };
 

@@ -83,9 +83,11 @@ const GUI = (): JSX.Element => {
         </div>
         <div className="editingPanel">
           <div className="header">Modify selected model:</div>
-          {Object.values(scene.objects).map((val: SceneObject) => (
-            <Properties key={val.id} object={val} />
-          ))}
+          <div className="modelsList">
+            {Object.values(scene.objects).map((val: SceneObject) => (
+              <Properties key={val.id} object={val} />
+            ))}
+          </div>
         </div>
         <FilledButton onClick={handleSaveProject}>Save Project</FilledButton>
       </div>
@@ -95,7 +97,8 @@ const GUI = (): JSX.Element => {
           setSnackbar((prev: SnackBarState) => ({
             ...prev,
             open,
-          }))}
+          }))
+        }
       />
     </div>
   );

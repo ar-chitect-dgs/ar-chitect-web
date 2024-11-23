@@ -1,15 +1,11 @@
 .models-list-container {
-  padding: 20px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.models-list-button:hover {
-  background-color: #005fa3;
+.list-item {
+  margin-bottom: 5px;
 }
 
 .dialog-title {
@@ -33,7 +29,8 @@
 }
 
 .list-item-text {
-  font-weight: 600;
+  font-weight: 500;
+  font-size: small;
 }
 
 .color-loader {
