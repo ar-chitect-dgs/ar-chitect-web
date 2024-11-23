@@ -1,10 +1,8 @@
-/* SidebarItem.css */
-
-.sidebarItem {
+.sidebar-item {
   margin: 0;
 }
 
-.sidebarLink {
+.sidebar-link {
   display: block;
   padding: 10px;
   padding-left: 20px;
@@ -14,7 +12,7 @@
   transition: background-color 0.3s ease;
 }
 
-.sidebarLink:hover {
+.sidebar-link:hover {
   background: linear-gradient(to right, #5d30ff1c, transparent);
 
 }

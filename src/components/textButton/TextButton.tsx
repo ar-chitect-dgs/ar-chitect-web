@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import Button from '../Button/Button';
+import Button from '../button/Button';
 import './TextButton.css';
 
 interface TextButtonProps {

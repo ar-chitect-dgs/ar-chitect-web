@@ -2,9 +2,7 @@ import {
   doc,
   getDoc,
   setDoc,
-  updateDoc,
   collection,
-  addDoc,
   getDocs,
 } from 'firebase/firestore';
 import { ref, getDownloadURL } from 'firebase/storage';
@@ -15,6 +13,7 @@ import {
 import { mapProjectToScene, mapSceneToProject } from './mappers';
 
 const MODELS_DIRECTORY = 'models/';
+
 export const fetchProjectsData = async (userId: string): Promise<Projects> => {
   const projectsRef = collection(db, 'users', userId, 'projects');
   const querySnapshot = await getDocs(projectsRef);
@@ -33,7 +32,7 @@ export const getProject = async (
   projectId: string,
   userId: string,
 ): Promise<Scene> => {
-  const projectRef = doc(db, 'projects', userId, 'projects', projectId);
+  const projectRef = doc(db, 'users', userId, 'projects', projectId);
   const projectDoc = await getDoc(projectRef);
 
   if (!projectDoc.exists()) {
@@ -43,6 +42,18 @@ export const getProject = async (
   const project = projectDoc.data() as Project;
   const scene = await mapProjectToScene(project);
   return scene;
+};
+
+export const getAllProjects = async (userId: string): Promise<Project[]> => {
+  const projectsRef = collection(db, 'users', userId, 'projects');
+  const snapshot = await getDocs(projectsRef);
+
+  const projects: Project[] = [];
+  snapshot.forEach((doc) => {
+    const data = doc.data() as Project;
+    projects.push({ ...data, id: doc.id });
+  });
+  return projects;
 };
 
 export const fetchGLBUrl = async (
@@ -66,31 +77,15 @@ export const fetchGLBUrl = async (
   return url;
 };
 
-function generateRandomProjectId(): string {
-  const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  const length = 8;
-  let randomPart = '';
-  for (let i = 0; i < length; i += 1) {
-    const randomIndex = Math.floor(Math.random() * charset.length);
-    randomPart += charset[randomIndex];
-  }
-
-  const timestamp = Date.now().toString(36);
-
-  return `${randomPart}-${timestamp}`;
-}
-
 export const saveProject = async (
   userId: string,
   scene: Scene,
   projectName: string,
   corners: Vector3D[],
 ): Promise<boolean> => {
-  const projectId = generateRandomProjectId();
   const project = mapSceneToProject(scene, projectName, corners);
-
-  const projectsRef = collection(db, 'projects', userId, 'projects');
-  const projectRef = doc(projectsRef, projectId);
+  const projectsRef = collection(db, 'users', userId, 'projects');
+  const projectRef = doc(projectsRef);
 
   await setDoc(projectRef, project);
 
