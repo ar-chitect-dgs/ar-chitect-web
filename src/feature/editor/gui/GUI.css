@@ -10,7 +10,10 @@
 }
 
 .projectNamePanel {
-  height: 10%;
+  height: 15%;
+  display: flex; 
+  justify-content: center;
+  box-sizing: border-box; 
 }
 
 .propertiesPanel {

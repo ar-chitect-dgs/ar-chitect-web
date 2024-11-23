@@ -2,16 +2,9 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { CameraControls, Grid } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { useSelector } from 'react-redux';
-import * as THREE from 'three';
-import { useAppDispatch } from '../../../redux';
-import {
-  changeActiveState,
-  changeHoveredState,
-  sceneSelector,
-} from '../../../redux/slices/scene';
-import { SceneObject } from '../../../types/Scene';
+import { sceneSelector } from '../../../redux/slices/scene';
 import Model from '../Model';
 
 function Ground() {
@@ -96,6 +89,7 @@ function Viewport(): JSX.Element {
         decay={0}
         intensity={Math.PI}
       />
+      <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
       {Object.values(scene.objects).map((model) => (
         <Model
           id={model.id}
@@ -110,7 +104,6 @@ function Viewport(): JSX.Element {
           active={model.active}
         />
       ))}
-      <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
       <Ground />
     </Canvas>
   );

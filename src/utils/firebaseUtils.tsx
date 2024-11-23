@@ -1,9 +1,5 @@
 import {
-  doc,
-  getDoc,
-  setDoc,
-  collection,
-  getDocs,
+  doc, getDoc, setDoc, collection, getDocs,
 } from 'firebase/firestore';
 import { ref, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../firebaseConfig';

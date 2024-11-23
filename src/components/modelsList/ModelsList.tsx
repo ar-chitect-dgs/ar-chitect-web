@@ -8,7 +8,6 @@ import {
   ListItem,
   ListItemText,
   CircularProgress,
-  Box,
 } from '@mui/material';
 import { addModel } from '../../redux/slices/scene';
 import {
@@ -19,6 +18,7 @@ import {
 import { useAppDispatch } from '../../redux';
 import NotificationPopup, {
   initialSnackBarState,
+  setOpenSnackBarState,
   SnackBarState,
 } from '../notificationPopup/NotificationPopup';
 import TextButton from '../TextButton/TextButton';
@@ -54,19 +54,17 @@ const ModelsList = (): JSX.Element => {
     try {
       const url = await fetchGLBUrl(model.id, color);
       dispatch(addModel(model.id, model.name, color, url));
-      setSnackbar({
-        open: true,
-        message: `Added ${model.name} with color ${color}`,
-        severity: 'success',
-      });
+      setSnackbar(
+        setOpenSnackBarState(
+          `Added ${model.name} with color ${color}`,
+          'success',
+        ),
+      );
+    } catch (error) {
+      setSnackbar(setOpenSnackBarState('Error adding model', 'error'));
+    } finally {
       setOpenColorDialog(false);
       setSelectedModel(null);
-    } catch (error) {
-      setSnackbar({
-        open: true,
-        message: 'Error adding model',
-        severity: 'error',
-      });
     }
   };
 
@@ -78,11 +76,7 @@ const ModelsList = (): JSX.Element => {
       setSelectedModel(model);
       setOpenColorDialog(true);
     } catch (error) {
-      setSnackbar({
-        open: true,
-        message: 'Error fetching model colors',
-        severity: 'error',
-      });
+      setSnackbar(setOpenSnackBarState('Error fetching model colors', 'error'));
     } finally {
       setLoadingColors(false);
     }
@@ -136,8 +130,7 @@ const ModelsList = (): JSX.Element => {
           setSnackbar((prev: SnackBarState) => ({
             ...prev,
             open,
-          }))
-        }
+          }))}
       />
     </div>
   );

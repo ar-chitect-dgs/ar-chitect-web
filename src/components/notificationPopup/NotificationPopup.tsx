@@ -17,6 +17,15 @@ export const initialSnackBarState: SnackBarState = {
   severity: 'success',
 };
 
+export const setOpenSnackBarState = (
+  message: string,
+  severity: 'error' | 'success',
+): SnackBarState => ({
+  open: true,
+  message,
+  severity,
+});
+
 const NotificationPopup = ({
   snackbar,
   setOpenSnackbar,
