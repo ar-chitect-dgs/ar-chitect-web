@@ -5,7 +5,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { TextField, Typography } from '@mui/material';
 import { auth, storage } from '../firebaseConfig';
 import Card from '../components/card/Card';
-import FilledButton from '../components/FilledButton/FilledButton';
+import FilledButton from '../components/filledButton/FilledButton';
 import './styles/SignUp.css';
 
 const SignUp = (): JSX.Element => {

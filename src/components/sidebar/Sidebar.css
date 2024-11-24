@@ -1,26 +1,26 @@
 /* Sidebar.css */
 
 .sidebar {
-  width: 240px;
+  min-width: 240px;
+  max-width: 240px;
   height: 100vh;
-  background: linear-gradient(to bottom, #C7C0FF, #96A7FF);
-  color: white;
+  background: linear-gradient(to bottom, #c7c0ff, #96a7ff);
   display: flex;
   flex-direction: column;
 }
 
-.logoContainer {
+.logo-container {
   text-align: left;
   padding: 20px;
   padding-top: 24px;
 }
 
-.appLogo {
+.app-logo {
   max-width: 80%;
   height: auto;
 }
 
-.navList {
+.nav-list {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -36,8 +36,8 @@
   padding-bottom: 50px;
 }
 
-.groupSeparator {
+.group-separator {
   margin: 8px 18px;
   border: none;
-  border-top: 1px solid var(--text-color); /* Light separator line */
+  border-top: 1px solid var(--text-color);
 }
