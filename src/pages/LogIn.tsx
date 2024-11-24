@@ -9,8 +9,8 @@ import { TextField, Typography, Divider } from '@mui/material';
 import { auth } from '../firebaseConfig';
 import Card from '../components/card/Card';
 import './styles/LogIn.css';
-import FilledButton from '../components/FilledButton/FilledButton';
-import TextButton from '../components/TextButton/TextButton';
+import FilledButton from '../components/filledButton/FilledButton';
+import TextButton from '../components/textButton/TextButton';
 import googleIcon from '../assets/google.svg';
 
 const Login = (): JSX.Element => {
