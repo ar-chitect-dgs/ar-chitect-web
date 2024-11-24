@@ -68,7 +68,10 @@ const ModelsList = (): JSX.Element => {
     }
   };
 
-  const handleModelClick = async (model: modelItem) => {
+  const handleModelClick = async (model?: modelItem) => {
+    if (!model) {
+      return;
+    }
     setLoadingColors(true);
     try {
       const fetchedColors = await fetchModelColors(model.id);
@@ -130,7 +133,8 @@ const ModelsList = (): JSX.Element => {
           setSnackbar((prev: SnackBarState) => ({
             ...prev,
             open,
-          }))}
+          }))
+        }
       />
     </div>
   );
