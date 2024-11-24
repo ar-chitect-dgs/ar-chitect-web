@@ -21,7 +21,7 @@ import NotificationPopup, {
   setOpenSnackBarState,
   SnackBarState,
 } from '../notificationPopup/NotificationPopup';
-import TextButton from '../TextButton/TextButton';
+import TextButton from '../textButton/TextButton';
 import './ModelsList.css';
 
 interface modelItem {

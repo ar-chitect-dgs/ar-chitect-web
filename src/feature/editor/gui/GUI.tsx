@@ -14,7 +14,7 @@ import NotificationPopup, {
   setOpenSnackBarState,
   SnackBarState,
 } from '../../../components/notificationPopup/NotificationPopup';
-import FilledButton from '../../../components/FilledButton/FilledButton';
+import FilledButton from '../../../components/filledButton/FilledButton';
 import './GUI.css';
 
 const GUI = (): JSX.Element => {
