@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  TextField, Box, FormHelperText, FormControl,
+  TextField, FormHelperText, FormControl,
 } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { sceneSelector } from '../../../redux/slices/scene';

@@ -41,7 +41,7 @@ const Profile = (): JSX.Element => {
     setDeleteDialogOpen(false); // Close the dialog
     try {
       await deleteUser(user!);
-      navigate('/signup'); 
+      navigate('/signup');
     } catch (error: any) {
       setSnackbar(
         setOpenSnackBarState(
@@ -186,14 +186,8 @@ const Profile = (): JSX.Element => {
           undone.
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setDeleteDialogOpen(false)}>
-            Cancel
-          </Button>
-          <Button
-            onClick={handleDeleteAccount}
-            color="error"
-            variant="text"
-          >
+          <Button onClick={() => setDeleteDialogOpen(false)}>Cancel</Button>
+          <Button onClick={handleDeleteAccount} color="error" variant="text">
             Delete
           </Button>
         </DialogActions>
