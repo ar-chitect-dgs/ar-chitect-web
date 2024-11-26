@@ -1,60 +1,66 @@
+import React, { useState } from 'react';
 import {
-  Alert,
-  Button, Snackbar,
-  TextField,
+  TextField, Box, FormHelperText, FormControl,
 } from '@mui/material';
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import Properties from '../../../components/properties/Properties';
-import { auth } from '../../../firebaseConfig';
 import { sceneSelector } from '../../../redux/slices/scene';
-import { SceneObject, Vector3D } from '../../../types/Scene';
 import { saveProject } from '../../../utils/firebaseUtils';
+import { auth } from '../../../firebaseConfig';
+import { SceneObject, Vector3D } from '../../../types/Scene';
+import Properties from '../../../components/properties/Properties';
+import ModelsList from '../../../components/modelsList/ModelsList';
+import NotificationPopup, {
+  initialSnackBarState,
+  setOpenSnackBarState,
+  SnackBarState,
+} from '../../../components/notificationPopup/NotificationPopup';
+import FilledButton from '../../../components/filledButton/FilledButton';
 import './GUI.css';
 
-function GUI(): JSX.Element {
+const GUI = (): JSX.Element => {
   const { scene } = useSelector(sceneSelector);
   const [projectName, setProjectName] = useState('');
-  const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
-  const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>(
-    'success',
-  );
+  const [snackbar, setSnackbar] = useState<SnackBarState>(initialSnackBarState);
+  const [nameError, setNameError] = useState(false);
+  const [helperText, setHelperText] = useState('');
 
   const handleSaveProject = async () => {
+    const user = auth.currentUser;
+
+    if (!user) {
+      setSnackbar(
+        setOpenSnackBarState(
+          'You must be logged in to save a project.',
+          'error',
+        ),
+      );
+      return;
+    }
+
+    if (projectName.trim() === '') {
+      setNameError(true);
+      setHelperText('Project name cannot be empty.');
+      return;
+    }
+
+    setNameError(false);
+    setHelperText('');
+
+    const userId = user.uid;
+    const corners: Vector3D[] = [
+      { x: 0, y: 0, z: 0 },
+      { x: 10, y: 0, z: 0 },
+      { x: 10, y: 10, z: 0 },
+      { x: 0, y: 10, z: 0 },
+    ];
+
     try {
-      const user = auth.currentUser;
-      if (!user) {
-        // Jeśli użytkownik nie jest zalogowany
-        setSnackbarMessage('You must be logged in to save a project.');
-        setSnackbarSeverity('error');
-        setOpenSnackbar(true);
-        return;
-      }
-
-      const userId = user.uid;
-      const corners: Vector3D[] = [
-        { x: 0, y: 0, z: 0 },
-        { x: 10, y: 0, z: 0 },
-        { x: 10, y: 10, z: 0 },
-        { x: 0, y: 10, z: 0 },
-      ];
-
-      if (projectName.trim() === '') {
-        setSnackbarMessage('Project name cannot be empty!');
-        setSnackbarSeverity('error');
-        setOpenSnackbar(true);
-        return;
-      }
-
       await saveProject(userId, scene, projectName, corners);
-      setSnackbarMessage('Project saved successfully!');
-      setSnackbarSeverity('success');
-      setOpenSnackbar(true);
-    } catch (error) {
-      setSnackbarMessage('Error saving project');
-      setSnackbarSeverity('error');
-      setOpenSnackbar(true);
+      setSnackbar(
+        setOpenSnackBarState('Project saved successfully.', 'success'),
+      );
+    } catch {
+      setSnackbar(setOpenSnackBarState('Error saving project.', 'error'));
     }
   };
 
@@ -62,53 +68,46 @@ function GUI(): JSX.Element {
     <div className="root">
       <div className="propertiesPanel">
         <div className="projectNamePanel">
-          <TextField
-            label="Project Name"
-            value={projectName}
-            onChange={(e) => setProjectName(e.target.value)}
-            fullWidth
-            margin="normal"
-          />
+          <FormControl fullWidth>
+            <TextField
+              label="Project Name"
+              value={projectName}
+              onChange={(e) => setProjectName(e.target.value)}
+              error={nameError}
+            />
+            {nameError && (
+              <FormHelperText error>
+                Project name cannot be empty.
+              </FormHelperText>
+            )}
+          </FormControl>
         </div>
-
         <div className="addingPanel">
           <div className="header">Add a model...</div>
-          <div className="modelsList">placeholder</div>
+          <div className="modelsList">
+            <ModelsList />
+          </div>
         </div>
-
         <div className="editingPanel">
           <div className="header">Modify selected model:</div>
-          {Object.values(scene.objects).map((val: SceneObject) => (
-            <Properties key={val.id} object={val} />
-          ))}
+          <div className="modelsList">
+            {Object.values(scene.objects).map((val: SceneObject) => (
+              <Properties key={val.id} object={val} />
+            ))}
+          </div>
         </div>
-
-        <Button
-          className="button"
-          variant="contained"
-          color="primary"
-          onClick={handleSaveProject}
-          fullWidth
-        >
-          Save Project
-        </Button>
+        <FilledButton onClick={handleSaveProject}>Save Project</FilledButton>
       </div>
-
-      <Snackbar
-        open={openSnackbar}
-        autoHideDuration={6000}
-        onClose={() => setOpenSnackbar(false)}
-      >
-        <Alert
-          onClose={() => setOpenSnackbar(false)}
-          severity={snackbarSeverity}
-          sx={{ width: '100%' }}
-        >
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
+      <NotificationPopup
+        snackbar={snackbar}
+        setOpenSnackbar={(open: boolean) =>
+          setSnackbar((prev: SnackBarState) => ({
+            ...prev,
+            open,
+          }))}
+      />
     </div>
   );
-}
+};
 
 export default GUI;
