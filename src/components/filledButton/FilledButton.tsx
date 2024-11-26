@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import './FilledButton.css';
-import Button from '../Button/Button';
+import Button from '../button/Button';
 
 type FilledButtonProps = {
   children?: ReactNode;

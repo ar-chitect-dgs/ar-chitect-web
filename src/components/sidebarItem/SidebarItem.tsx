@@ -13,7 +13,7 @@ const SidebarItem = ({ name, path }: SidebarItemProps): JSX.Element => {
 
   return (
     <li className={`sidebarItem ${isSelected ? 'selected' : ''}`}>
-      <Link to={path} className="sidebarLink">
+      <Link to={path} className="sidebar-link">
         {`${name} ${isSelected ? ' >' : ''}`}
       </Link>
     </li>

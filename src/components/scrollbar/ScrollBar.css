@@ -1,0 +1,17 @@
+.scroll-thumb-vertical {
+    background-color: rgba(29, 108, 226, 0.27);
+    border-radius: 10px;
+  }
+  
+  .scroll-track-vertical {
+    background-color: rgba(29, 108, 226, 0.17);
+    border-radius: 10px;
+    height: 97%;
+    top: 0;
+    right: 0;
+  }
+  
+  .scroll-track-horizontal {
+    display: none;
+  }
+  

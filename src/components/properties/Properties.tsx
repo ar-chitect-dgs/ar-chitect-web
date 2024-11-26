@@ -18,7 +18,7 @@ function Properties({ object }: { object: SceneObject }): JSX.Element {
   const dispatch = useAppDispatch();
 
   const {
-    id, name, hovered, active, position, rotation
+    id, name, hovered, active, position, rotation,
   } = object;
 
   const moveX = useCallback((_event: Event, newValue: number | number[]) => {
@@ -76,13 +76,13 @@ function Properties({ object }: { object: SceneObject }): JSX.Element {
       ) : <></>}
       <div className="buttonPanel">
         <Button
-          className='button'
+          className="button"
           variant="contained"
         >
           Copy
         </Button>
         <Button
-          className='button'
+          className="button"
           variant="contained"
         >
           Delete
