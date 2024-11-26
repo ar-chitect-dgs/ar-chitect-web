@@ -1,5 +1,5 @@
-import Toolbar from './toolbar/Toolbar';
-import Viewport from './viewport/Viewport';
+import EditorToolbar from './toolbar/Toolbar';
+import EditorViewport from './viewport/Viewport';
 
 import './Editor.css';
 
@@ -7,10 +7,10 @@ function Editor(): JSX.Element {
   return (
     <div className="editor">
       <div className="display">
-        <Viewport />
+        <EditorViewport />
       </div>
       <div className="toolbar">
-        <Toolbar />
+        <EditorToolbar />
       </div>
     </div>
   );
