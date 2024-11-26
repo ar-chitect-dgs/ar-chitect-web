@@ -19,7 +19,7 @@ import { Vector3D } from '../../../types/Scene';
 import { saveProject } from '../../../utils/firebaseUtils';
 import './Toolbar.css';
 
-const GUI = (): JSX.Element => {
+const Toolbar = (): JSX.Element => {
   const { scene } = useSelector(sceneSelector);
   const [projectName, setProjectName] = useState('');
   const [snackbar, setSnackbar] = useState<SnackBarState>(initialSnackBarState);
@@ -117,4 +117,4 @@ const GUI = (): JSX.Element => {
   );
 };
 
-export default GUI;
+export default Toolbar;
