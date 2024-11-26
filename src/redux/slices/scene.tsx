@@ -28,14 +28,21 @@ interface MovePayload {
   axis: Axis;
 }
 
+interface AddModelPayload {
+  objectId: string;
+  modelName: string;
+  color: string;
+  url: string;
+}
+
 export const initialState: SceneState = {
   scene: {
     objectIds: [0, 1],
     objects: {
       0: {
         id: 0,
-        dbId: 'sofa_1',
-        name: 'box',
+        objectId: 'sofa_1',
+        name: 'Sofa 1',
         color: 'default',
         url: 'https://firebasestorage.googleapis.com/v0/b/ar-chitect-a0b25.appspot.com/o/models%2Fsofa_1_default.glb?alt=media&token=7116eb13-5d8c-48e8-a078-ed742179e772',
         position: { x: 0, y: 0, z: 0 },
@@ -45,8 +52,8 @@ export const initialState: SceneState = {
       },
       1: {
         id: 1,
-        dbId: 'sofa_1',
-        name: 'box',
+        objectId: 'sofa_1',
+        name: 'Sofa 1',
         color: 'creme',
         url: 'https://firebasestorage.googleapis.com/v0/b/ar-chitect-a0b25.appspot.com/o/models%2Fsofa_1_creme.glb?alt=media&token=500fb3cd-dd57-4bee-aaed-f5ce55009981',
         position: { x: 3, y: 0, z: -2 },
@@ -162,11 +169,34 @@ const sceneSlice = createSlice({
           break;
       }
     },
+    add: (state, action: PayloadAction<AddModelPayload>) => {
+      const {
+        objectId, modelName, color, url,
+      } = action.payload;
+
+      const newId = Math.max(...state.scene.objectIds) + 1;
+
+      const newObject = {
+        id: newId,
+        objectId,
+        name: modelName,
+        color,
+        url,
+        position: { x: 0, y: 0, z: 0 },
+        rotation: { x: 0, y: 0, z: 0 },
+        active: false,
+        hovered: false,
+      };
+
+      const { objects, objectIds } = state.scene;
+      objects[newId] = newObject;
+      objectIds.push(newId);
+    },
   },
 });
 
 export const {
-  hover, click, move, rotate,
+  hover, click, move, rotate, add,
 } = sceneSlice.actions;
 
 export const sceneSelector = lruMemoize(
@@ -207,5 +237,18 @@ export function rotateObject(
 ): ThunkActionVoid {
   return async (dispatch: Dispatch) => {
     dispatch(rotate({ id, value: newValue, axis }));
+  };
+}
+
+export function addModel(
+  objectId: string,
+  modelName: string,
+  color: string,
+  url: string,
+): ThunkActionVoid {
+  return async (dispatch: Dispatch) => {
+    dispatch(add({
+      objectId, modelName, color, url,
+    }));
   };
 }

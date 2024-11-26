@@ -5,7 +5,7 @@ import { Canvas } from '@react-three/fiber';
 import { useRef } from 'react';
 import { useSelector } from 'react-redux';
 import {
-  sceneSelector,
+  sceneSelector
 } from '../../../redux/slices/scene';
 import Model from '../Model';
 
@@ -91,6 +91,7 @@ function Viewport(): JSX.Element {
         decay={0}
         intensity={Math.PI}
       />
+      <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
       {Object.values(scene.objects).map((model) => (
         <Model
           id={model.id}
@@ -105,10 +106,6 @@ function Viewport(): JSX.Element {
           active={model.active}
         />
       ))}
-      <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
-      {/* {Object.values(scene.objects).map((obj: SceneObject) => (
-        <Box key={obj.id} {...obj} />
-      ))} */}
       <Ground />
     </Canvas>
   );

@@ -92,3 +92,31 @@ export const saveProject = async (
   console.log(`Project "${projectName}" has been saved for user ${userId}.`);
   return true;
 };
+
+export const fetchModelsList = async (): Promise<
+  { id: string; name: string }[]
+> => {
+  const modelsRef = collection(db, 'models2');
+  const querySnapshot = await getDocs(modelsRef);
+
+  const models = querySnapshot.docs.map((doc) => ({
+    id: doc.id,
+    name: doc.data().name,
+  }));
+
+  return models;
+};
+
+export const fetchModelColors = async (objectId: string): Promise<string[]> => {
+  const modelRef = doc(db, 'models2', objectId);
+  const modelDoc = await getDoc(modelRef);
+
+  if (!modelDoc.exists()) {
+    throw new Error(`Model with ID ${objectId} not found.`);
+  }
+
+  const modelData = modelDoc.data();
+  const colorVariants = modelData.color_variants || {};
+
+  return Object.keys(colorVariants);
+};
