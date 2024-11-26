@@ -2,7 +2,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { CameraControls, Grid } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import * as THREE from 'three';
 import { useAppDispatch } from '../../../redux';
@@ -11,11 +11,7 @@ import {
   changeHoveredState,
   sceneSelector,
 } from '../../../redux/slices/scene';
-import { Projects, SceneObject } from '../../../types/Scene';
-import Model from '../Model';
-import { fetchProjectsData, getProject } from '../../../utils/firebaseUtils';
-import { auth } from '../../../firebaseConfig';
-import { mapProjectToScene } from '../../../utils/mappers';
+import { SceneObject } from '../../../types/Scene';
 
 function Ground() {
   const gridConfig = {
@@ -34,7 +30,7 @@ function Ground() {
 }
 
 function Box({
-  id, position, hovered, active,
+  id, position, rotation, hovered, active,
 }: SceneObject): JSX.Element {
   const meshRef = useRef<THREE.Mesh>(null);
   const dispatch = useAppDispatch();
@@ -51,6 +47,7 @@ function Box({
   return (
     <mesh
       position={[position.x, position.y, position.z]}
+      rotation={[rotation.x, rotation.y, rotation.z]}
       ref={meshRef}
       scale={scale}
       onClick={() => dispatch(changeActiveState(id as number))}
@@ -130,18 +127,20 @@ function Viewport(): JSX.Element {
         intensity={Math.PI}
       />
       {Object.values(scene.objects).map((model) => (
-        <Model
+        <Box
           id={model.id}
           color={model.color}
           key={model.id}
           url={model.url}
           position={model.position}
           rotation={model.rotation}
-          objectId={model.objectId}
+          dbId={model.dbId}
           name={model.name || ''}
           hovered={model.hovered}
           active={model.active}
         />
+        // <Model
+        // />
       ))}
       <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
       {/* {Object.values(scene.objects).map((obj: SceneObject) => (

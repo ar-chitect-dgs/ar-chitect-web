@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 import {
-  TextField, Button, Snackbar, Alert,
+  Alert,
+  Button, Snackbar,
+  TextField,
+  Typography,
 } from '@mui/material';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import ModelList from '../../../components/ModelList/ModelList';
+import Properties from '../../../components/properties/Properties';
+import { auth } from '../../../firebaseConfig';
 import { sceneSelector } from '../../../redux/slices/scene';
 import { SceneObject, Vector3D } from '../../../types/Scene';
-import './GUI.css';
-import Properties from './properties/Properties';
 import { saveProject } from '../../../utils/firebaseUtils';
-import { auth } from '../../../firebaseConfig';
+import './GUI.css';
 
 function GUI(): JSX.Element {
   const { scene } = useSelector(sceneSelector);
@@ -23,7 +27,6 @@ function GUI(): JSX.Element {
     try {
       const user = auth.currentUser;
       if (!user) {
-        // Jeśli użytkownik nie jest zalogowany
         setSnackbarMessage('You must be logged in to save a project.');
         setSnackbarSeverity('error');
         setOpenSnackbar(true);
@@ -57,27 +60,36 @@ function GUI(): JSX.Element {
   };
 
   return (
-    <div>
-      <div className="header">GUI</div>
-      <div className="PropertiesPanel">
-        <TextField
-          label="Project Name"
-          value={projectName}
-          onChange={(e) => setProjectName(e.target.value)}
-          fullWidth
-          margin="normal"
-        />
+    <div className="root">
+      <div className="propertiesPanel">
+        <div className=''>
+          <TextField
+            label="Project Name"
+            value={projectName}
+            onChange={(e) => setProjectName(e.target.value)}
+            fullWidth
+            margin="normal"
+          />
+        </div>
 
-        {Object.values(scene.objects).map((val: SceneObject) => (
-          <Properties key={val.id} object={val} />
-        ))}
+        <div className="addingPanel">
+          <Typography className="header">Add a model...</Typography>
+          <ModelList />
+        </div>
+
+        <div className="editingPanel">
+          <Typography className="header">Modify selected model:</Typography>
+          {Object.values(scene.objects).map((val: SceneObject) => (
+            <Properties key={val.id} object={val} />
+          ))}
+        </div>
 
         <Button
+          className="button"
           variant="contained"
           color="primary"
           onClick={handleSaveProject}
           fullWidth
-          style={{ marginTop: '20px' }}
         >
           Save Project
         </Button>

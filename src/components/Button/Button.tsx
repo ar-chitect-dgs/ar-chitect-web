@@ -1,5 +1,5 @@
 /* eslint-disable react/button-has-type */
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 type ButtonProps = {
   onClick?: () => void;
@@ -10,7 +10,7 @@ type ButtonProps = {
 
 const Button = ({
   children,
-  onClick = () => {},
+  onClick = () => { },
   className = '',
   type = 'button',
 }: ButtonProps): JSX.Element => (

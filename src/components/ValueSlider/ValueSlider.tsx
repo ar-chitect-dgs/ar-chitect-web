@@ -1,8 +1,8 @@
 import { Slider } from '@mui/material';
 
-import './PositionSlider.css';
+import './ValueSlider.css';
 
-export function PositionSlider({
+export function ValueSlider({
   value,
   label,
   handleChange,

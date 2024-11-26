@@ -21,3 +21,13 @@
 .name {
   font-weight: bold;
 }
+
+.buttonPanel {
+  display: flex;
+  justify-content: space-between;
+}
+
+.button {
+  flex: 1;
+  margin: 10px;
+}

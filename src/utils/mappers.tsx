@@ -18,7 +18,7 @@ export function mapSceneToProject(
       throw new Error(`Object with ID ${id} not found in scene.`);
     }
     return {
-      objectId: sceneObject.objectId,
+      objectId: sceneObject.dbId,
       color: sceneObject.color,
       position: sceneObject.position,
       rotation: sceneObject.rotation,
@@ -44,7 +44,7 @@ export async function mapProjectToScene(project: Project): Promise<Scene> {
     const url = await fetchGLBUrl(obj.objectId, obj.color);
     const sceneObject: SceneObject = {
       id: index,
-      objectId: obj.objectId,
+      dbId: obj.objectId,
       name: `Object-${index}`,
       color: obj.color,
       url,
