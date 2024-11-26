@@ -16,15 +16,7 @@ const Button = ({
 }: ButtonProps): JSX.Element => (
   <button
     type={type}
-    className={className}
-    style={{
-      flex: 1,
-      display: 'flex',
-      flexDirection: 'row',
-      gap: 10,
-      justifyContent: 'center',
-      alignItems: 'center',
-    }}
+    className={`${className} button`}
     onClick={onClick}
   >
     {children}

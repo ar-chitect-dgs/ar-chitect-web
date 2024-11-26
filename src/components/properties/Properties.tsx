@@ -1,62 +1,55 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 // todo for the future^
-import { useCallback } from 'react';
-import { SceneObject } from '../../types/Scene';
 import './Properties.css';
 
-import { Button } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { useCallback } from 'react';
 import { useAppDispatch } from '../../redux';
 import {
-  Axis, changeActiveState, changeHoveredState,
+  Axis,
   moveObject,
   rotateObject,
+  sceneSelector,
 } from '../../redux/slices/scene';
 import { positionToString } from '../../utils/utils';
 import { ValueSlider } from '../ValueSlider/ValueSlider';
+import FilledButton from '../filledButton/FilledButton';
 
-function Properties({ object }: { object: SceneObject }): JSX.Element {
+function Properties(): JSX.Element {
   const dispatch = useAppDispatch();
+  const { scene } = useSelector(sceneSelector);
 
-  const {
-    id, name, hovered, active, position, rotation,
-  } = object;
+  const id = scene.selectedObjectId;
 
   const moveX = useCallback((_event: Event, newValue: number | number[]) => {
+    if (id === null) return;
     dispatch(moveObject(id, newValue as number, Axis.X));
-  }, []);
+  }, [id]);
   const moveY = useCallback((_event: Event, newValue: number | number[]) => {
+    if (id === null) return;
     dispatch(moveObject(id, newValue as number, Axis.Y));
-  }, []);
+  }, [id]);
   const moveZ = useCallback((_event: Event, newValue: number | number[]) => {
+    if (id === null) return;
     dispatch(moveObject(id, newValue as number, Axis.Z));
-  }, []);
+  }, [id]);
 
-  const rotateX = useCallback((_event: Event, newValue: number | number[]) => {
-    dispatch(rotateObject(id, newValue as number, Axis.X));
-  }, []);
   const rotateY = useCallback((_event: Event, newValue: number | number[]) => {
+    if (id === null) return;
     dispatch(rotateObject(id, newValue as number, Axis.Y));
-  }, []);
-  const rotateZ = useCallback((_event: Event, newValue: number | number[]) => {
-    dispatch(rotateObject(id, newValue as number, Axis.Z));
-  }, []);
+  }, [id]);
 
-  const handleHover = useCallback(() => {
-    dispatch(changeHoveredState(id, true));
-  }, []);
-  const handleUnhover = useCallback(() => {
-    dispatch(changeHoveredState(id, false));
-  }, []);
-  const handleClick = useCallback(() => {
-    dispatch(changeActiveState(id));
-  }, []);
+  if (id === null) {
+    return <div />;
+  }
+
+  const {
+    name, position, rotation,
+  } = scene.objects[id];
 
   return (
     <div
-      className={`container ${active ? 'active ' : ''}${hovered ? 'hovered ' : ''}`}
-      onClick={handleClick}
-      onMouseEnter={handleHover}
-      onMouseLeave={handleUnhover}
+      className="container"
     >
       <div className="name">
         {name}
@@ -64,29 +57,15 @@ function Properties({ object }: { object: SceneObject }): JSX.Element {
       <div className="position">
         {positionToString(position)}
       </div>
-      {active ? (
-        <div className="sliders" onClick={(e) => e.stopPropagation()}>
-          <ValueSlider value={position.x} label="x" handleChange={moveX} />
-          <ValueSlider value={position.y} label="y" handleChange={moveY} />
-          <ValueSlider value={position.z} label="z" handleChange={moveZ} />
-          <ValueSlider value={rotation.x} label="rotx" handleChange={rotateX} />
-          <ValueSlider value={rotation.y} label="roty" handleChange={rotateY} />
-          <ValueSlider value={rotation.z} label="rotz" handleChange={rotateZ} />
-        </div>
-      ) : <></>}
-      <div className="buttonPanel">
-        <Button
-          className="button"
-          variant="contained"
-        >
-          Copy
-        </Button>
-        <Button
-          className="button"
-          variant="contained"
-        >
-          Delete
-        </Button>
+      <div className="sliders">
+        <ValueSlider value={position.x} label="x" handleChange={moveX} />
+        <ValueSlider value={position.y} label="y" handleChange={moveY} />
+        <ValueSlider value={position.z} label="z" handleChange={moveZ} />
+        <ValueSlider value={rotation.y} label="roty" handleChange={rotateY} />
+      </div>
+      <div className="button-panel">
+        <FilledButton>Copy</FilledButton>
+        <FilledButton>Delete</FilledButton>
       </div>
     </div>
   );

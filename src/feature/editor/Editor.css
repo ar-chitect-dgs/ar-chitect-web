@@ -1,17 +1,16 @@
-.Editor {
+.editor {
   display: flex;
   flex-direction: row;
   height: 100%;
   width: 100%;
 }
 
-.Display {
+.display {
   flex: 3;
   border: #282c34 solid 2px;
 }
 
-.GUI {
+.toolbar {
   flex: 1;
-  padding: 10px;
   height: 100%;
 }

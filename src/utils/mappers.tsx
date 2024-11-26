@@ -64,5 +64,6 @@ export async function mapProjectToScene(project: Project): Promise<Scene> {
   return {
     objectIds,
     objects,
+    selectedObjectId: null,
   };
 }

@@ -23,7 +23,7 @@ export function ValueSlider({
         value={value || 0} // prevents the slider from being uncontrolled
         valueLabelDisplay="auto"
       />
-      <p className="value-label">{value}</p>
+      <p className="value-label">{value.toFixed(1)}</p>
     </div>
   );
 }

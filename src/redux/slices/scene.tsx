@@ -55,6 +55,7 @@ export const initialState: SceneState = {
         hovered: false,
       },
     },
+    selectedObjectId: null,
   },
 };
 
@@ -76,15 +77,16 @@ const sceneSlice = createSlice({
     click: (state, action: PayloadAction<number>) => {
       const id = action.payload;
       const object = state.scene.objects[id];
+      const { scene } = state;
 
       if (!object) {
         console.warn(`No object with id ${id} found.`);
         return;
       }
 
+      scene.selectedObjectId = id;
       object.active = !object.active;
     },
-
     // todo abstract move and rotate
     move: (state, action: PayloadAction<MovePayload>) => {
       const { id, axis, value } = action.payload;
@@ -163,7 +165,9 @@ const sceneSlice = createSlice({
   },
 });
 
-export const { hover, click, move, rotate } = sceneSlice.actions;
+export const {
+  hover, click, move, rotate,
+} = sceneSlice.actions;
 
 export const sceneSelector = lruMemoize(
   (state: RootState) => state.sceneReducer,

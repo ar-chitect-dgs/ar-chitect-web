@@ -3,31 +3,16 @@
   padding: 20px;
   margin: 2px;
   border-radius: 10px;
-  height: max-content;
+  height: fit-content;
   text-align: center;
-  cursor: pointer;
-}
-
-.hovered {
-  color: cornflowerblue;
-  background-color: aliceblue;
-}
-
-.active {
-  color: darkgreen;
-  background-color: azure;
 }
 
 .name {
   font-weight: bold;
 }
 
-.buttonPanel {
+.button-panel {
   display: flex;
   justify-content: space-between;
-}
-
-.button {
-  flex: 1;
-  margin: 10px;
+  height: fit-content;
 }
