@@ -1,21 +1,23 @@
-import React, { useState } from 'react';
 import {
-  TextField, Box, FormHelperText, FormControl,
+  FormControl,
+  FormHelperText,
+  TextField,
 } from '@mui/material';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { sceneSelector } from '../../../redux/slices/scene';
-import { saveProject } from '../../../utils/firebaseUtils';
-import { auth } from '../../../firebaseConfig';
-import { SceneObject, Vector3D } from '../../../types/Scene';
-import Properties from '../../../components/properties/Properties';
+import FilledButton from '../../../components/filledButton/FilledButton';
 import ModelsList from '../../../components/modelsList/ModelsList';
 import NotificationPopup, {
   initialSnackBarState,
   setOpenSnackBarState,
   SnackBarState,
 } from '../../../components/notificationPopup/NotificationPopup';
-import FilledButton from '../../../components/filledButton/FilledButton';
-import './GUI.css';
+import Properties from '../../../components/properties/Properties';
+import { auth } from '../../../firebaseConfig';
+import { sceneSelector } from '../../../redux/slices/scene';
+import { Vector3D } from '../../../types/Scene';
+import { saveProject } from '../../../utils/firebaseUtils';
+import './Toolbar.css';
 
 const GUI = (): JSX.Element => {
   const { scene } = useSelector(sceneSelector);
@@ -66,8 +68,8 @@ const GUI = (): JSX.Element => {
 
   return (
     <div className="root">
-      <div className="propertiesPanel">
-        <div className="projectNamePanel">
+      <div className="properties-panel">
+        <div className="project-name-panel">
           <FormControl fullWidth>
             <TextField
               label="Project Name"
@@ -76,27 +78,32 @@ const GUI = (): JSX.Element => {
               error={nameError}
             />
             {nameError && (
-              <FormHelperText error>
-                Project name cannot be empty.
-              </FormHelperText>
+            <FormHelperText error>
+              Project name cannot be empty.
+            </FormHelperText>
             )}
           </FormControl>
         </div>
-        <div className="addingPanel">
+
+        <div className="adding-panel">
           <div className="header">Add a model...</div>
-          <div className="modelsList">
+          <div className="models-list">
             <ModelsList />
           </div>
         </div>
-        <div className="editingPanel">
+
+        <div className="editing-panel">
           <div className="header">Modify selected model:</div>
-          <div className="modelsList">
-            {Object.values(scene.objects).map((val: SceneObject) => (
-              <Properties key={val.id} object={val} />
-            ))}
-          </div>
+          <Properties />
         </div>
-        <FilledButton onClick={handleSaveProject}>Save Project</FilledButton>
+
+        <div className="button">
+          <FilledButton
+            onClick={handleSaveProject}
+          >
+            Save Project
+          </FilledButton>
+        </div>
       </div>
       <NotificationPopup
         snackbar={snackbar}

@@ -6,7 +6,7 @@ export interface Vector3D {
 
 export interface SceneObject {
   id: number; // id in project
-  dbId: string; // id in database
+  objectId: string; // id in database
   name: string;
   color: string;
   url: string;

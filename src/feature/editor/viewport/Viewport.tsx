@@ -5,7 +5,7 @@ import { Canvas } from '@react-three/fiber';
 import { useRef } from 'react';
 import { useSelector } from 'react-redux';
 import {
-  sceneSelector
+  sceneSelector,
 } from '../../../redux/slices/scene';
 import Model from '../Model';
 
@@ -100,7 +100,7 @@ function Viewport(): JSX.Element {
           url={model.url}
           position={model.position}
           rotation={model.rotation}
-          dbId={model.dbId}
+          objectId={model.objectId}
           name={model.name || ''}
           hovered={model.hovered}
           active={model.active}
