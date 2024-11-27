@@ -10,7 +10,8 @@ type ButtonProps = {
 
 const Button = ({
   children,
-  onClick = () => { },
+  onClick = () => {},
+
   className = '',
   type = 'button',
 }: ButtonProps): JSX.Element => (
