@@ -1,9 +1,14 @@
-import { useCallback } from 'react';
 import FilledButton from '../../../components/filledButton/FilledButton';
+import { useAppDispatch } from '../../../redux';
+import { normalizePoints } from '../../../redux/slices/creator';
 import './Toolbar.css';
 
 function CreatorToolbar(): JSX.Element {
-  const handleDone = useCallback(() => { }, []);
+  const dispatch = useAppDispatch();
+
+  const handleDone = () => {
+    dispatch(normalizePoints());
+  };
 
   return (
     <div>

@@ -15,7 +15,7 @@ import NotificationPopup, {
 import Properties from '../../../components/properties/Properties';
 import { auth } from '../../../firebaseConfig';
 import { sceneSelector } from '../../../redux/slices/scene';
-import { Vector3D } from '../../../types/Scene';
+import { Point3D } from '../../../types/Point';
 import { saveProject } from '../../../utils/firebaseUtils';
 import './Toolbar.css';
 
@@ -49,7 +49,7 @@ const EditorToolbar = (): JSX.Element => {
     setHelperText('');
 
     const userId = user.uid;
-    const corners: Vector3D[] = [
+    const corners: Point3D[] = [
       { x: 0, y: 0, z: 0 },
       { x: 10, y: 0, z: 0 },
       { x: 10, y: 10, z: 0 },

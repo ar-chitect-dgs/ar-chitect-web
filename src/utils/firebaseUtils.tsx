@@ -1,17 +1,18 @@
 import {
+  collection,
   doc,
   getDoc,
-  setDoc,
-  collection,
   getDocs,
+  setDoc,
 } from 'firebase/firestore';
-import { ref, getDownloadURL } from 'firebase/storage';
+import { getDownloadURL, ref } from 'firebase/storage';
 import { db, storage } from '../firebaseConfig';
+import { Point3D } from '../types/Point';
+import { Project, Projects } from '../types/Project';
 import {
-  Scene, Vector3D,
+  Scene,
 } from '../types/Scene';
 import { mapProjectToScene, mapSceneToProject } from './mappers';
-import { Projects, Project } from '../types/Project';
 
 const MODELS_DIRECTORY = 'models/';
 
@@ -82,7 +83,7 @@ export const saveProject = async (
   userId: string,
   scene: Scene,
   projectName: string,
-  corners: Vector3D[],
+  corners: Point3D[],
 ): Promise<boolean> => {
   const project = mapSceneToProject(scene, projectName, corners);
   const projectsRef = collection(db, 'users', userId, 'projects');

@@ -1,8 +1,8 @@
-import { Vector3D } from './Scene';
+import { Point3D } from './Point';
 
 export interface Object3D {
   objectId: string; // id in database
   color: string;
-  position: Vector3D;
-  rotation: Vector3D;
+  position: Point3D;
+  rotation: Point3D;
 }

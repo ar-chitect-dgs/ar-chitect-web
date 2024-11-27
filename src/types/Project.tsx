@@ -1,10 +1,10 @@
 import { Object3D } from './Object3D';
-import { Vector3D } from './Scene';
+import { Point2D } from './Point';
 
 export interface Project {
   projectName: string;
   objects: Object3D[];
-  corners: Vector3D[];
+  corners: Point2D[];
   isFirstTime: boolean;
   latitude: number;
   longitude: number;

@@ -1,8 +1,4 @@
-export interface Vector3D {
-  x: number;
-  y: number;
-  z: number;
-}
+import { Point3D } from './Point';
 
 export interface SceneObject {
   id: number; // id in project
@@ -10,8 +6,8 @@ export interface SceneObject {
   name: string;
   color: string;
   url: string;
-  position: Vector3D;
-  rotation: Vector3D;
+  position: Point3D;
+  rotation: Point3D;
   active: boolean;
   hovered: boolean;
 }

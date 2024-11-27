@@ -1,16 +1,16 @@
 import { Object3D } from '../types/Object3D';
+import { Point3D } from '../types/Point';
 import { Project } from '../types/Project';
 import {
   Scene,
   SceneObject,
-  Vector3D,
 } from '../types/Scene';
 import { fetchGLBUrl } from './firebaseUtils';
 
 export function mapSceneToProject(
   scene: Scene,
   projectName: string,
-  corners: Vector3D[],
+  corners: Point3D[],
 ): Project {
   const objects: Object3D[] = scene.objectIds.map((id) => {
     const sceneObject = scene.objects[id];
