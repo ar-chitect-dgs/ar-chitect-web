@@ -8,9 +8,10 @@ import {
 import { ref, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../firebaseConfig';
 import {
-  Project, Projects, Scene, Vector3D,
+  Scene, Vector3D,
 } from '../types/Scene';
 import { mapProjectToScene, mapSceneToProject } from './mappers';
+import { Projects, Project } from '../types/Project';
 
 const MODELS_DIRECTORY = 'models/';
 

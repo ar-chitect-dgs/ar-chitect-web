@@ -21,28 +21,3 @@ export interface Scene {
   objects: { [id: number]: SceneObject };
   selectedObjectId: number | null;
 }
-
-export interface Object3D {
-  objectId: string; // id in database
-  color: string;
-  position: Vector3D;
-  rotation: Vector3D;
-}
-
-export interface Project {
-  projectName: string;
-  objects: Object3D[];
-  corners: Vector3D[];
-  isFirstTime: boolean;
-  latitude: number;
-  longitude: number;
-  orientation: number;
-  createdAt: number;
-  modifiedAt: number;
-  thumb: string;
-  id?: string;
-}
-
-export interface Projects {
-  [projectId: string]: Project;
-}

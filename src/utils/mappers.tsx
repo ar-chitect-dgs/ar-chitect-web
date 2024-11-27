@@ -1,6 +1,6 @@
+import { Object3D } from '../types/Object3D';
+import { Project } from '../types/Project';
 import {
-  Object3D,
-  Project,
   Scene,
   SceneObject,
   Vector3D,
