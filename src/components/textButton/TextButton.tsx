@@ -4,14 +4,16 @@ import './TextButton.css';
 
 interface TextButtonProps {
   children?: ReactNode;
+  className?: string;
   onClick?: () => void;
 }
 
 const TextButton = ({
   children,
+  className = '',
   onClick = () => {},
 }: TextButtonProps): JSX.Element => (
-  <Button onClick={onClick} className="text-button">
+  <Button onClick={onClick} className={`text-button ${className}`}>
     {children}
   </Button>
 );

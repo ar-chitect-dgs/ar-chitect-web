@@ -1,0 +1,103 @@
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-size: large;
+  width: 700px;
+  margin: 40px;
+  padding: 16px;
+}
+
+.top-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.top-container-edit {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  column-gap: 30px;
+  align-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.profile-field {
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-field strong {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.edit-mode .profile-input,
+.edit-mode .profile-file-input {
+  width: 100%;
+  margin-bottom: 16px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.profile-field {
+  margin-bottom: 10px;
+}
+
+.profile-button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 50px;
+}
+
+.profile-button-group-edit {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.error-message {
+  color: red;
+  margin-bottom: 8px;
+}
+
+.success-message {
+  color: green;
+  margin-bottom: 8px;
+}
+
+.profile-info {
+  margin: 8px 0;
+}
+
+.display-mode {
+  width: 100%;
+}
+
+.edit-mode {
+  width: 100%;
+}
+
+.log-out-button {
+  padding: 0;
+  color: var(--purple-accent-button);
+  font-weight: 600;
+}
+
+.delete-button {
+  padding: 0;
+  color: var(--red-text-color);
+}
+
+.bottom-button {
+  margin-bottom: 10px;
+  font-weight: bold;
+}

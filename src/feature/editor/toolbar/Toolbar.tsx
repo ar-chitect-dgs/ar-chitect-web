@@ -78,9 +78,9 @@ const EditorToolbar = (): JSX.Element => {
               error={nameError}
             />
             {nameError && (
-            <FormHelperText error>
-              Project name cannot be empty.
-            </FormHelperText>
+              <FormHelperText error>
+                Project name cannot be empty.
+              </FormHelperText>
             )}
           </FormControl>
         </div>
