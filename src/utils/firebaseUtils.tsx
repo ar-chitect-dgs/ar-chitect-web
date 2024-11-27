@@ -10,7 +10,7 @@ import { db, storage } from '../firebaseConfig';
 import { Point3D } from '../types/Point';
 import { Project, Projects } from '../types/Project';
 import {
-  Scene,
+  Scene
 } from '../types/Scene';
 import { mapProjectToScene, mapSceneToProject } from './mappers';
 

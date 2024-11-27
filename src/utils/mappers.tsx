@@ -1,7 +1,7 @@
-import { Object3D } from '../types/Object3D';
 import { Point3D } from '../types/Point';
-import { Project } from '../types/Project';
 import {
+  Object3D,
+  Project,
   Scene,
   SceneObject,
 } from '../types/Scene';

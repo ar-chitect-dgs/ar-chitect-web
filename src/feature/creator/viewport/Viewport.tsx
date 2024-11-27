@@ -1,61 +1,13 @@
 /* eslint-disable react/no-unknown-property */
-import { Grid, OrbitControls } from '@react-three/drei';
+/* eslint-disable react/jsx-props-no-spreading */
+
+import { OrbitControls, Sphere } from '@react-three/drei';
 import { Canvas, ThreeEvent } from '@react-three/fiber';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../../redux';
 import { addPointToPlane, creatorSelector } from '../../../redux/slices/creator';
 import { Point2D } from '../../../types/Point';
-
-function Sphere({
-  position,
-  transparent,
-} :
-   {position: Point2D, transparent?: boolean}): JSX.Element {
-  return (
-    <mesh position={[position.x, 0, position.y]}>
-      <sphereGeometry args={[0.1, 32, 32]} />
-      {transparent
-        ? <meshStandardMaterial color="blue" transparent opacity={0.4} />
-        : <meshStandardMaterial color="orange" />}
-    </mesh>
-  );
-}
-
-function Ground({
-  onClick,
-  onHover,
-}
-  : {
-    onClick: (e: ThreeEvent<MouseEvent>) => void
-    onHover: (e: ThreeEvent<PointerEvent>) => void
-  }) {
-  const gridConfig = {
-    cellSize: 0.25,
-    cellThickness: 1,
-    cellColor: '#6f6f6f',
-    sectionSize: 1,
-    sectionThickness: 3,
-    sectionColor: '#595959',
-    fadeStrength: 1,
-    followCamera: false,
-    infiniteGrid: true,
-  };
-  return (
-    <>
-      <Grid position={[0, 0, 0]} {...gridConfig} />
-      <mesh
-        position={[0, 0, 0]}
-        rotation={[-Math.PI / 2, 0, 0]}
-        onClick={onClick}
-        onPointerMove={onHover}
-      >
-        <planeGeometry args={[100, 100]} />
-        <meshBasicMaterial opacity={0} transparent />
-      </mesh>
-    </>
-  );
-}
 
 function CreatorViewport(): JSX.Element {
   const dispatch = useAppDispatch();
