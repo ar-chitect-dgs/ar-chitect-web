@@ -5,17 +5,19 @@ import Button from '../button/Button';
 type FilledButtonProps = {
   children?: ReactNode;
   isDisabled?: boolean;
+  className?: string;
   onClick?: () => void;
 };
 
 const FilledButton = ({
   children,
   isDisabled = false,
+  className = '',
   onClick = () => {},
 }: FilledButtonProps): JSX.Element => (
   <Button
     onClick={!isDisabled ? onClick : () => {}}
-    className={`button ${isDisabled ? 'disabled' : ''}`}
+    className={`button ${className} ${isDisabled ? 'disabled' : ''}`}
     type="submit"
   >
     {children}
