@@ -1,12 +1,13 @@
 import {
+  collection,
   doc,
   getDoc,
-  setDoc,
-  collection,
   getDocs,
+  setDoc,
 } from 'firebase/firestore';
-import { ref, getDownloadURL } from 'firebase/storage';
+import { getDownloadURL, ref } from 'firebase/storage';
 import { db, storage } from '../firebaseConfig';
+
 import {
   Project, Projects, Scene, Vector3D,
 } from '../types/Scene';
