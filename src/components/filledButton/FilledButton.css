@@ -7,7 +7,7 @@
   border-radius: 25px;
   font-size: 18px;
   font-weight: normal;
-  background: var( --purple-accent-button);
+  background: var(--purple-accent-button);
 }
 
 .button:hover {

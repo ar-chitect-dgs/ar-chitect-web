@@ -1,16 +1,16 @@
-import GUI from './gui/GUI';
-import Viewport from './viewport/Viewport';
+import EditorToolbar from './toolbar/Toolbar';
+import EditorViewport from './viewport/Viewport';
 
 import './Editor.css';
 
 function Editor(): JSX.Element {
   return (
-    <div className="Editor">
-      <div className="Display">
-        <Viewport />
+    <div className="editor">
+      <div className="display">
+        <EditorViewport />
       </div>
-      <div className="GUI">
-        <GUI />
+      <div className="toolbar">
+        <EditorToolbar />
       </div>
     </div>
   );

@@ -19,6 +19,7 @@ export interface SceneObject {
 export interface Scene {
   objectIds: number[];
   objects: { [id: number]: SceneObject };
+  selectedObjectId: number | null;
 }
 
 export interface Object3D {

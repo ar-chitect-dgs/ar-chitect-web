@@ -1,8 +1,8 @@
 import { Slider } from '@mui/material';
 
-import './PositionSlider.css';
+import './ValueSlider.css';
 
-export function PositionSlider({
+export function ValueSlider({
   value,
   label,
   handleChange,
@@ -23,7 +23,7 @@ export function PositionSlider({
         value={value || 0} // prevents the slider from being uncontrolled
         valueLabelDisplay="auto"
       />
-      <p className="value-label">{value}</p>
+      <p className="value-label">{value.toFixed(1)}</p>
     </div>
   );
 }

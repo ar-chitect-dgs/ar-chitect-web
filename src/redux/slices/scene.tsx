@@ -62,6 +62,7 @@ export const initialState: SceneState = {
         hovered: false,
       },
     },
+    selectedObjectId: null,
   },
 };
 
@@ -83,14 +84,17 @@ const sceneSlice = createSlice({
     click: (state, action: PayloadAction<number>) => {
       const id = action.payload;
       const object = state.scene.objects[id];
+      const { scene } = state;
 
       if (!object) {
         console.warn(`No object with id ${id} found.`);
         return;
       }
 
+      scene.selectedObjectId = id;
       object.active = !object.active;
     },
+    // todo abstract move and rotate
     move: (state, action: PayloadAction<MovePayload>) => {
       const { id, axis, value } = action.payload;
 
@@ -128,6 +132,43 @@ const sceneSlice = createSlice({
           break;
       }
     },
+    rotate: (state, action: PayloadAction<MovePayload>) => {
+      const { id, axis, value } = action.payload;
+
+      const object = state.scene.objects[id];
+
+      if (!object) {
+        console.warn(`No object with id ${id} found.`);
+        return;
+      }
+
+      switch (axis) {
+        case Axis.X:
+          object.rotation = {
+            x: value,
+            y: object.rotation.y,
+            z: object.rotation.z,
+          };
+          break;
+        case Axis.Y:
+          object.rotation = {
+            x: object.rotation.x,
+            y: value,
+            z: object.rotation.z,
+          };
+          break;
+        case Axis.Z:
+          object.rotation = {
+            x: object.rotation.x,
+            y: object.rotation.y,
+            z: value,
+          };
+          break;
+        default:
+          console.warn(`Wrong axis ${axis}`);
+          break;
+      }
+    },
     add: (state, action: PayloadAction<AddModelPayload>) => {
       const {
         objectId, modelName, color, url,
@@ -155,7 +196,7 @@ const sceneSlice = createSlice({
 });
 
 export const {
-  hover, click, move, add,
+  hover, click, move, rotate, add,
 } = sceneSlice.actions;
 
 export const sceneSelector = lruMemoize(
@@ -186,6 +227,16 @@ export function moveObject(
 ): ThunkActionVoid {
   return async (dispatch: Dispatch) => {
     dispatch(move({ id, value: newValue, axis }));
+  };
+}
+
+export function rotateObject(
+  id: number,
+  newValue: number,
+  axis: Axis,
+): ThunkActionVoid {
+  return async (dispatch: Dispatch) => {
+    dispatch(rotate({ id, value: newValue, axis }));
   };
 }
 

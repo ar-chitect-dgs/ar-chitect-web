@@ -1,5 +1,4 @@
 // src/feature/navbar/AppRouter.tsx
-import React from 'react';
 import {
   Navigate,
   Route,
@@ -21,6 +20,7 @@ import Mobile from '../../pages/Mobile';
 import Templates from '../../pages/Templates';
 import Dev from '../../pages/Dev';
 import { useAuth } from '../../hooks/useAuth';
+import Creator from '../creator/Creator';
 
 const AppRouter = (): JSX.Element => {
   const { isLoggedIn } = useAuth();
@@ -39,6 +39,7 @@ const AppRouter = (): JSX.Element => {
             <Route path={ROUTES.LOGIN} element={<Login />} />
             <Route path={ROUTES.PROJECTS} element={<Projects />} />
             <Route path={ROUTES.EDITOR} element={<Editor />} />
+            <Route path={ROUTES.CREATOR} element={<Creator />} />
             <Route path={ROUTES.PROFILE} element={<Profile />} />
             <Route path={ROUTES.SETTINGS} element={<Settings />} />
             <Route path={ROUTES.ABOUT} element={<About />} />

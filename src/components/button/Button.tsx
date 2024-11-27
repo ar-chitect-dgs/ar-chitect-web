@@ -1,5 +1,5 @@
 /* eslint-disable react/button-has-type */
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 type ButtonProps = {
   onClick?: () => void;
@@ -11,20 +11,13 @@ type ButtonProps = {
 const Button = ({
   children,
   onClick = () => {},
+
   className = '',
   type = 'button',
 }: ButtonProps): JSX.Element => (
   <button
     type={type}
-    className={className}
-    style={{
-      flex: 1,
-      display: 'flex',
-      flexDirection: 'row',
-      gap: 10,
-      justifyContent: 'center',
-      alignItems: 'center',
-    }}
+    className={`${className} button`}
     onClick={onClick}
   >
     {children}

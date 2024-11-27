@@ -4,7 +4,9 @@ import { CameraControls, Grid } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { sceneSelector } from '../../../redux/slices/scene';
+import {
+  sceneSelector,
+} from '../../../redux/slices/scene';
 import Model from '../Model';
 
 function Ground() {
@@ -23,7 +25,7 @@ function Ground() {
   return <Grid position={[0, -0.01, 0]} args={[10.5, 10.5]} {...gridConfig} />;
 }
 
-function Viewport(): JSX.Element {
+function EditorViewport(): JSX.Element {
   const { scene } = useSelector(sceneSelector);
   const cameraControlRef = useRef<CameraControls | null>(null);
 
@@ -109,4 +111,4 @@ function Viewport(): JSX.Element {
   );
 }
 
-export default Viewport;
+export default EditorViewport;
