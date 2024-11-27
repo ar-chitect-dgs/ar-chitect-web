@@ -32,7 +32,7 @@ const NotificationPopup = ({
 }: NotificationProps): JSX.Element => (
   <Snackbar
     open={snackbar.open}
-    autoHideDuration={6000}
+    autoHideDuration={4000}
     onClose={() => setOpenSnackbar(false)}
   >
     <Alert
