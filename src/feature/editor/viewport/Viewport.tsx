@@ -25,7 +25,7 @@ function Ground() {
   return <Grid position={[0, -0.01, 0]} args={[10.5, 10.5]} {...gridConfig} />;
 }
 
-function Viewport(): JSX.Element {
+function EditorViewport(): JSX.Element {
   const { scene } = useSelector(sceneSelector);
   const cameraControlRef = useRef<CameraControls | null>(null);
 
@@ -111,4 +111,4 @@ function Viewport(): JSX.Element {
   );
 }
 
-export default Viewport;
+export default EditorViewport;

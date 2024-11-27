@@ -1,9 +1,8 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 // todo for the future^
-import './Properties.css';
-
 import { useSelector } from 'react-redux';
 import { useCallback } from 'react';
+import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../redux';
 import {
   Axis,
@@ -12,8 +11,10 @@ import {
   sceneSelector,
 } from '../../redux/slices/scene';
 import { positionToString } from '../../utils/utils';
-import { ValueSlider } from '../ValueSlider/ValueSlider';
 import FilledButton from '../filledButton/FilledButton';
+import { ValueSlider } from '../valueSlider/ValueSlider';
+
+import './Properties.css';
 
 function Properties(): JSX.Element {
   const dispatch = useAppDispatch();

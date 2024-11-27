@@ -19,7 +19,7 @@ import { Vector3D } from '../../../types/Scene';
 import { saveProject } from '../../../utils/firebaseUtils';
 import './Toolbar.css';
 
-const Toolbar = (): JSX.Element => {
+const EditorToolbar = (): JSX.Element => {
   const { scene } = useSelector(sceneSelector);
   const [projectName, setProjectName] = useState('');
   const [snackbar, setSnackbar] = useState<SnackBarState>(initialSnackBarState);
@@ -78,9 +78,9 @@ const Toolbar = (): JSX.Element => {
               error={nameError}
             />
             {nameError && (
-            <FormHelperText error>
-              Project name cannot be empty.
-            </FormHelperText>
+              <FormHelperText error>
+                Project name cannot be empty.
+              </FormHelperText>
             )}
           </FormControl>
         </div>
@@ -117,4 +117,4 @@ const Toolbar = (): JSX.Element => {
   );
 };
 
-export default Toolbar;
+export default EditorToolbar;
