@@ -4,6 +4,7 @@ import { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../redux';
 import {
+  addModel,
   Axis,
   moveObject,
   rotateObject,
@@ -39,6 +40,14 @@ function Properties(): JSX.Element {
     dispatch(rotateObject(id, newValue as number, Axis.Y));
   }, [id]);
 
+  const copyObject = useCallback(() => {
+    if (id === null) return;
+    const {
+      objectId, name, color, url,
+    } = scene.objects[id];
+    dispatch(addModel(objectId, name, color, url));
+  }, [id]);
+
   if (id === null) {
     return <div />;
   }
@@ -64,7 +73,7 @@ function Properties(): JSX.Element {
         <ValueSlider value={rotation.y} label="roty" handleChange={rotateY} />
       </div>
       <div className="button-panel">
-        <FilledButton>Copy</FilledButton>
+        <FilledButton onClick={copyObject}>Copy</FilledButton>
         <FilledButton>Delete</FilledButton>
       </div>
     </div>
