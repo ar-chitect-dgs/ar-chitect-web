@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import {
   createSlice,
   Dispatch,
@@ -33,6 +34,10 @@ interface AddModelPayload {
   modelName: string;
   color: string;
   url: string;
+}
+
+interface RemoveModelPayload {
+  id: number
 }
 
 export const initialState: SceneState = {
@@ -174,7 +179,9 @@ const sceneSlice = createSlice({
         objectId, modelName, color, url,
       } = action.payload;
 
-      const newId = Math.max(...state.scene.objectIds) + 1;
+      const newId = state.scene.objectIds.length === 0
+        ? 0
+        : Math.max(...state.scene.objectIds) + 1;
 
       const newObject = {
         id: newId,
@@ -192,11 +199,23 @@ const sceneSlice = createSlice({
       objects[newId] = newObject;
       objectIds.push(newId);
     },
+    remove: (state, action: PayloadAction<RemoveModelPayload>) => {
+      const { id } = action.payload;
+      const { scene } = state;
+
+      scene.selectedObjectId = null;
+
+      delete scene.objects[id];
+      const index = scene.objectIds.indexOf(id, 0);
+      if (index > -1) {
+        scene.objectIds.splice(index, 1);
+      }
+    },
   },
 });
 
 export const {
-  hover, click, move, rotate, add,
+  hover, click, move, rotate, add, remove,
 } = sceneSlice.actions;
 
 export const sceneSelector = lruMemoize(
@@ -250,5 +269,13 @@ export function addModel(
     dispatch(add({
       objectId, modelName, color, url,
     }));
+  };
+}
+
+export function deleteModel(
+  id: number,
+): ThunkActionVoid {
+  return async (dispatch: Dispatch) => {
+    dispatch(remove({ id }));
   };
 }

@@ -6,8 +6,8 @@ import { useAppDispatch } from '../../redux';
 import {
   addModel,
   Axis,
-  moveObject,
-  rotateObject,
+  deleteModel,
+  moveObject, rotateObject,
   sceneSelector,
 } from '../../redux/slices/scene';
 import { positionToString } from '../../utils/utils';
@@ -48,6 +48,11 @@ function Properties(): JSX.Element {
     dispatch(addModel(objectId, name, color, url));
   }, [id]);
 
+  const deleteObject = useCallback(() => {
+    if (id === null) return;
+    dispatch(deleteModel(id));
+  }, [id]);
+
   if (id === null) {
     return <div />;
   }
@@ -74,7 +79,7 @@ function Properties(): JSX.Element {
       </div>
       <div className="button-panel">
         <FilledButton onClick={copyObject}>Copy</FilledButton>
-        <FilledButton>Delete</FilledButton>
+        <FilledButton onClick={deleteObject}>Delete</FilledButton>
       </div>
     </div>
   );
