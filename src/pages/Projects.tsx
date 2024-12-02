@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { getAllProjects } from '../utils/firebaseUtils';
 import { useAuth } from '../hooks/useAuth';
-import { Project } from '../types/Scene';
 import './styles/Projects.css';
 import ProjectTile from '../components/projectTile/ProjectTile';
 import ScrollBar from '../components/scrollbar/ScrollBar';
+import { Project } from '../types/Project';
 
 const Projects = (): JSX.Element => {
   const [projects, setProjects] = useState<Project[]>([]);

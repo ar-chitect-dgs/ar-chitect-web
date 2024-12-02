@@ -1,10 +1,12 @@
 import { combineReducers, configureStore, Dispatch } from '@reduxjs/toolkit';
 
 import { useDispatch } from 'react-redux';
+import creatorReducer from './slices/creator';
 import sceneReducer from './slices/scene';
 
 const rootReducer = combineReducers({
   sceneReducer,
+  creatorReducer,
 });
 export type RootState = ReturnType<typeof rootReducer>;
 

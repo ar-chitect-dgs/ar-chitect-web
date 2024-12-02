@@ -2,12 +2,12 @@
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { SceneObject } from '../../types/Scene';
 import { useAppDispatch } from '../../redux';
 import {
   changeActiveState,
   changeHoveredState,
 } from '../../redux/slices/scene';
+import { SceneObject } from '../../types/Scene';
 
 function Model({
   id,
