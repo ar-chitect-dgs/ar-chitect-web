@@ -104,7 +104,6 @@ describe('SignUp Component', () => {
     fireEvent.click(screen.getByText(/log in/i));
 
     await waitFor(() => {
-      console.log(mockNavigate.mock.calls);
       expect(mockNavigate).toHaveBeenCalledWith(
         '/login', expect.any(Object),
       );
