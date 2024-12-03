@@ -8,22 +8,22 @@ import {
 import { getDownloadURL, ref } from 'firebase/storage';
 import { db, storage } from '../firebaseConfig';
 import { Point3D } from '../types/Point';
-import { Project, Projects } from '../types/Project';
 import {
   Scene,
 } from '../types/Scene';
-import { mapProjectToScene, mapSceneToProject } from './mappers';
+import { mapApiProjectToScene, mapSceneToApiProject } from '../utils/mappers';
+import { ApiProject, ApiProjects } from './types';
 
 const MODELS_DIRECTORY = 'models/';
 
-export const fetchProjectsData = async (userId: string): Promise<Projects> => {
+export const fetchProjectsData = async (userId: string): Promise<ApiProjects> => {
   const projectsRef = collection(db, 'users', userId, 'projects');
   const querySnapshot = await getDocs(projectsRef);
 
-  const projectsData: Projects = {};
+  const projectsData: ApiProjects = {};
 
   querySnapshot.docs.forEach((doc) => {
-    const projectData = doc.data() as Project;
+    const projectData = doc.data() as ApiProject;
     projectsData[doc.id] = projectData;
   });
 
@@ -41,18 +41,18 @@ export const getProject = async (
     throw new Error(`Project with ID ${projectId} not found.`);
   }
 
-  const project = projectDoc.data() as Project;
-  const scene = await mapProjectToScene(project);
+  const project = projectDoc.data() as ApiProject;
+  const scene = await mapApiProjectToScene(project);
   return scene;
 };
 
-export const getAllProjects = async (userId: string): Promise<Project[]> => {
+export const fetchAllProjects = async (userId: string): Promise<ApiProject[]> => {
   const projectsRef = collection(db, 'users', userId, 'projects');
   const snapshot = await getDocs(projectsRef);
 
-  const projects: Project[] = [];
+  const projects: ApiProject[] = [];
   snapshot.forEach((doc) => {
-    const data = doc.data() as Project;
+    const data = doc.data() as ApiProject;
     projects.push({ ...data, id: doc.id });
   });
   return projects;
@@ -85,7 +85,7 @@ export const saveProject = async (
   projectName: string,
   corners: Point3D[],
 ): Promise<boolean> => {
-  const project = mapSceneToProject(scene, projectName, corners);
+  const project = mapSceneToApiProject(scene, projectName, corners);
   const projectsRef = collection(db, 'users', userId, 'projects');
   const projectRef = doc(projectsRef);
 

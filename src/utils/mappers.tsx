@@ -1,24 +1,24 @@
 import { Object3D } from '../types/Object3D';
 import { Point3D } from '../types/Point';
-import { Project } from '../types/Project';
 import {
   Scene,
   SceneObject,
 } from '../types/Scene';
-import { fetchGLBUrl } from './firebaseUtils';
+import { fetchGLBUrl } from '../api/projectsApi';
+import { ApiProject } from '../api/types';
 
-export function mapSceneToProject(
+export function mapSceneToApiProject(
   scene: Scene,
   projectName: string,
   corners: Point3D[],
-): Project {
+): ApiProject {
   const objects: Object3D[] = scene.objectIds.map((id) => {
     const sceneObject = scene.objects[id];
     if (!sceneObject) {
       throw new Error(`Object with ID ${id} not found in scene.`);
     }
     return {
-      objectId: sceneObject.objectId,
+      id: sceneObject.objectId,
       color: sceneObject.color,
       position: sceneObject.position,
       rotation: sceneObject.rotation,
@@ -39,15 +39,15 @@ export function mapSceneToProject(
   };
 }
 
-export async function mapProjectToScene(project: Project): Promise<Scene> {
+export async function mapApiProjectToScene(project: ApiProject): Promise<Scene> {
   const objects: { [id: number]: SceneObject } = {};
   const objectIds: number[] = [];
 
   project.objects.forEach(async (obj, index) => {
-    const url = await fetchGLBUrl(obj.objectId, obj.color);
+    const url = await fetchGLBUrl(obj.id, obj.color);
     const sceneObject: SceneObject = {
-      id: index,
-      objectId: obj.objectId,
+      projectId: index,
+      objectId: obj.id,
       name: `Object-${index}`,
       color: obj.color,
       url,

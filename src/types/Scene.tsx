@@ -1,7 +1,7 @@
 import { Point3D } from './Point';
 
 export interface SceneObject {
-  id: number; // id in project
+  projectId: number; // id in project
   objectId: string; // id in database
   name: string;
   color: string;

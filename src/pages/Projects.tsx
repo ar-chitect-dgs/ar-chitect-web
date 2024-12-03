@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
-import { getAllProjects } from '../utils/firebaseUtils';
+import { fetchAllProjects } from '../api/projectsApi';
 import { useAuth } from '../hooks/useAuth';
 import './styles/Projects.css';
 import ProjectTile from '../components/projectTile/ProjectTile';
 import ScrollBar from '../components/scrollbar/ScrollBar';
-import { Project } from '../types/Project';
+import { ApiProject } from '../api/types';
 
 const Projects = (): JSX.Element => {
-  const [projects, setProjects] = useState<Project[]>([]);
+  const [projects, setProjects] = useState<ApiProject[]>([]);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
 
@@ -15,7 +15,7 @@ const Projects = (): JSX.Element => {
     const fetchProjects = async () => {
       if (user) {
         try {
-          const data = await getAllProjects(user.uid);
+          const data = await fetchAllProjects(user.uid);
           setProjects(data);
         } catch (error) {
           console.error('Error fetching projects:', error);
@@ -36,7 +36,7 @@ const Projects = (): JSX.Element => {
     message = <div className="projects-message">No projects found. You can create one in the editor!</div>;
   }
 
-  const handleProjectClick = (project: Project) => {
+  const handleProjectClick = (project: ApiProject) => {
     console.log(`Navigating to project with ID: ${project.id}`);
   };
 

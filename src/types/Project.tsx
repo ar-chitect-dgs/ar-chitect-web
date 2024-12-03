@@ -9,9 +9,7 @@ export interface Project {
   latitude: number;
   longitude: number;
   orientation: number;
-  createdAt: number;
   modifiedAt: number;
-  thumb: string;
   id?: string;
 }
 

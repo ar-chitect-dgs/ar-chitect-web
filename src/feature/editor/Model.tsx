@@ -10,7 +10,7 @@ import {
 import { SceneObject } from '../../types/Scene';
 
 function Model({
-  id,
+  projectId,
   url,
   position,
   rotation,
@@ -41,9 +41,9 @@ function Model({
       ref={meshRef}
       position={[position.x, position.y, position.z]}
       rotation={[rotation.x, rotation.y, rotation.z]}
-      onClick={() => dispatch(changeActiveState(id as number))}
-      onPointerOver={() => dispatch(changeHoveredState(id as number, true))}
-      onPointerOut={() => dispatch(changeHoveredState(id as number, false))}
+      onClick={() => dispatch(changeActiveState(projectId as number))}
+      onPointerOver={() => dispatch(changeHoveredState(projectId as number, true))}
+      onPointerOut={() => dispatch(changeHoveredState(projectId as number, false))}
     >
       <primitive object={gltfModel} />
     </mesh>

@@ -21,6 +21,7 @@ import Templates from '../../pages/Templates';
 import Dev from '../../pages/Dev';
 import { useAuth } from '../../hooks/useAuth';
 import Creator from '../creator/Creator';
+import ProtectedRoute from './ProtectedRoute';
 
 const AppRouter = (): JSX.Element => {
   const { isLoggedIn } = useAuth();
@@ -29,18 +30,57 @@ const AppRouter = (): JSX.Element => {
     <Router>
       <div style={{ display: 'flex', height: '100vh' }}>
         <Navbar />
-        <div style={{ flexGrow: 1, backgroundColor: 'var(--background-color)' }}>
+        <div
+          style={{ flexGrow: 1, backgroundColor: 'var(--background-color)' }}
+        >
           <Routes>
             <Route
               path={ROUTES.HOME}
-              element={<Navigate to={isLoggedIn ? ROUTES.PROJECTS : ROUTES.LOGIN} />}
+              element={
+                <Navigate to={isLoggedIn ? ROUTES.PROJECTS : ROUTES.LOGIN} />
+              }
             />
-            <Route path={ROUTES.SIGN_UP} element={<SignUp />} />
-            <Route path={ROUTES.LOGIN} element={<Login />} />
-            <Route path={ROUTES.PROJECTS} element={<Projects />} />
-            <Route path={ROUTES.EDITOR} element={<Editor />} />
+            <Route
+              path={ROUTES.SIGN_UP}
+              element={(
+                <ProtectedRoute redirectTo={ROUTES.LOGIN}>
+                  <SignUp />
+                </ProtectedRoute>
+              )}
+            />
+            <Route
+              path={ROUTES.LOGIN}
+              element={(
+                <ProtectedRoute redirectTo={ROUTES.PROJECTS}>
+                  <Login />
+                </ProtectedRoute>
+              )}
+            />
+            <Route
+              path={ROUTES.PROJECTS}
+              element={(
+                <ProtectedRoute redirectTo={ROUTES.LOGIN}>
+                  <Projects />
+                </ProtectedRoute>
+              )}
+            />
+            <Route
+              path={ROUTES.EDITOR}
+              element={(
+                <ProtectedRoute redirectTo={ROUTES.LOGIN}>
+                  <Editor />
+                </ProtectedRoute>
+              )}
+            />
             <Route path={ROUTES.CREATOR} element={<Creator />} />
-            <Route path={ROUTES.PROFILE} element={<Profile />} />
+            <Route
+              path={ROUTES.PROFILE}
+              element={(
+                <ProtectedRoute redirectTo={ROUTES.LOGIN}>
+                  <Profile />
+                </ProtectedRoute>
+              )}
+            />
             <Route path={ROUTES.SETTINGS} element={<Settings />} />
             <Route path={ROUTES.ABOUT} element={<About />} />
             <Route path={ROUTES.MOBILE} element={<Mobile />} />
