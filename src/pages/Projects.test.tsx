@@ -2,6 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { fetchAllProjects } from '../api/projectsApi';
 import Projects from './Projects';
 
+jest.mock('firebase/auth');
 jest.mock('../hooks/useAuth', () => ({
   useAuth: () => ({ user: { uid: '123' } }),
 }));

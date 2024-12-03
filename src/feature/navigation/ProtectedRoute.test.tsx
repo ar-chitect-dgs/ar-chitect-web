@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute';
 import { useAuth } from '../../hooks/useAuth';
 
+jest.mock('firebase/auth');
 jest.mock('../../hooks/useAuth');
 
 describe('ProtectedRoute', () => {
