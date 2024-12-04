@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unknown-property */
-import { OrbitControls, Sphere } from '@react-three/drei';
+import { OrbitControls } from '@react-three/drei';
 import { Canvas, ThreeEvent } from '@react-three/fiber';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -12,7 +12,7 @@ import { arePointsClose } from '../../../utils/utils';
 import { Floor } from '../../3dutils/Floor';
 import { Ground } from '../../3dutils/Ground';
 import { Vertices } from '../../3dutils/RoomCorners';
-import { SphereType } from '../../3dutils/Sphere';
+import { Sphere, SphereType } from '../../3dutils/Sphere';
 import { Walls } from '../../3dutils/Walls';
 
 function CreatorViewport(): JSX.Element {
