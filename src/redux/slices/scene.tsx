@@ -198,6 +198,7 @@ const sceneSlice = createSlice({
       const { objects, objectIds } = state.scene;
       objects[newId] = newObject;
       objectIds.push(newId);
+      state.scene.selectedObjectId = newId;
     },
     remove: (state, action: PayloadAction<RemoveModelPayload>) => {
       const { id } = action.payload;
