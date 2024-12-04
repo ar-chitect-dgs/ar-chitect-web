@@ -23,6 +23,12 @@ interface AddPointPayload {
   y: number;
 }
 
+interface MovePointPayload {
+  x: number;
+  y: number;
+  id: number;
+}
+
 interface ChangeInteractionPayload {
   interaction: Interaction;
 }
@@ -46,7 +52,11 @@ const creatorSlice = createSlice({
       const x = round(action.payload.x, 2);
       const y = round(action.payload.y, 2);
       state.points = [...state.points, { x, y }];
-      console.log(state.points);
+    },
+    move: (state: CreatorState, action: PayloadAction<MovePointPayload>) => {
+      const x = round(action.payload.x, 2);
+      const y = round(action.payload.y, 2);
+      state.points[action.payload.id] = { x, y };
     },
     normalize: (state: CreatorState, _action: PayloadAction<void>) => {
       const { points } = state;
@@ -80,7 +90,9 @@ const creatorSlice = createSlice({
   },
 });
 
-export const { add, normalize, changeInteraction } = creatorSlice.actions;
+export const {
+  add, move, normalize, changeInteraction,
+} = creatorSlice.actions;
 
 export const creatorSelector = lruMemoize(
   (state: RootState) => state.creatorReducer,
@@ -94,6 +106,16 @@ export function addPointToPlane(
 ): ThunkActionVoid {
   return async (dispatch: Dispatch) => {
     dispatch(add({ x, y }));
+  };
+}
+
+export function movePoint(
+  id: number,
+  x: number,
+  y: number,
+): ThunkActionVoid {
+  return async (dispatch: Dispatch) => {
+    dispatch(move({ x, y, id }));
   };
 }
 

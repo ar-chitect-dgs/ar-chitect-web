@@ -5,10 +5,14 @@ import { ThreeEvent } from '@react-three/fiber';
 
 export function Ground({
   onClick = () => {},
-  onHover = () => {},
+  onPointerMove = () => {},
+  onPointerUp = () => {},
+  onPointerDown = () => {},
 }: {
     onClick?: (e: ThreeEvent<MouseEvent>) => void
-    onHover?: (e: ThreeEvent<PointerEvent>) => void
+    onPointerMove?: (e: ThreeEvent<PointerEvent>) => void
+    onPointerUp?: (e: ThreeEvent<PointerEvent>) => void
+    onPointerDown?: (e: ThreeEvent<PointerEvent>) => void
   }): JSX.Element {
   const gridConfig = {
     cellSize: 0.25,
@@ -29,7 +33,9 @@ export function Ground({
         position={[0, 0, 0]}
         rotation={[-Math.PI / 2, 0, 0]}
         onClick={onClick}
-        onPointerMove={onHover}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerDown={onPointerDown}
       >
         <planeGeometry args={[100, 100]} />
         <meshBasicMaterial opacity={0} transparent />
