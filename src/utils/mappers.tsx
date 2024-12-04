@@ -3,7 +3,7 @@ import { Point3D } from '../types/Point';
 import { Project } from '../types/Project';
 import {
   Scene,
-  SceneObject
+  SceneObject,
 } from '../types/Scene';
 import { fetchGLBUrl } from './firebaseUtils';
 
