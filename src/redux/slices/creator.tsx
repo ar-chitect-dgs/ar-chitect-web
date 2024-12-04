@@ -29,6 +29,10 @@ interface MovePointPayload {
   id: number;
 }
 
+interface DeletePointPayload {
+  id: number;
+}
+
 interface ChangeInteractionPayload {
   interaction: Interaction;
 }
@@ -48,9 +52,24 @@ const creatorSlice = createSlice({
       state.points = [...state.points, { x, y }];
     },
     move: (state: CreatorState, action: PayloadAction<MovePointPayload>) => {
+      const { id } = action.payload;
+
+      if (id < 0 && id >= state.points.length) {
+        console.warn(`Index outside of bounds: ${id}.`);
+      }
+
       const x = round(action.payload.x, 2);
       const y = round(action.payload.y, 2);
       state.points[action.payload.id] = { x, y };
+    },
+    remove: (state: CreatorState, action: PayloadAction<DeletePointPayload>) => {
+      const { id } = action.payload;
+
+      if (id < 0 && id >= state.points.length) {
+        console.warn(`Index outside of bounds: ${id}.`);
+      }
+
+      state.points.splice(id, 1);
     },
     normalize: (state: CreatorState, _action: PayloadAction<void>) => {
       const { points } = state;
@@ -85,7 +104,7 @@ const creatorSlice = createSlice({
 });
 
 export const {
-  add, move, normalize, changeInteraction,
+  add, move, remove, normalize, changeInteraction,
 } = creatorSlice.actions;
 
 export const creatorSelector = lruMemoize(
@@ -110,6 +129,15 @@ export function movePoint(
 ): ThunkActionVoid {
   return async (dispatch: Dispatch) => {
     dispatch(move({ x, y, id }));
+  };
+}
+
+export function deletePoint(
+  id: number,
+)
+: ThunkActionVoid {
+  return async (dispatch: Dispatch) => {
+    dispatch(remove({ id }));
   };
 }
 

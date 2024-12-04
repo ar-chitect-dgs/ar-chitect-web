@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../../redux';
 import {
-  addPointToPlane, changeInteractionState, creatorSelector, Interaction,
+  addPointToPlane, changeInteractionState, creatorSelector, deletePoint, Interaction,
   movePoint,
 } from '../../../redux/slices/creator';
 import { Point2D, Point3D } from '../../../types/Point';
@@ -48,14 +48,24 @@ function CreatorViewport(): JSX.Element {
     }
   };
 
+  const deleteVertex = () => {
+    if (points.length <= 3) {
+      console.warn('Room has to have at least 3 corners');
+      return;
+    }
+
+    findClickedVertex();
+    dispatch(deletePoint(clickedVertex));
+  };
+
   const moveVertex = () => {
     if (clickedVertex < 0 || clickedVertex >= points.length) return;
     dispatch(movePoint(clickedVertex, cursor.x, cursor.y));
   };
 
   const onClick = (e: ThreeEvent<MouseEvent>) => {
-    if (interaction !== Interaction.AddingVertex) return;
-    addVertex(e.intersections[0].point);
+    if (interaction === Interaction.AddingVertex) addVertex(e.intersections[0].point);
+    if (interaction === Interaction.DeletingVertex) deleteVertex();
   };
 
   const onPointerMove = (e: ThreeEvent<MouseEvent>) => {
