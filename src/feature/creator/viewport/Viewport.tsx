@@ -27,7 +27,6 @@ function CreatorViewport(): JSX.Element {
     const { point } = e.intersections[0];
 
     if (polygon.length > 2 && arePointsClose({ x: point.x, y: point.z }, polygon[0])) {
-      // setPolygon([...polygon, polygon[0]]);
       dispatch(changeInteractionState(Interaction.Idle));
       return;
     }
@@ -41,12 +40,7 @@ function CreatorViewport(): JSX.Element {
   };
 
   useEffect(() => {
-    const polygonPoints: Point2D[] = [...points];
-
-    if (polygonPoints.length > 2) {
-      // polygonPoints.push(polygonPoints[0]);
-    }
-    setPolygon(polygonPoints);
+    setPolygon([...points]);
   }, [points]);
 
   return (
