@@ -1,5 +1,5 @@
 import placeholder from '../../assets/placeholder_project.png';
-import { Project } from '../../types/Scene';
+import { Project } from '../../types/Project';
 import Card from '../card/Card';
 import './ProjectTile.css';
 
