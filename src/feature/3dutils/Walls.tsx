@@ -20,7 +20,7 @@ export function Walls({ points, closed } : {
 
     const dx = p2.x - p1.x;
     const dz = p2.y - p1.y;
-    const distance = Math.sqrt(dx * dx + dz * dz);
+    const distance = Math.sqrt(dx * dx + dz * dz) + 0.1; // add 0.1 to prevent jagged corners
 
     const midpoint = [(p1.x + p2.x) / 2, (p1.y + p2.y) / 2];
     const angle = -Math.atan2(dz, dx);

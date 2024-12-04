@@ -10,6 +10,17 @@ export function round(val: number, decimalPlaces: number): number {
 
 const EPS = 0.2;
 
+export function getDistance(p1: Point2D, p2: Point2D): number {
+  const x = (p1.x - p2.x);
+  const y = (p1.y - p2.y);
+  return Math.sqrt(x * x + y * y);
+}
+
 export function arePointsClose(p1: Point2D, p2: Point2D): boolean {
-  return Math.abs(p1.x - p2.x) < EPS && Math.abs(p1.y - p2.y) < EPS;
+  return getDistance(p1, p2) < EPS;
+}
+
+export function arePointsCloseAndDistance(p1: Point2D, p2: Point2D): [boolean, number] {
+  const dist = getDistance(p1, p2);
+  return [dist < EPS, dist];
 }
