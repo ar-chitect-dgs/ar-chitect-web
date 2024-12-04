@@ -7,7 +7,7 @@ export function DynamicSphere({
   distance,
 } :
    {position: Point2D, distance: number}): JSX.Element {
-  const radius = Math.exp(-10 * distance * distance) / 5;
+  const radius = Math.exp(-10 * distance * distance) / 4;
   return (
     <>
       <mesh position={[position.x, 0, position.y]}>
