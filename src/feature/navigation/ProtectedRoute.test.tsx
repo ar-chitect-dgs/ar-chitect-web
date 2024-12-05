@@ -3,8 +3,8 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute';
 import { useAuth } from '../../auth/AuthProvider';
 
+jest.mock('../../firebaseConfig');
 jest.mock('../../auth/AuthProvider');
-jest.mock('../../../firebaseConfig');
 
 describe('ProtectedRoute', () => {
   const mockUseAuth = useAuth as jest.Mock;
