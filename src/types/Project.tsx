@@ -6,12 +6,7 @@ export interface Project {
   objects: Object3D[];
   corners: Point2D[];
   isFirstTime: boolean;
-  latitude: number;
-  longitude: number;
-  orientation: number;
-  createdAt: number;
   modifiedAt: number;
-  thumb: string;
   id?: string;
 }
 

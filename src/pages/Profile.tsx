@@ -12,7 +12,7 @@ import {
   DialogActions,
   Button,
 } from '@mui/material';
-import { useAuth } from '../hooks/useAuth';
+import { useAuth } from '../auth/AuthProvider';
 import { auth, storage } from '../firebaseConfig';
 import FilledButton from '../components/filledButton/FilledButton';
 import TextButton from '../components/textButton/TextButton';
@@ -38,9 +38,11 @@ const Profile = (): JSX.Element => {
   };
 
   const handleDeleteAccount = async () => {
-    setDeleteDialogOpen(false); // Close the dialog
+    if (!user) return;
+
+    setDeleteDialogOpen(false);
     try {
-      await deleteUser(user!);
+      await deleteUser(user);
       navigate('/signup');
     } catch (error: any) {
       setSnackbar(
@@ -53,6 +55,8 @@ const Profile = (): JSX.Element => {
   };
 
   const handleUpdateProfile = async () => {
+    if (!user) return;
+
     try {
       let photoURL = user?.photoURL || '';
 
@@ -62,7 +66,7 @@ const Profile = (): JSX.Element => {
         photoURL = await getDownloadURL(profilePicRef);
       }
 
-      await updateProfile(user!, {
+      await updateProfile(user, {
         displayName: newDisplayName,
         photoURL,
       });
