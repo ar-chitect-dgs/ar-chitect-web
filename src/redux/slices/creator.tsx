@@ -28,13 +28,7 @@ interface ChangeInteractionPayload {
 }
 
 export const initialState: CreatorState = {
-  points: [
-    // { x: -2, y: -2 },
-    // { x: -3, y: 0 },
-    // { x: -2, y: 2 },
-    // { x: 2, y: 2 },
-    // { x: 1, y: -2 },
-  ],
+  points: [],
   interaction: Interaction.AddingVertex,
 };
 
@@ -46,7 +40,6 @@ const creatorSlice = createSlice({
       const x = round(action.payload.x, 2);
       const y = round(action.payload.y, 2);
       state.points = [...state.points, { x, y }];
-      console.log(state.points);
     },
     normalize: (state: CreatorState, _action: PayloadAction<void>) => {
       const { points } = state;
