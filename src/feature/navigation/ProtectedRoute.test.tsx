@@ -1,10 +1,11 @@
 import { render } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute';
-import { useAuth } from '../../auth/AuthProvider';
 
-jest.mock('../../firebaseConfig');
 jest.mock('../../auth/AuthProvider');
+
+// eslint-disable-next-line import/first
+import { useAuth } from '../../auth/AuthProvider';
 
 describe('ProtectedRoute', () => {
   const mockUseAuth = useAuth as jest.Mock;
