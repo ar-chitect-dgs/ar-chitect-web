@@ -79,9 +79,9 @@ function EditorViewport(): JSX.Element {
       <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
       {Object.values(scene.objects).map((model) => (
         <Model
-          id={model.id}
+          inProjectId={model.inProjectId}
           color={model.color}
-          key={model.id}
+          key={model.inProjectId}
           url={model.url}
           position={model.position}
           rotation={model.rotation}

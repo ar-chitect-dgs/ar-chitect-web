@@ -1,7 +1,7 @@
 import React from 'react';
 import Sidebar from '../../components/sidebar/Sidebar';
 import logo from '../../assets/logo.svg';
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../../auth/AuthProvider';
 import { ROUTES } from './routes';
 
 const projectGroup = [

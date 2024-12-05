@@ -1,10 +1,10 @@
+import { ApiProject } from '../../api/types';
 import placeholder from '../../assets/placeholder_project.png';
-import { Project } from '../../types/Project';
 import Card from '../card/Card';
 import './ProjectTile.css';
 
 interface ProjectTileProps {
-  project: Project;
+  project: ApiProject;
   onClick: () => void;
 }
 

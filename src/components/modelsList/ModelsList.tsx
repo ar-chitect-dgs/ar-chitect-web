@@ -14,7 +14,7 @@ import {
   fetchGLBUrl,
   fetchModelsList,
   fetchModelColors,
-} from '../../utils/firebaseUtils';
+} from '../../api/projectsApi';
 import { useAppDispatch } from '../../redux';
 import NotificationPopup, {
   initialSnackBarState,

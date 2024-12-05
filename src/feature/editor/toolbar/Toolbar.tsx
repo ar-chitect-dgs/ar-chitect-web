@@ -16,7 +16,7 @@ import Properties from '../../../components/properties/Properties';
 import { auth } from '../../../firebaseConfig';
 import { sceneSelector } from '../../../redux/slices/scene';
 import { Point3D } from '../../../types/Point';
-import { saveProject } from '../../../utils/firebaseUtils';
+import { saveProject } from '../../../api/projectsApi';
 import './Toolbar.css';
 
 const EditorToolbar = (): JSX.Element => {

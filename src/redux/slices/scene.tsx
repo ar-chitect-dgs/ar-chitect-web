@@ -45,7 +45,7 @@ export const initialState: SceneState = {
     objectIds: [0, 1],
     objects: {
       0: {
-        id: 0,
+        inProjectId: 0,
         objectId: 'sofa_1',
         name: 'Sofa 1',
         color: 'default',
@@ -56,7 +56,7 @@ export const initialState: SceneState = {
         hovered: false,
       },
       1: {
-        id: 1,
+        inProjectId: 1,
         objectId: 'sofa_1',
         name: 'Sofa 1',
         color: 'creme',
@@ -184,7 +184,7 @@ const sceneSlice = createSlice({
         : Math.max(...state.scene.objectIds) + 1;
 
       const newObject = {
-        id: newId,
+        inProjectId: newId,
         objectId,
         name: modelName,
         color,

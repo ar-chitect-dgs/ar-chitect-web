@@ -19,8 +19,9 @@ import About from '../../pages/About';
 import Mobile from '../../pages/Mobile';
 import Templates from '../../pages/Templates';
 import Dev from '../../pages/Dev';
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../../auth/AuthProvider';
 import Creator from '../creator/Creator';
+import ProtectedRoute, { LoginState } from './ProtectedRoute';
 
 const AppRouter = (): JSX.Element => {
   const { isLoggedIn } = useAuth();
@@ -29,18 +30,63 @@ const AppRouter = (): JSX.Element => {
     <Router>
       <div style={{ display: 'flex', height: '100vh' }}>
         <Navbar />
-        <div style={{ flexGrow: 1, backgroundColor: 'var(--background-color)' }}>
+        <div
+          style={{ flexGrow: 1, backgroundColor: 'var(--background-color)' }}
+        >
           <Routes>
             <Route
               path={ROUTES.HOME}
-              element={<Navigate to={isLoggedIn ? ROUTES.PROJECTS : ROUTES.LOGIN} />}
+              element={
+                <Navigate to={isLoggedIn ? ROUTES.PROJECTS : ROUTES.LOGIN} />
+              }
             />
-            <Route path={ROUTES.SIGN_UP} element={<SignUp />} />
-            <Route path={ROUTES.LOGIN} element={<Login />} />
-            <Route path={ROUTES.PROJECTS} element={<Projects />} />
-            <Route path={ROUTES.EDITOR} element={<Editor />} />
+            <Route
+              path={ROUTES.SIGN_UP}
+              element={(
+                <ProtectedRoute
+                  expectedLoginState={LoginState.LOGGED_OUT}
+                  redirectTo={ROUTES.PROFILE}
+                >
+                  <SignUp />
+                </ProtectedRoute>
+              )}
+            />
+            <Route
+              path={ROUTES.LOGIN}
+              element={(
+                <ProtectedRoute
+                  expectedLoginState={LoginState.LOGGED_OUT}
+                  redirectTo={ROUTES.PROFILE}
+                >
+                  <Login />
+                </ProtectedRoute>
+              )}
+            />
+            <Route
+              path={ROUTES.PROJECTS}
+              element={(
+                <ProtectedRoute>
+                  <Projects />
+                </ProtectedRoute>
+              )}
+            />
+            <Route
+              path={ROUTES.EDITOR}
+              element={(
+                <ProtectedRoute>
+                  <Editor />
+                </ProtectedRoute>
+              )}
+            />
             <Route path={ROUTES.CREATOR} element={<Creator />} />
-            <Route path={ROUTES.PROFILE} element={<Profile />} />
+            <Route
+              path={ROUTES.PROFILE}
+              element={(
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              )}
+            />
             <Route path={ROUTES.SETTINGS} element={<Settings />} />
             <Route path={ROUTES.ABOUT} element={<About />} />
             <Route path={ROUTES.MOBILE} element={<Mobile />} />
