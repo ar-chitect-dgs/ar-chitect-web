@@ -7,8 +7,7 @@ import { useSelector } from 'react-redux';
 import {
   sceneSelector,
 } from '../../../redux/slices/scene';
-import { Ground } from '../../3dutils/Ground';
-import Model from '../../3dutils/Model';
+import { Ground, Model } from '../../3dUtils';
 
 function EditorViewport(): JSX.Element {
   const { scene } = useSelector(sceneSelector);

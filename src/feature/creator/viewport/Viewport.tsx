@@ -10,11 +10,14 @@ import {
 } from '../../../redux/slices/creator';
 import { Point2D, Point3D } from '../../../types/Point';
 import { arePointsClose } from '../../../utils/utils';
-import { Floor } from '../../3dutils/Floor';
-import { Ground } from '../../3dutils/Ground';
-import { Vertices } from '../../3dutils/RoomCorners';
-import { Sphere, SphereType } from '../../3dutils/Sphere';
-import { Walls } from '../../3dutils/Walls';
+import {
+  Floor,
+  Ground,
+  Sphere,
+  SphereType,
+  Vertices,
+  Walls,
+} from '../../3dUtils';
 
 function CreatorViewport(): JSX.Element {
   const dispatch = useAppDispatch();
