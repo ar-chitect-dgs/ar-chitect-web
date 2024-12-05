@@ -1,25 +1,16 @@
-export interface ApiPoint3D {
-  x: number;
-  y: number;
-  z: number;
-}
-
-export interface ApiPoint2D {
-  x: number;
-  y: number;
-}
+import { Point3D, Point2D } from '../types/Point';
 
 export interface ApiObject3D {
   id: string;
   color: string;
-  position: ApiPoint3D;
-  rotation: ApiPoint3D;
+  position: Point3D;
+  rotation: Point3D;
 }
 
 export interface ApiProject {
   projectName: string;
   objects: ApiObject3D[];
-  corners: ApiPoint2D[];
+  corners: Point2D[];
   isFirstTime: boolean;
   latitude: number;
   longitude: number;

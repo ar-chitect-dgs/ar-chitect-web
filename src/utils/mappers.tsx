@@ -46,7 +46,7 @@ export async function mapApiProjectToScene(project: ApiProject): Promise<Scene> 
   project.objects.forEach(async (obj, index) => {
     const url = await fetchGLBUrl(obj.id, obj.color);
     const sceneObject: SceneObject = {
-      projectId: index,
+      inProjectId: index,
       objectId: obj.id,
       name: `Object-${index}`,
       color: obj.color,
