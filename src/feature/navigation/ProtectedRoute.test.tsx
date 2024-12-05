@@ -1,16 +1,13 @@
 import { render } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-
-jest.mock('../../auth/AuthProvider');
-
-// eslint-disable-next-line import/first
 import ProtectedRoute from './ProtectedRoute';
-// eslint-disable-next-line import/first
-import { useAuth } from '../../auth/AuthProvider';
+
+const mockUseAuth = jest.fn();
+
+jest.mock('../../firebaseConfig');
+jest.mock('../../auth/AuthProvider', () => ({ useAuth: () => mockUseAuth() }));
 
 describe('ProtectedRoute', () => {
-  const mockUseAuth = useAuth as jest.Mock;
-
   it('should redirect to login when not authenticated', () => {
     mockUseAuth.mockReturnValue({ isLoggedIn: false });
 
