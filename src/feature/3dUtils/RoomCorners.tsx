@@ -3,7 +3,8 @@ import { arePointsCloseAndDistance } from '../../utils/utils';
 import { DynamicSphere } from './DynamicSphere';
 import { Sphere, SphereType } from './Sphere';
 
-export function Vertices({ points, preview } : {points: Point2D[], preview: Point2D}): JSX.Element {
+export function RoomCorners({ points, preview }
+  : {points: Point2D[], preview: Point2D}): JSX.Element {
   return (
     <>
       {points.map((p: Point2D) => {

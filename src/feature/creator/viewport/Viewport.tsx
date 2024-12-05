@@ -9,11 +9,14 @@ import {
 } from '../../../redux/slices/creator';
 import { Point2D } from '../../../types/Point';
 import { arePointsClose } from '../../../utils/utils';
-import { Floor } from '../../3dutils/Floor';
-import { Ground } from '../../3dutils/Ground';
-import { Vertices } from '../../3dutils/RoomCorners';
-import { Sphere, SphereType } from '../../3dutils/Sphere';
-import { Walls } from '../../3dutils/Walls';
+import {
+  Floor,
+  Ground,
+  Sphere,
+  SphereType,
+  Walls,
+} from '../../3dUtils';
+import { RoomCorners } from '../../3dUtils/RoomCorners';
 
 function CreatorViewport(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -58,7 +61,7 @@ function CreatorViewport(): JSX.Element {
       {interaction !== Interaction.AddingVertex
         && <Floor points={polygon} />}
       <Walls points={polygon} closed={interaction !== Interaction.AddingVertex} />
-      <Vertices points={polygon} preview={previewPoint} />
+      <RoomCorners points={polygon} preview={previewPoint} />
       <Ground onClick={onClick} onHover={onHover} />
       {interaction === Interaction.AddingVertex
         && <Sphere key="preview" position={previewPoint} type={SphereType.Preview} />}
