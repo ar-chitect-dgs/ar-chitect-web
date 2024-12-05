@@ -1,76 +1,50 @@
 /* eslint-disable react/no-unknown-property */
-import { Grid, OrbitControls } from '@react-three/drei';
+import { OrbitControls } from '@react-three/drei';
 import { Canvas, ThreeEvent } from '@react-three/fiber';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../../redux';
-import { addPointToPlane, creatorSelector } from '../../../redux/slices/creator';
+import {
+  addPointToPlane, changeInteractionState, creatorSelector, Interaction,
+} from '../../../redux/slices/creator';
 import { Point2D } from '../../../types/Point';
-
-function Sphere({
-  position,
-  transparent,
-} :
-   {position: Point2D, transparent?: boolean}): JSX.Element {
-  return (
-    <mesh position={[position.x, 0, position.y]}>
-      <sphereGeometry args={[0.1, 32, 32]} />
-      {transparent
-        ? <meshStandardMaterial color="blue" transparent opacity={0.4} />
-        : <meshStandardMaterial color="orange" />}
-    </mesh>
-  );
-}
-
-function Ground({
-  onClick,
-  onHover,
-}
-  : {
-    onClick: (e: ThreeEvent<MouseEvent>) => void
-    onHover: (e: ThreeEvent<PointerEvent>) => void
-  }) {
-  const gridConfig = {
-    cellSize: 0.25,
-    cellThickness: 1,
-    cellColor: '#6f6f6f',
-    sectionSize: 1,
-    sectionThickness: 3,
-    sectionColor: '#595959',
-    fadeStrength: 1,
-    followCamera: false,
-    infiniteGrid: true,
-  };
-  return (
-    <>
-      <Grid position={[0, 0, 0]} {...gridConfig} />
-      <mesh
-        position={[0, 0, 0]}
-        rotation={[-Math.PI / 2, 0, 0]}
-        onClick={onClick}
-        onPointerMove={onHover}
-      >
-        <planeGeometry args={[100, 100]} />
-        <meshBasicMaterial opacity={0} transparent />
-      </mesh>
-    </>
-  );
-}
+import { arePointsClose } from '../../../utils/utils';
+import {
+  Floor,
+  Ground,
+  Sphere,
+  SphereType,
+  Walls,
+} from '../../3dUtils';
+import { RoomCorners } from '../../3dUtils/RoomCorners';
 
 function CreatorViewport(): JSX.Element {
   const dispatch = useAppDispatch();
-  const { points } = useSelector(creatorSelector);
-  const [hoverPoint, setHoverPoint] = useState<Point2D>({ x: 0, y: 0 });
+  const { points, interaction } = useSelector(creatorSelector);
+  const [previewPoint, setPreviewPoint] = useState<Point2D>({ x: 0, y: 0 });
+  const [polygon, setPolygon] = useState<Point2D[]>([]);
 
   const onClick = (e: ThreeEvent<MouseEvent>) => {
+    if (interaction !== Interaction.AddingVertex) return;
+
     const { point } = e.intersections[0];
+
+    if (polygon.length > 2 && arePointsClose({ x: point.x, y: point.z }, polygon[0])) {
+      dispatch(changeInteractionState(Interaction.Idle));
+      return;
+    }
+
     dispatch(addPointToPlane(point.x, point.z));
   };
 
   const onHover = (e: ThreeEvent<MouseEvent>) => {
     const { point } = e.intersections[0];
-    setHoverPoint({ x: point.x, y: point.z });
+    setPreviewPoint({ x: point.x, y: point.z });
   };
+
+  useEffect(() => {
+    setPolygon([...points]);
+  }, [points]);
 
   return (
     <Canvas
@@ -84,6 +58,14 @@ function CreatorViewport(): JSX.Element {
       gl={{ antialias: true }}
       scene={{}}
     >
+      {interaction !== Interaction.AddingVertex
+        && <Floor points={polygon} />}
+      <Walls points={polygon} closed={interaction !== Interaction.AddingVertex} />
+      <RoomCorners points={polygon} preview={previewPoint} />
+      <Ground onClick={onClick} onHover={onHover} />
+      {interaction === Interaction.AddingVertex
+        && <Sphere key="preview" position={previewPoint} type={SphereType.Preview} />}
+
       <ambientLight intensity={Math.PI / 2} />
       <spotLight
         position={[10, 10, 10]}
@@ -93,9 +75,6 @@ function CreatorViewport(): JSX.Element {
         intensity={Math.PI}
       />
       <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
-      {points.map((p: Point2D) => <Sphere key={`${p.x}_${p.y}`} position={p} />)}
-      <Ground onClick={onClick} onHover={onHover} />
-      <Sphere key="hover" position={hoverPoint} transparent />
 
       <OrbitControls
         enablePan={false}

@@ -9,7 +9,7 @@ import {
 } from '../../redux/slices/scene';
 import { SceneObject } from '../../types/Scene';
 
-function Model({
+export function Model({
   inProjectId,
   url,
   position,
@@ -51,5 +51,3 @@ function Model({
     <mesh />
   );
 }
-
-export default Model;

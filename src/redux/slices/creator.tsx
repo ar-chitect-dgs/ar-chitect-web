@@ -6,8 +6,16 @@ import { RootState, ThunkActionVoid } from '..';
 import { Point2D } from '../../types/Point';
 import { round } from '../../utils/utils';
 
+export enum Interaction {
+  Idle = 1,
+  AddingVertex,
+  MovingVertex,
+  DeletingVertex
+}
+
 interface CreatorState {
   points: Point2D[];
+  interaction: Interaction;
 }
 
 interface AddPointPayload {
@@ -15,8 +23,13 @@ interface AddPointPayload {
   y: number;
 }
 
+interface ChangeInteractionPayload {
+  interaction: Interaction;
+}
+
 export const initialState: CreatorState = {
   points: [],
+  interaction: Interaction.AddingVertex,
 };
 
 const creatorSlice = createSlice({
@@ -43,21 +56,24 @@ const creatorSlice = createSlice({
       );
 
       const centerOfMass = {
-        x: total.x / points.length,
-        y: total.y / points.length,
+        x: round(total.x / points.length, 2),
+        y: round(total.y / points.length, 2),
       };
 
       const normalizedPoints = points.map((point) => ({
-        x: point.x - centerOfMass.x,
-        y: point.y - centerOfMass.y,
+        x: round(point.x - centerOfMass.x, 2),
+        y: round(point.y - centerOfMass.y, 2),
       }));
 
       state.points = normalizedPoints;
     },
+    changeInteraction: (state: CreatorState, action: PayloadAction<ChangeInteractionPayload>) => {
+      state.interaction = action.payload.interaction;
+    },
   },
 });
 
-export const { add, normalize } = creatorSlice.actions;
+export const { add, normalize, changeInteraction } = creatorSlice.actions;
 
 export const creatorSelector = lruMemoize(
   (state: RootState) => state.creatorReducer,
@@ -77,5 +93,11 @@ export function addPointToPlane(
 export function normalizePoints(): ThunkActionVoid {
   return async (dispatch: Dispatch) => {
     dispatch(normalize());
+  };
+}
+
+export function changeInteractionState(i: Interaction): ThunkActionVoid {
+  return async (dispatch: Dispatch) => {
+    dispatch(changeInteraction({ interaction: i }));
   };
 }

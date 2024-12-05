@@ -1,29 +1,13 @@
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable react/jsx-props-no-spreading */
-import { CameraControls, Grid } from '@react-three/drei';
+import { CameraControls } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { useRef } from 'react';
 import { useSelector } from 'react-redux';
 import {
   sceneSelector,
 } from '../../../redux/slices/scene';
-import Model from '../Model';
-
-function Ground() {
-  const gridConfig = {
-    cellSize: 0.5,
-    cellThickness: 0.5,
-    cellColor: '#6f6f6f',
-    sectionSize: 3,
-    sectionThickness: 1,
-    sectionColor: '#595959',
-    fadeDistance: 50,
-    fadeStrength: 1,
-    followCamera: false,
-    infiniteGrid: true,
-  };
-  return <Grid position={[0, -0.01, 0]} args={[10.5, 10.5]} {...gridConfig} />;
-}
+import { Ground, Model } from '../../3dUtils';
 
 function EditorViewport(): JSX.Element {
   const { scene } = useSelector(sceneSelector);
