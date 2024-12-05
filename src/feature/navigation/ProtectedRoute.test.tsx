@@ -1,9 +1,10 @@
 import { render } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import ProtectedRoute from './ProtectedRoute';
 
 jest.mock('../../auth/AuthProvider');
 
+// eslint-disable-next-line import/first
+import ProtectedRoute from './ProtectedRoute';
 // eslint-disable-next-line import/first
 import { useAuth } from '../../auth/AuthProvider';
 
