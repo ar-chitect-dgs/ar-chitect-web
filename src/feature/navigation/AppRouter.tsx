@@ -19,9 +19,9 @@ import About from '../../pages/About';
 import Mobile from '../../pages/Mobile';
 import Templates from '../../pages/Templates';
 import Dev from '../../pages/Dev';
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../../auth/AuthProvider';
 import Creator from '../creator/Creator';
-import ProtectedRoute from './ProtectedRoute';
+import ProtectedRoute, { LoginState } from './ProtectedRoute';
 
 const AppRouter = (): JSX.Element => {
   const { isLoggedIn } = useAuth();
@@ -43,7 +43,10 @@ const AppRouter = (): JSX.Element => {
             <Route
               path={ROUTES.SIGN_UP}
               element={(
-                <ProtectedRoute redirectTo={ROUTES.LOGIN}>
+                <ProtectedRoute
+                  expectedLoginState={LoginState.LOGGED_OUT}
+                  redirectTo={ROUTES.PROFILE}
+                >
                   <SignUp />
                 </ProtectedRoute>
               )}
@@ -51,7 +54,10 @@ const AppRouter = (): JSX.Element => {
             <Route
               path={ROUTES.LOGIN}
               element={(
-                <ProtectedRoute redirectTo={ROUTES.PROJECTS}>
+                <ProtectedRoute
+                  expectedLoginState={LoginState.LOGGED_OUT}
+                  redirectTo={ROUTES.PROFILE}
+                >
                   <Login />
                 </ProtectedRoute>
               )}
@@ -59,7 +65,7 @@ const AppRouter = (): JSX.Element => {
             <Route
               path={ROUTES.PROJECTS}
               element={(
-                <ProtectedRoute redirectTo={ROUTES.LOGIN}>
+                <ProtectedRoute>
                   <Projects />
                 </ProtectedRoute>
               )}
@@ -67,7 +73,7 @@ const AppRouter = (): JSX.Element => {
             <Route
               path={ROUTES.EDITOR}
               element={(
-                <ProtectedRoute redirectTo={ROUTES.LOGIN}>
+                <ProtectedRoute>
                   <Editor />
                 </ProtectedRoute>
               )}
@@ -76,7 +82,7 @@ const AppRouter = (): JSX.Element => {
             <Route
               path={ROUTES.PROFILE}
               element={(
-                <ProtectedRoute redirectTo={ROUTES.LOGIN}>
+                <ProtectedRoute>
                   <Profile />
                 </ProtectedRoute>
               )}

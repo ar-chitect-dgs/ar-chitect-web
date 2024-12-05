@@ -12,7 +12,7 @@ import {
   DialogActions,
   Button,
 } from '@mui/material';
-import { useAuth } from '../hooks/useAuth';
+import { useAuth } from '../auth/AuthProvider';
 import { auth, storage } from '../firebaseConfig';
 import FilledButton from '../components/filledButton/FilledButton';
 import TextButton from '../components/textButton/TextButton';

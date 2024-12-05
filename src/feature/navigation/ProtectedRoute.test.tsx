@@ -1,52 +1,98 @@
-import { render, screen } from '@testing-library/react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { render } from '@testing-library/react';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute';
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../../auth/AuthProvider';
 
-jest.mock('firebase/auth');
-jest.mock('../../hooks/useAuth');
+jest.mock('../../auth/AuthProvider');
 
 describe('ProtectedRoute', () => {
-  it('should render children if authenticated', () => {
-    (useAuth as jest.Mock).mockReturnValue({ isLoggedIn: true });
+  const mockUseAuth = useAuth as jest.Mock;
 
-    render(
-      <BrowserRouter>
+  it('should redirect to login when not authenticated', () => {
+    mockUseAuth.mockReturnValue({ isLoggedIn: false });
+
+    const { getByText } = render(
+      <MemoryRouter initialEntries={['/protected']}>
         <Routes>
+          <Route path="/login" element={<div>Login Page</div>} />
           <Route
-            path="/"
+            path="/protected"
             element={(
-              <ProtectedRoute redirectTo="/login">
-                <div>Protected Content</div>
+              <ProtectedRoute>
+                <div>Protected Page</div>
               </ProtectedRoute>
             )}
           />
         </Routes>
-      </BrowserRouter>,
+      </MemoryRouter>,
     );
 
-    expect(screen.getByText('Protected Content')).toBeInTheDocument();
+    expect(getByText('Login Page')).toBeInTheDocument();
   });
 
-  it('should redirect to login if not authenticated', () => {
-    (useAuth as jest.Mock).mockReturnValue({ isLoggedIn: false });
+  it('should render the component when authenticated', () => {
+    mockUseAuth.mockReturnValue({ isLoggedIn: true });
 
-    render(
-      <BrowserRouter>
+    const { getByText } = render(
+      <MemoryRouter initialEntries={['/protected']}>
         <Routes>
+          <Route path="/login" element={<div>Login Page</div>} />
           <Route
-            path="/"
+            path="/protected"
             element={(
-              <ProtectedRoute redirectTo="/login">
-                <div>Protected Content</div>
+              <ProtectedRoute>
+                <div>Protected Page</div>
               </ProtectedRoute>
             )}
           />
-          <Route path="/login" element={<div>Login Page</div>} />
         </Routes>
-      </BrowserRouter>,
+      </MemoryRouter>,
     );
 
-    expect(screen.getByText('Login Page')).toBeInTheDocument();
+    expect(getByText('Protected Page')).toBeInTheDocument();
+  });
+
+  it('should redirect to a custom path when not authenticated', () => {
+    mockUseAuth.mockReturnValue({ isLoggedIn: false });
+
+    const { getByText } = render(
+      <MemoryRouter initialEntries={['/protected']}>
+        <Routes>
+          <Route path="/custom-login" element={<div>Custom Login Page</div>} />
+          <Route
+            path="/protected"
+            element={(
+              <ProtectedRoute redirectTo="/custom-login">
+                <div>Protected Page</div>
+              </ProtectedRoute>
+            )}
+          />
+        </Routes>
+      </MemoryRouter>,
+    );
+
+    expect(getByText('Custom Login Page')).toBeInTheDocument();
+  });
+
+  it('should handle undefined isLoggedIn state', () => {
+    mockUseAuth.mockReturnValue({ isLoggedIn: undefined });
+
+    const { getByText } = render(
+      <MemoryRouter initialEntries={['/protected']}>
+        <Routes>
+          <Route path="/login" element={<div>Login Page</div>} />
+          <Route
+            path="/protected"
+            element={(
+              <ProtectedRoute>
+                <div>Protected Page</div>
+              </ProtectedRoute>
+            )}
+          />
+        </Routes>
+      </MemoryRouter>,
+    );
+
+    expect(getByText('Login Page')).toBeInTheDocument();
   });
 });

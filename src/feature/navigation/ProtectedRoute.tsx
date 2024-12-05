@@ -1,18 +1,32 @@
+import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth';
+import { ROUTES } from './routes';
+import { useAuth } from '../../auth/AuthProvider';
 
-interface ProtectedRouteProps {
-  children: JSX.Element;
-  redirectTo: string;
+export enum LoginState {
+  LOGGED_IN = 'LOGGED_IN',
+  LOGGED_OUT = 'LOGGED_OUT',
 }
 
-const ProtectedRoute = ({
+type ProtectedRouteProps = {
+  expectedLoginState?: LoginState;
+  redirectTo?: string;
+  children: React.ReactElement;
+};
+
+export const ProtectedRoute = ({
+  expectedLoginState = LoginState.LOGGED_IN,
+  redirectTo = ROUTES.LOGIN,
   children,
-  redirectTo,
-}: ProtectedRouteProps): JSX.Element => {
+}: ProtectedRouteProps): React.ReactElement => {
   const { isLoggedIn } = useAuth();
 
-  return isLoggedIn ? children : <Navigate to={redirectTo} />;
+  const expectedState = expectedLoginState === LoginState.LOGGED_IN;
+  if (expectedState !== isLoggedIn) {
+    return <Navigate to={redirectTo} />;
+  }
+
+  return children;
 };
 
 export default ProtectedRoute;

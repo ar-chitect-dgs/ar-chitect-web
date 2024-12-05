@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { fetchAllProjects } from '../api/projectsApi';
-import { useAuth } from '../hooks/useAuth';
+import { useAuth } from '../auth/AuthProvider';
 import './styles/Projects.css';
 import ProjectTile from '../components/projectTile/ProjectTile';
 import ScrollBar from '../components/scrollbar/ScrollBar';
