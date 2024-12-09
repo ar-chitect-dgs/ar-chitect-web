@@ -6,7 +6,8 @@ describe('Example Test', () => {
 
   beforeAll(async () => {
     browser = await puppeteer.launch({
-      executablePath: "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+      executablePath:
+        'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
       headless: false,
       ignoreDefaultArgs: ['--disable-extensions'],
       args: [
