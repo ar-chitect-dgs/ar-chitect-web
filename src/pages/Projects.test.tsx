@@ -3,6 +3,8 @@ import { fetchAllProjects } from '../api/projectsApi';
 import Projects from './Projects';
 
 jest.mock('firebase/auth');
+jest.mock('react-redux');
+jest.mock('react-router-dom');
 jest.mock('../auth/AuthProvider', () => ({
   useAuth: () => ({ user: { uid: '123' } }),
 }));
