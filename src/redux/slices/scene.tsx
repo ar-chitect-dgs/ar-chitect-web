@@ -1,9 +1,9 @@
 /* eslint-disable no-param-reassign */
 import {
-    createSlice,
-    Dispatch,
-    lruMemoize,
-    PayloadAction,
+  createSlice,
+  Dispatch,
+  lruMemoize,
+  PayloadAction,
 } from '@reduxjs/toolkit';
 import { RootState, ThunkActionVoid } from '..';
 import { Scene } from '../../types/Scene';
