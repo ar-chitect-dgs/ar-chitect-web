@@ -1,14 +1,14 @@
 /* eslint-disable no-param-reassign */
 import {
-  createSlice,
-  Dispatch,
-  lruMemoize,
-  PayloadAction,
+    createSlice,
+    Dispatch,
+    lruMemoize,
+    PayloadAction,
 } from '@reduxjs/toolkit';
 import { RootState, ThunkActionVoid } from '..';
 import { Scene } from '../../types/Scene';
 
-interface SceneState {
+export interface SceneState {
   scene: Scene;
 }
 
@@ -31,7 +31,7 @@ interface MovePayload {
 
 interface AddModelPayload {
   objectId: string;
-  modelName: string;
+  name: string;
   color: string;
   url: string;
 }
@@ -176,7 +176,7 @@ const sceneSlice = createSlice({
     },
     add: (state, action: PayloadAction<AddModelPayload>) => {
       const {
-        objectId, modelName, color, url,
+        objectId, name, color, url,
       } = action.payload;
 
       const newId = state.scene.objectIds.length === 0
@@ -186,12 +186,12 @@ const sceneSlice = createSlice({
       const newObject = {
         inProjectId: newId,
         objectId,
-        name: modelName,
+        name,
         color,
         url,
         position: { x: 0, y: 0, z: 0 },
         rotation: { x: 0, y: 0, z: 0 },
-        active: false,
+        active: true,
         hovered: false,
       };
 
@@ -268,7 +268,7 @@ export function addModel(
 ): ThunkActionVoid {
   return async (dispatch: Dispatch) => {
     dispatch(add({
-      objectId, modelName, color, url,
+      objectId, name: modelName, color, url,
     }));
   };
 }

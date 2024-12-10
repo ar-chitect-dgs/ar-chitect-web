@@ -5,6 +5,7 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { saveProject } from '../../../api/projectsApi';
 import FilledButton from '../../../components/filledButton/FilledButton';
 import ModelsList from '../../../components/modelsList/ModelsList';
 import NotificationPopup, {
@@ -16,7 +17,6 @@ import Properties from '../../../components/properties/Properties';
 import { auth } from '../../../firebaseConfig';
 import { sceneSelector } from '../../../redux/slices/scene';
 import { Point3D } from '../../../types/Point';
-import { saveProject } from '../../../api/projectsApi';
 import './Toolbar.css';
 
 const EditorToolbar = (): JSX.Element => {

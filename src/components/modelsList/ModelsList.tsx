@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from 'react';
 import {
+  CircularProgress,
   Dialog,
-  DialogTitle,
-  DialogContent,
   DialogActions,
+  DialogContent,
+  DialogTitle,
   List,
   ListItem,
   ListItemText,
-  CircularProgress,
 } from '@mui/material';
-import { addModel } from '../../redux/slices/scene';
+import { useEffect, useState } from 'react';
 import {
   fetchGLBUrl,
-  fetchModelsList,
   fetchModelColors,
+  fetchModelsList,
 } from '../../api/projectsApi';
 import { useAppDispatch } from '../../redux';
+import { addModel } from '../../redux/slices/scene';
 import NotificationPopup, {
   initialSnackBarState,
   setOpenSnackBarState,
