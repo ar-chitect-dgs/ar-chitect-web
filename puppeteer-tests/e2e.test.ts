@@ -1,6 +1,6 @@
 import puppeteer from 'puppeteer-core';
 
-describe('Example Test', () => {
+describe('E2E app tests', () => {
   let browser: any;
   let page: any;
 
