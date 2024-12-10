@@ -11,13 +11,11 @@ import {
 import { Point2D, Point3D } from '../../../types/Point';
 import { arePointsClose } from '../../../utils/utils';
 import {
-  Floor,
-  Ground,
+  Floor, Ground,
   Sphere,
-  SphereType,
-  Vertices,
-  Walls,
+  SphereType, Walls,
 } from '../../3dUtils';
+import { RoomCorners } from '../../3dUtils/RoomCorners';
 
 function CreatorViewport(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -102,7 +100,7 @@ function CreatorViewport(): JSX.Element {
       {interaction !== Interaction.AddingVertex
         && <Floor points={polygon} />}
       <Walls points={polygon} closed={interaction !== Interaction.AddingVertex} />
-      <Vertices points={polygon} preview={cursor} />
+      <RoomCorners points={polygon} preview={cursor} />
       <Ground
         onClick={onClick}
         onPointerMove={onPointerMove}
