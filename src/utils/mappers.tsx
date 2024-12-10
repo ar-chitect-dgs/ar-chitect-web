@@ -1,9 +1,6 @@
 import { Object3D } from '../types/Object3D';
 import { Point3D } from '../types/Point';
-import {
-  Scene,
-  SceneObject,
-} from '../types/Scene';
+import { Scene, SceneObject } from '../types/Scene';
 import { fetchGLBUrl } from '../api/projectsApi';
 import { ApiProject } from '../api/types';
 
@@ -39,27 +36,31 @@ export function mapSceneToApiProject(
   };
 }
 
-export async function mapApiProjectToScene(project: ApiProject): Promise<Scene> {
+export async function mapApiProjectToScene(
+  project: ApiProject,
+): Promise<Scene> {
   const objects: { [id: number]: SceneObject } = {};
   const objectIds: number[] = [];
 
-  project.objects.forEach(async (obj, index) => {
-    const url = await fetchGLBUrl(obj.id, obj.color);
-    const sceneObject: SceneObject = {
-      inProjectId: index,
-      objectId: obj.id,
-      name: `Object-${index}`,
-      color: obj.color,
-      url,
-      position: obj.position,
-      rotation: obj.rotation,
-      active: false,
-      hovered: false,
-    };
+  await Promise.all(
+    project.objects.map(async (obj, index) => {
+      const url = await fetchGLBUrl(obj.id, obj.color);
+      const sceneObject: SceneObject = {
+        inProjectId: index,
+        objectId: obj.id,
+        name: `Object-${index}`,
+        color: obj.color,
+        url,
+        position: obj.position,
+        rotation: obj.rotation,
+        active: false,
+        hovered: false,
+      };
 
-    objects[index] = sceneObject;
-    objectIds.push(index);
-  });
+      objects[index] = sceneObject;
+      objectIds.push(index);
+    }),
+  );
 
   return {
     objectIds,
