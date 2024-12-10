@@ -6,7 +6,7 @@ import sceneReducer, {
   SceneState,
 } from './scene';
 
-describe('sceneSlice reducers', () => {
+describe('scene reducer', () => {
   let state: SceneState;
 
   beforeEach(() => {
