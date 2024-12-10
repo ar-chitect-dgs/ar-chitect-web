@@ -47,11 +47,15 @@ const creatorSlice = createSlice({
   initialState,
   reducers: {
     add: (state: CreatorState, action: PayloadAction<AddPointPayload>) => {
+      if (state.interaction !== Interaction.AddingVertex) return;
+
       const x = round(action.payload.x, 2);
       const y = round(action.payload.y, 2);
       state.points = [...state.points, { x, y }];
     },
     move: (state: CreatorState, action: PayloadAction<MovePointPayload>) => {
+      if (state.interaction !== Interaction.MovingVertex) return;
+
       const { id } = action.payload;
 
       if (id < 0 && id >= state.points.length) {
@@ -63,6 +67,8 @@ const creatorSlice = createSlice({
       state.points[action.payload.id] = { x, y };
     },
     remove: (state: CreatorState, action: PayloadAction<DeletePointPayload>) => {
+      if (state.interaction !== Interaction.DeletingVertex) return;
+
       const { id } = action.payload;
 
       if (id < 0 && id >= state.points.length) {

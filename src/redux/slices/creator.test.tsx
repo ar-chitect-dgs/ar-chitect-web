@@ -1,6 +1,7 @@
 import reducer, {
   add,
   changeInteraction,
+  initialState,
   Interaction,
   move,
   normalize,
@@ -8,59 +9,88 @@ import reducer, {
 } from './creator';
 
 describe('creator reducer', () => {
-  const initialState = {
-    points: [],
-    interaction: Interaction.AddingVertex,
-  };
-
   it('should handle add action', () => {
+    const initialState = {
+      points: [],
+      interaction: Interaction.AddingVertex,
+    };
+    const action = add({ x: 1.234, y: 4.5677 });
+    const nextState = reducer(initialState, action);
+
+    expect(nextState.points.length).toBe(1);
+    expect(nextState.points[0]).toEqual({ x: 1.23, y: 4.57 });
+  });
+
+  it('should not add point when not in adding state', () => {
     const point = { x: 1.234, y: 4.567 };
     const action = add({ x: point.x, y: point.y });
-    const state = reducer(initialState, action);
+    const nextState = reducer({ ...initialState, interaction: Interaction.MovingVertex }, action);
 
-    expect(state.points.length).toBe(1);
-    expect(state.points[0]).toEqual({ x: 1.23, y: 4.57 });
+    expect(nextState.points.length).toBe(0);
   });
 
   it('should handle move action', () => {
-    const initialStateWithPoint = {
+    const initialState = {
+      points: [{ x: 1.0, y: 2.0 }],
+      interaction: Interaction.MovingVertex,
+    };
+    const action = move({ x: 3, y: 4, id: 0 });
+    const nextState = reducer(initialState, action);
+
+    expect(nextState.points[0]).toEqual({ x: 3.00, y: 4.00 });
+  });
+
+  it('should not move when not in moving state', () => {
+    const initialState = {
       points: [{ x: 1.0, y: 2.0 }],
       interaction: Interaction.AddingVertex,
     };
-    const movePayload = { x: 3, y: 4, id: 0 };
-    const action = move(movePayload);
-    const state = reducer(initialStateWithPoint, action);
+    const action = move({ x: 3, y: 4, id: 0 });
+    const nextState = reducer(initialState, action);
 
-    expect(state.points[0]).toEqual({ x: 3.00, y: 4.00 });
+    expect(nextState.points.length).toBe(1);
+    expect(nextState.points[0]).toEqual({ x: 1.00, y: 2.00 });
   });
 
   it('should handle remove action', () => {
-    const initialStateWithPoint = {
+    const initialState = {
+      points: [{ x: 1.0, y: 2.0 }],
+      interaction: Interaction.DeletingVertex,
+    };
+    const action = remove({ id: 0 });
+    const nextState = reducer(initialState, action);
+
+    expect(nextState.points.length).toBe(0);
+  });
+
+  it('should handle remove action not in removing state', () => {
+    const initialState = {
       points: [{ x: 1.0, y: 2.0 }],
       interaction: Interaction.AddingVertex,
     };
     const action = remove({ id: 0 });
-    const state = reducer(initialStateWithPoint, action);
+    const nextState = reducer(initialState, action);
 
-    expect(state.points.length).toBe(0);
+    expect(nextState.points.length).toBe(1);
+    expect(nextState.points[0]).toEqual({ x: 1, y: 2 });
   });
 
   it('should handle normalize action', () => {
-    const initialStateWithPoints = {
+    const initialState = {
       points: [{ x: 1, y: 1 }, { x: 3, y: 3 }],
       interaction: Interaction.AddingVertex,
     };
     const action = normalize();
-    const state = reducer(initialStateWithPoints, action);
+    const nextState = reducer(initialState, action);
 
-    expect(state.points[0]).toEqual({ x: -1.00, y: -1.00 });
-    expect(state.points[1]).toEqual({ x: 1.00, y: 1.00 });
+    expect(nextState.points[0]).toEqual({ x: -1.00, y: -1.00 });
+    expect(nextState.points[1]).toEqual({ x: 1.00, y: 1.00 });
   });
 
   it('should handle changeInteraction action', () => {
     const action = changeInteraction({ interaction: Interaction.MovingVertex });
-    const state = reducer(initialState, action);
+    const nextState = reducer(initialState, action);
 
-    expect(state.interaction).toBe(Interaction.MovingVertex);
+    expect(nextState.interaction).toBe(Interaction.MovingVertex);
   });
 });
