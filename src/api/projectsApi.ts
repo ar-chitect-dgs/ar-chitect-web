@@ -7,11 +7,12 @@ import {
 } from 'firebase/firestore';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { db, storage } from '../firebaseConfig';
-import { Point3D } from '../types/Point';
+import { Point2D } from '../types/Point';
 import {
   Scene,
 } from '../types/Scene';
 import { mapApiProjectToScene, mapSceneToApiProject } from '../utils/mappers';
+import { normalizePoints } from '../utils/utils';
 import { ApiProject, ApiProjects } from './types';
 
 const MODELS_DIRECTORY = 'models/';
@@ -79,20 +80,53 @@ export const fetchGLBUrl = async (
   return url;
 };
 
+export const createProject = async (
+  userId: string,
+  projectName: string,
+  corners: Point2D[],
+): Promise<[boolean, string]> => {
+  try {
+    const project = mapSceneToApiProject(
+      // todo duplicate corners
+      {
+        corners,
+        objectIds: [],
+        objects: {},
+        selectedObjectId: null,
+      },
+      projectName,
+      normalizePoints(corners),
+    );
+    const projectsRef = collection(db, 'users', userId, 'projects');
+    const projectRef = doc(projectsRef);
+
+    await setDoc(projectRef, project);
+
+    return [true, projectRef.id];
+  } catch (error) {
+    console.error('Error creating project:', error);
+    return [false, ''];
+  }
+};
+
 export const saveProject = async (
   userId: string,
   scene: Scene,
   projectName: string,
-  corners: Point3D[],
+  corners: Point2D[],
 ): Promise<boolean> => {
-  const project = mapSceneToApiProject(scene, projectName, corners);
-  const projectsRef = collection(db, 'users', userId, 'projects');
-  const projectRef = doc(projectsRef);
+  try {
+    const project = mapSceneToApiProject(scene, projectName, corners);
+    const projectsRef = collection(db, 'users', userId, 'projects');
+    const projectRef = doc(projectsRef);
 
-  await setDoc(projectRef, project);
+    await setDoc(projectRef, project);
 
-  console.log(`Project "${projectName}" has been saved for user ${userId}.`);
-  return true;
+    return true;
+  } catch (error) {
+    console.error('Error saving project:', error);
+    return false;
+  }
 };
 
 export const fetchModelsList = async (): Promise<

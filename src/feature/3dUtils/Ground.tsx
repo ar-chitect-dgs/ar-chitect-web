@@ -19,10 +19,11 @@ export function Ground({
     cellThickness: 1,
     cellColor: '#6f6f6f',
     sectionSize: 1,
-    sectionThickness: 3,
+    sectionThickness: 1.5,
     sectionColor: '#595959',
     fadeDistance: 50,
-    fadeStrength: 1,
+    fadeStrength: 10,
+    fadeFrom: 0,
     followCamera: false,
     infiniteGrid: true,
   };

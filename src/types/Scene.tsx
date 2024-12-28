@@ -1,4 +1,4 @@
-import { Point3D } from './Point';
+import { Point2D, Point3D } from './Point';
 
 export interface SceneObject {
   inProjectId: number; // id in project
@@ -13,6 +13,7 @@ export interface SceneObject {
 }
 
 export interface Scene {
+  corners: Point2D[];
   objectIds: number[];
   objects: { [id: number]: SceneObject };
   selectedObjectId: number | null;

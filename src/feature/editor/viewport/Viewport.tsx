@@ -1,13 +1,15 @@
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable react/jsx-props-no-spreading */
-import { CameraControls } from '@react-three/drei';
+import { CameraControls, ContactShadows } from '@react-three/drei';
 import { Canvas } from '@react-three/fiber';
 import { useRef } from 'react';
 import { useSelector } from 'react-redux';
 import {
   sceneSelector,
 } from '../../../redux/slices/scene';
-import { Ground, Model } from '../../3dUtils';
+import {
+  Floor, Ground, Model, Walls,
+} from '../../3dUtils';
 
 function EditorViewport(): JSX.Element {
   const { scene } = useSelector(sceneSelector);
@@ -76,6 +78,8 @@ function EditorViewport(): JSX.Element {
         intensity={Math.PI}
       />
       <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
+      <Floor points={scene.corners} />
+      <Walls points={scene.corners} closed />
       {Object.values(scene.objects).map((model) => (
         <Model
           inProjectId={model.inProjectId}
@@ -91,6 +95,7 @@ function EditorViewport(): JSX.Element {
         />
       ))}
       <Ground />
+      <ContactShadows scale={10} blur={3} opacity={0.25} far={10} />
     </Canvas>
   );
 }

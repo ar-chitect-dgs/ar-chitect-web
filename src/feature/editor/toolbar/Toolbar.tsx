@@ -24,7 +24,6 @@ const EditorToolbar = (): JSX.Element => {
   const [projectName, setProjectName] = useState('');
   const [snackbar, setSnackbar] = useState<SnackBarState>(initialSnackBarState);
   const [nameError, setNameError] = useState(false);
-  const [helperText, setHelperText] = useState('');
 
   const handleSaveProject = async () => {
     const user = auth.currentUser;
@@ -41,12 +40,10 @@ const EditorToolbar = (): JSX.Element => {
 
     if (projectName.trim() === '') {
       setNameError(true);
-      setHelperText('Project name cannot be empty.');
       return;
     }
 
     setNameError(false);
-    setHelperText('');
 
     const userId = user.uid;
     const corners: Point3D[] = [

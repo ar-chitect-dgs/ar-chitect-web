@@ -1,13 +1,13 @@
-import { Object3D } from '../types/Object3D';
-import { Point3D } from '../types/Point';
-import { Scene, SceneObject } from '../types/Scene';
 import { fetchGLBUrl } from '../api/projectsApi';
 import { ApiProject } from '../api/types';
+import { Object3D } from '../types/Object3D';
+import { Point2D } from '../types/Point';
+import { Scene, SceneObject } from '../types/Scene';
 
 export function mapSceneToApiProject(
   scene: Scene,
   projectName: string,
-  corners: Point3D[],
+  corners: Point2D[],
 ): ApiProject {
   const objects: Object3D[] = scene.objectIds.map((id) => {
     const sceneObject = scene.objects[id];
@@ -63,6 +63,7 @@ export async function mapApiProjectToScene(
   );
 
   return {
+    corners: project.corners,
     objectIds,
     objects,
     selectedObjectId: null,
