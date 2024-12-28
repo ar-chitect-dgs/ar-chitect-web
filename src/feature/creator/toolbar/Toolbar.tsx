@@ -34,7 +34,11 @@ function CreatorToolbar(): JSX.Element {
     }
 
     const [ok, id] = await createProject(user.uid, projectName, points);
-    // todo handle error
+
+    if (!ok) {
+      console.error('Error creating project');
+      return;
+    }
 
     try {
       const scene = await getProject(id, user.uid);

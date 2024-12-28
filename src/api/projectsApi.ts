@@ -87,15 +87,13 @@ export const createProject = async (
 ): Promise<[boolean, string]> => {
   try {
     const project = mapSceneToApiProject(
-      // todo duplicate corners
       {
-        corners,
+        corners: normalizePoints(corners),
         objectIds: [],
         objects: {},
         selectedObjectId: null,
       },
       projectName,
-      normalizePoints(corners),
     );
     const projectsRef = collection(db, 'users', userId, 'projects');
     const projectRef = doc(projectsRef);
@@ -113,10 +111,9 @@ export const saveProject = async (
   userId: string,
   scene: Scene,
   projectName: string,
-  corners: Point2D[],
 ): Promise<boolean> => {
   try {
-    const project = mapSceneToApiProject(scene, projectName, corners);
+    const project = mapSceneToApiProject(scene, projectName);
     const projectsRef = collection(db, 'users', userId, 'projects');
     const projectRef = doc(projectsRef);
 

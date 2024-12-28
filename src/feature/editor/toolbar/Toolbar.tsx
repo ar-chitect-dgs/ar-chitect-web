@@ -16,7 +16,6 @@ import NotificationPopup, {
 import Properties from '../../../components/properties/Properties';
 import { auth } from '../../../firebaseConfig';
 import { sceneSelector } from '../../../redux/slices/scene';
-import { Point3D } from '../../../types/Point';
 import './Toolbar.css';
 
 const EditorToolbar = (): JSX.Element => {
@@ -45,16 +44,8 @@ const EditorToolbar = (): JSX.Element => {
 
     setNameError(false);
 
-    const userId = user.uid;
-    const corners: Point3D[] = [
-      { x: 0, y: 0, z: 0 },
-      { x: 10, y: 0, z: 0 },
-      { x: 10, y: 10, z: 0 },
-      { x: 0, y: 10, z: 0 },
-    ];
-
     try {
-      await saveProject(userId, scene, projectName, corners);
+      await saveProject(user.uid, scene, projectName);
       setSnackbar(
         setOpenSnackBarState('Project saved successfully.', 'success'),
       );
