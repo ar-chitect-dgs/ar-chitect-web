@@ -12,9 +12,9 @@ import NotificationPopup, {
 } from '../../../components/notificationPopup/NotificationPopup';
 import Properties from '../../../components/properties/Properties';
 import { auth, storage } from '../../../firebaseConfig';
-import { sceneSelector } from '../../../redux/slices/scene';
+import { useAppDispatch } from '../../../redux';
+import { changeName, sceneSelector } from '../../../redux/slices/scene';
 import { projectSelector } from '../../../redux/slices/project';
-import { Point3D } from '../../../types/Point';
 import './Toolbar.css';
 
 const EditorToolbar = (): JSX.Element => {
@@ -23,7 +23,7 @@ const EditorToolbar = (): JSX.Element => {
   const [projectName, setProjectName] = useState(savedProjectName);
   const [snackbar, setSnackbar] = useState<SnackBarState>(initialSnackBarState);
   const [nameError, setNameError] = useState(false);
-  const [helperText, setHelperText] = useState('');
+  const dispatch = useAppDispatch();
 
   const captureScreenshot = (): Promise<string> => {
     const canvas = document.querySelector('canvas') as HTMLCanvasElement;
@@ -59,26 +59,16 @@ const EditorToolbar = (): JSX.Element => {
       return;
     }
 
-    if (projectName.trim() === '') {
+    if (scene.projectName.trim() === '') {
       setNameError(true);
-      setHelperText('Project name cannot be empty.');
       return;
     }
 
     setNameError(false);
-    setHelperText('');
-
-    const userId = user.uid;
-    const corners: Point3D[] = [
-      { x: 0, y: 0, z: 0 },
-      { x: 10, y: 0, z: 0 },
-      { x: 10, y: 10, z: 0 },
-      { x: 0, y: 10, z: 0 },
-    ];
 
     try {
       const thumb = await captureScreenshot();
-      await saveProject(userId, scene, projectName, corners, thumb, createdAt);
+      await saveProject(user.uid, scene, thumb, createdAt);
       setSnackbar(
         setOpenSnackBarState('Project saved successfully.', 'success'),
       );
@@ -94,8 +84,8 @@ const EditorToolbar = (): JSX.Element => {
           <FormControl fullWidth>
             <TextField
               label="Project Name"
-              value={projectName}
-              onChange={(e) => setProjectName(e.target.value)}
+              value={scene.projectName}
+              onChange={(e) => dispatch(changeName(e.target.value))}
               error={nameError}
             />
             {nameError && (

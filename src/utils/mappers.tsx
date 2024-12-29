@@ -1,8 +1,7 @@
-import { Object3D } from '../types/Object3D';
-import { Point3D } from '../types/Point';
-import { Scene, SceneObject } from '../types/Scene';
 import { fetchGLBUrl } from '../api/projectsApi';
 import { ApiProject } from '../api/types';
+import { Object3D } from '../types/Object3D';
+import { Scene, SceneObject } from '../types/Scene';
 
 export function mapSceneToApiProject(
   scene: Scene,
@@ -25,9 +24,9 @@ export function mapSceneToApiProject(
   });
 
   return {
-    projectName,
+    projectName: scene.projectName,
+    corners: scene.corners,
     objects,
-    corners,
     isFirstTime: true,
     latitude: 0,
     longitude: 0,
@@ -65,6 +64,9 @@ export async function mapApiProjectToScene(
   );
 
   return {
+    projectName: project.projectName,
+    projectId: project.id || '',
+    corners: project.corners,
     objectIds,
     objects,
     selectedObjectId: null,

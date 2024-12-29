@@ -7,11 +7,12 @@ import {
 } from 'firebase/firestore';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { db, storage } from '../firebaseConfig';
-import { Point3D } from '../types/Point';
+import { Point2D } from '../types/Point';
 import {
   Scene,
 } from '../types/Scene';
 import { mapApiProjectToScene, mapSceneToApiProject } from '../utils/mappers';
+import { normalizePoints } from '../utils/utils';
 import { ApiProject, ApiProjects } from './types';
 
 const MODELS_DIRECTORY = 'models/';
@@ -79,22 +80,37 @@ export const fetchGLBUrl = async (
   return url;
 };
 
-export const saveProject = async (
+export const createProject = async (
   userId: string,
-  scene: Scene,
   projectName: string,
-  corners: Point3D[],
-  thumbnail: string,
-  createdAt: number,
-): Promise<boolean> => {
-  const project = mapSceneToApiProject(scene, projectName, corners, thumbnail, createdAt);
+  corners: Point2D[],
+): Promise<string> => {
+  const project = mapSceneToApiProject(
+    {
+      corners: normalizePoints(corners),
+      objectIds: [],
+      objects: {},
+      selectedObjectId: null,
+      projectName,
+      projectId: '',
+    },
+  );
   const projectsRef = collection(db, 'users', userId, 'projects');
   const projectRef = doc(projectsRef);
 
   await setDoc(projectRef, project);
 
-  console.log(`Project "${projectName}" has been saved for user ${userId}.`);
-  return true;
+  return projectRef.id;
+};
+
+export const saveProject = async (
+  userId: string,
+  scene: Scene,
+): Promise<void> => {
+  const project = mapSceneToApiProject(scene);
+  const projectRef = doc(db, 'users', userId, 'projects', scene.projectId);
+
+  await setDoc(projectRef, project, { merge: true });
 };
 
 export const fetchModelsList = async (): Promise<

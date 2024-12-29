@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { fetchAllProjects } from '../api/projectsApi';
+import { ApiProject } from '../api/types';
 import { useAuth } from '../auth/AuthProvider';
-import './styles/Projects.css';
 import ProjectTile from '../components/projectTile/ProjectTile';
 import ScrollBar from '../components/scrollbar/ScrollBar';
-import { ApiProject } from '../api/types';
-import { mapApiProjectToScene } from '../utils/mappers';
-import { set } from '../redux/slices/scene';
 import { ROUTES } from '../feature/navigation/routes';
+import { set } from '../redux/slices/scene';
+import { mapApiProjectToScene } from '../utils/mappers';
 import { setProject } from '../redux/slices/project';
+import './styles/Projects.css';
 
 const Projects = (): JSX.Element => {
   const [projects, setProjects] = useState<ApiProject[]>([]);

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-param-reassign */
 import {
   createSlice, Dispatch, lruMemoize, PayloadAction,
@@ -77,40 +78,18 @@ const creatorSlice = createSlice({
 
       state.points.splice(id, 1);
     },
-    normalize: (state: CreatorState, _action: PayloadAction<void>) => {
-      const { points } = state;
-
-      if (points.length === 0) return;
-
-      const total = points.reduce(
-        (acc, point) => {
-          acc.x += point.x;
-          acc.y += point.y;
-          return acc;
-        },
-        { x: 0, y: 0 },
-      );
-
-      const centerOfMass = {
-        x: round(total.x / points.length, 2),
-        y: round(total.y / points.length, 2),
-      };
-
-      const normalizedPoints = points.map((point) => ({
-        x: round(point.x - centerOfMass.x, 2),
-        y: round(point.y - centerOfMass.y, 2),
-      }));
-
-      state.points = normalizedPoints;
-    },
     changeInteraction: (state: CreatorState, action: PayloadAction<ChangeInteractionPayload>) => {
       state.interaction = action.payload.interaction;
+    },
+    clear: (state: CreatorState) => {
+      state.interaction = Interaction.AddingVertex;
+      state.points = [];
     },
   },
 });
 
 export const {
-  add, move, remove, normalize, changeInteraction,
+  add, move, remove, changeInteraction, clear,
 } = creatorSlice.actions;
 
 export const creatorSelector = lruMemoize(
@@ -147,14 +126,14 @@ export function deletePoint(
   };
 }
 
-export function normalizePoints(): ThunkActionVoid {
-  return async (dispatch: Dispatch) => {
-    dispatch(normalize());
-  };
-}
-
 export function changeInteractionState(i: Interaction): ThunkActionVoid {
   return async (dispatch: Dispatch) => {
     dispatch(changeInteraction({ interaction: i }));
+  };
+}
+
+export function clearCreatorState(): ThunkActionVoid {
+  return async (dispatch: Dispatch) => {
+    dispatch(clear());
   };
 }

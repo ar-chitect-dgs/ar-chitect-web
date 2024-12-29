@@ -1,10 +1,10 @@
 import reducer, {
   add,
   changeInteraction,
+  clear,
   initialState,
   Interaction,
   move,
-  normalize,
   remove,
 } from './creator';
 
@@ -75,22 +75,22 @@ describe('creator reducer', () => {
     expect(nextState.points[0]).toEqual({ x: 1, y: 2 });
   });
 
-  it('should handle normalize action', () => {
-    const initialState = {
-      points: [{ x: 1, y: 1 }, { x: 3, y: 3 }],
-      interaction: Interaction.AddingVertex,
-    };
-    const action = normalize();
-    const nextState = reducer(initialState, action);
-
-    expect(nextState.points[0]).toEqual({ x: -1.00, y: -1.00 });
-    expect(nextState.points[1]).toEqual({ x: 1.00, y: 1.00 });
-  });
-
   it('should handle changeInteraction action', () => {
     const action = changeInteraction({ interaction: Interaction.MovingVertex });
     const nextState = reducer(initialState, action);
 
     expect(nextState.interaction).toBe(Interaction.MovingVertex);
+  });
+
+  it('should handle clear action', () => {
+    const testState = {
+      points: [{ x: 1.0, y: 2.0 }, { x: 3.0, y: 4.0 }],
+      interaction: Interaction.MovingVertex,
+    };
+    const action = clear();
+    const nextState = reducer(testState, action);
+
+    expect(nextState.points.length).toBe(0);
+    expect(nextState.interaction).toBe(Interaction.AddingVertex);
   });
 });
