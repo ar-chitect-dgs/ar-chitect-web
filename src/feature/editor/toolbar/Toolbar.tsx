@@ -1,10 +1,7 @@
-import {
-  FormControl,
-  FormHelperText,
-  TextField,
-} from '@mui/material';
+import { FormControl, FormHelperText, TextField } from '@mui/material';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { saveProject } from '../../../api/projectsApi';
 import FilledButton from '../../../components/filledButton/FilledButton';
 import ModelsList from '../../../components/modelsList/ModelsList';
@@ -14,17 +11,40 @@ import NotificationPopup, {
   SnackBarState,
 } from '../../../components/notificationPopup/NotificationPopup';
 import Properties from '../../../components/properties/Properties';
-import { auth } from '../../../firebaseConfig';
+import { auth, storage } from '../../../firebaseConfig';
 import { sceneSelector } from '../../../redux/slices/scene';
+import { projectSelector } from '../../../redux/slices/project';
 import { Point3D } from '../../../types/Point';
 import './Toolbar.css';
 
 const EditorToolbar = (): JSX.Element => {
   const { scene } = useSelector(sceneSelector);
-  const [projectName, setProjectName] = useState('');
+  const { projectId, projectName: savedProjectName, createdAt } = useSelector(projectSelector);
+  const [projectName, setProjectName] = useState(savedProjectName);
   const [snackbar, setSnackbar] = useState<SnackBarState>(initialSnackBarState);
   const [nameError, setNameError] = useState(false);
   const [helperText, setHelperText] = useState('');
+
+  const captureScreenshot = (): Promise<string> => {
+    const canvas = document.querySelector('canvas') as HTMLCanvasElement;
+    if (!canvas) return Promise.resolve('');
+
+    return new Promise((resolve, reject) => {
+      canvas.toBlob((blob) => {
+        if (blob) {
+          const storageRef = ref(
+            storage,
+            `projectThumbnails/${projectId}.png`,
+          );
+          uploadBytes(storageRef, blob).then((snapshot) => {
+            getDownloadURL(snapshot.ref).then((url) => resolve(url));
+          });
+        } else {
+          reject(new Error('Failed to capture screenshot.'));
+        }
+      }, 'image/png');
+    });
+  };
 
   const handleSaveProject = async () => {
     const user = auth.currentUser;
@@ -57,7 +77,8 @@ const EditorToolbar = (): JSX.Element => {
     ];
 
     try {
-      await saveProject(userId, scene, projectName, corners);
+      const thumb = await captureScreenshot();
+      await saveProject(userId, scene, projectName, corners, thumb, createdAt);
       setSnackbar(
         setOpenSnackBarState('Project saved successfully.', 'success'),
       );
@@ -98,11 +119,7 @@ const EditorToolbar = (): JSX.Element => {
         </div>
 
         <div className="button">
-          <FilledButton
-            onClick={handleSaveProject}
-          >
-            Save Project
-          </FilledButton>
+          <FilledButton onClick={handleSaveProject}>Save Project</FilledButton>
         </div>
       </div>
       <NotificationPopup

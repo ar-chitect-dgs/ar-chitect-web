@@ -8,6 +8,8 @@ export function mapSceneToApiProject(
   scene: Scene,
   projectName: string,
   corners: Point3D[],
+  thumb: string,
+  createdAt: number,
 ): ApiProject {
   const objects: Object3D[] = scene.objectIds.map((id) => {
     const sceneObject = scene.objects[id];
@@ -30,9 +32,9 @@ export function mapSceneToApiProject(
     latitude: 0,
     longitude: 0,
     orientation: 0,
-    createdAt: Date.now(),
+    createdAt,
     modifiedAt: Date.now(),
-    thumb: '',
+    thumb,
   };
 }
 

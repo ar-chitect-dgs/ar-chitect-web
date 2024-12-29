@@ -84,8 +84,10 @@ export const saveProject = async (
   scene: Scene,
   projectName: string,
   corners: Point3D[],
+  thumbnail: string,
+  createdAt: number,
 ): Promise<boolean> => {
-  const project = mapSceneToApiProject(scene, projectName, corners);
+  const project = mapSceneToApiProject(scene, projectName, corners, thumbnail, createdAt);
   const projectsRef = collection(db, 'users', userId, 'projects');
   const projectRef = doc(projectsRef);
 

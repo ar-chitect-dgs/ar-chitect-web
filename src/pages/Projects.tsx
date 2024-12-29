@@ -10,6 +10,7 @@ import { ApiProject } from '../api/types';
 import { mapApiProjectToScene } from '../utils/mappers';
 import { set } from '../redux/slices/scene';
 import { ROUTES } from '../feature/navigation/routes';
+import { setProject } from '../redux/slices/project';
 
 const Projects = (): JSX.Element => {
   const [projects, setProjects] = useState<ApiProject[]>([]);
@@ -53,6 +54,13 @@ const Projects = (): JSX.Element => {
     try {
       const scene = await mapApiProjectToScene(project);
       dispatch(set(scene));
+      dispatch(
+        setProject({
+          projectId: project.id,
+          projectName: project.projectName,
+          createdAt: project.createdAt,
+        }),
+      );
       navigate(ROUTES.EDITOR);
     } catch (error) {
       console.error('Error mapping project to scene:', error);
