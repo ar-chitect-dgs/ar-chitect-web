@@ -22,7 +22,7 @@ function CreatorViewport(): JSX.Element {
   const { points, interaction } = useSelector(creatorSelector);
   const [cursor, setCursor] = useState<Point2D>({ x: 0, y: 0 });
   const [polygon, setPolygon] = useState<Point2D[]>([]);
-  const [clickedVertex, setClickedVertex] = useState(-1);
+  const [clickedVertexId, setClickedVertexId] = useState(-1);
 
   useEffect(() => {
     setPolygon([...points]);
@@ -40,7 +40,7 @@ function CreatorViewport(): JSX.Element {
   const findClickedVertex = () => {
     for (let i = 0; i < points.length; i += 1) {
       if (arePointsClose(cursor, points[i])) {
-        setClickedVertex(i);
+        setClickedVertexId(i);
         return;
       }
     }
@@ -52,13 +52,13 @@ function CreatorViewport(): JSX.Element {
       return;
     }
 
-    findClickedVertex();
-    dispatch(deletePoint(clickedVertex));
+    console.log(clickedVertexId);
+    dispatch(deletePoint(clickedVertexId));
   };
 
   const moveVertex = () => {
-    if (clickedVertex < 0 || clickedVertex >= points.length) return;
-    dispatch(movePoint(clickedVertex, cursor.x, cursor.y));
+    if (clickedVertexId < 0 || clickedVertexId >= points.length) return;
+    dispatch(movePoint(clickedVertexId, cursor.x, cursor.y));
   };
 
   const onClick = (e: ThreeEvent<MouseEvent>) => {
@@ -79,9 +79,9 @@ function CreatorViewport(): JSX.Element {
   };
 
   const onPointerDown = (_e: ThreeEvent<MouseEvent>) => {
+    findClickedVertex();
     if (interaction === Interaction.Idle) {
       dispatch(changeInteractionState(Interaction.MovingVertex));
-      findClickedVertex();
     }
   };
 

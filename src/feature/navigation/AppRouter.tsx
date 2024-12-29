@@ -2,25 +2,25 @@
 import {
   Navigate,
   Route,
-  Routes,
   BrowserRouter as Router,
+  Routes,
 } from 'react-router-dom';
 
 import { ROUTES } from './routes';
 
-import Editor from '../editor/Editor';
+import { useAuth } from '../../auth/AuthProvider';
+import About from '../../pages/About';
+import Dev from '../../pages/Dev';
 import Login from '../../pages/LogIn';
+import Mobile from '../../pages/Mobile';
 import Profile from '../../pages/Profile';
 import Projects from '../../pages/Projects';
-import SignUp from '../../pages/SignUp';
-import Navbar from './Navbar';
 import Settings from '../../pages/Settings';
-import About from '../../pages/About';
-import Mobile from '../../pages/Mobile';
+import SignUp from '../../pages/SignUp';
 import Templates from '../../pages/Templates';
-import Dev from '../../pages/Dev';
-import { useAuth } from '../../auth/AuthProvider';
 import Creator from '../creator/Creator';
+import Editor from '../editor/Editor';
+import Navbar from './Navbar';
 import ProtectedRoute, { LoginState } from './ProtectedRoute';
 
 const AppRouter = (): JSX.Element => {
@@ -78,7 +78,14 @@ const AppRouter = (): JSX.Element => {
                 </ProtectedRoute>
               )}
             />
-            <Route path={ROUTES.CREATOR} element={<Creator />} />
+            <Route
+              path={ROUTES.CREATOR}
+              element={(
+                <ProtectedRoute>
+                  <Creator />
+                </ProtectedRoute>
+              )}
+            />
             <Route
               path={ROUTES.PROFILE}
               element={(

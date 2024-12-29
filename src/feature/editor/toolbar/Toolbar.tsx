@@ -15,16 +15,15 @@ import NotificationPopup, {
 } from '../../../components/notificationPopup/NotificationPopup';
 import Properties from '../../../components/properties/Properties';
 import { auth } from '../../../firebaseConfig';
-import { sceneSelector } from '../../../redux/slices/scene';
-import { Point3D } from '../../../types/Point';
+import { useAppDispatch } from '../../../redux';
+import { changeName, sceneSelector } from '../../../redux/slices/scene';
 import './Toolbar.css';
 
 const EditorToolbar = (): JSX.Element => {
   const { scene } = useSelector(sceneSelector);
-  const [projectName, setProjectName] = useState('');
   const [snackbar, setSnackbar] = useState<SnackBarState>(initialSnackBarState);
   const [nameError, setNameError] = useState(false);
-  const [helperText, setHelperText] = useState('');
+  const dispatch = useAppDispatch();
 
   const handleSaveProject = async () => {
     const user = auth.currentUser;
@@ -39,25 +38,15 @@ const EditorToolbar = (): JSX.Element => {
       return;
     }
 
-    if (projectName.trim() === '') {
+    if (scene.projectName.trim() === '') {
       setNameError(true);
-      setHelperText('Project name cannot be empty.');
       return;
     }
 
     setNameError(false);
-    setHelperText('');
-
-    const userId = user.uid;
-    const corners: Point3D[] = [
-      { x: 0, y: 0, z: 0 },
-      { x: 10, y: 0, z: 0 },
-      { x: 10, y: 10, z: 0 },
-      { x: 0, y: 10, z: 0 },
-    ];
 
     try {
-      await saveProject(userId, scene, projectName, corners);
+      await saveProject(user.uid, scene);
       setSnackbar(
         setOpenSnackBarState('Project saved successfully.', 'success'),
       );
@@ -73,8 +62,8 @@ const EditorToolbar = (): JSX.Element => {
           <FormControl fullWidth>
             <TextField
               label="Project Name"
-              value={projectName}
-              onChange={(e) => setProjectName(e.target.value)}
+              value={scene.projectName}
+              onChange={(e) => dispatch(changeName(e.target.value))}
               error={nameError}
             />
             {nameError && (
