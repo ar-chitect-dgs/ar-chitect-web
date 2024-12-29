@@ -15,14 +15,15 @@ import NotificationPopup, {
 } from '../../../components/notificationPopup/NotificationPopup';
 import Properties from '../../../components/properties/Properties';
 import { auth } from '../../../firebaseConfig';
-import { sceneSelector } from '../../../redux/slices/scene';
+import { useAppDispatch } from '../../../redux';
+import { changeName, sceneSelector } from '../../../redux/slices/scene';
 import './Toolbar.css';
 
 const EditorToolbar = (): JSX.Element => {
   const { scene } = useSelector(sceneSelector);
-  const [projectName, setProjectName] = useState('');
   const [snackbar, setSnackbar] = useState<SnackBarState>(initialSnackBarState);
   const [nameError, setNameError] = useState(false);
+  const dispatch = useAppDispatch();
 
   const handleSaveProject = async () => {
     const user = auth.currentUser;
@@ -37,7 +38,7 @@ const EditorToolbar = (): JSX.Element => {
       return;
     }
 
-    if (projectName.trim() === '') {
+    if (scene.projectName.trim() === '') {
       setNameError(true);
       return;
     }
@@ -45,7 +46,7 @@ const EditorToolbar = (): JSX.Element => {
     setNameError(false);
 
     try {
-      await saveProject(user.uid, scene, projectName);
+      await saveProject(user.uid, scene);
       setSnackbar(
         setOpenSnackBarState('Project saved successfully.', 'success'),
       );
@@ -61,8 +62,8 @@ const EditorToolbar = (): JSX.Element => {
           <FormControl fullWidth>
             <TextField
               label="Project Name"
-              value={projectName}
-              onChange={(e) => setProjectName(e.target.value)}
+              value={scene.projectName}
+              onChange={(e) => dispatch(changeName(e.target.value))}
               error={nameError}
             />
             {nameError && (

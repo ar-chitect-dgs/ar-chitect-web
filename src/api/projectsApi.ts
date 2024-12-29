@@ -84,46 +84,33 @@ export const createProject = async (
   userId: string,
   projectName: string,
   corners: Point2D[],
-): Promise<[boolean, string]> => {
-  try {
-    const project = mapSceneToApiProject(
-      {
-        corners: normalizePoints(corners),
-        objectIds: [],
-        objects: {},
-        selectedObjectId: null,
-      },
+): Promise<string> => {
+  const project = mapSceneToApiProject(
+    {
+      corners: normalizePoints(corners),
+      objectIds: [],
+      objects: {},
+      selectedObjectId: null,
       projectName,
-    );
-    const projectsRef = collection(db, 'users', userId, 'projects');
-    const projectRef = doc(projectsRef);
+      projectId: '',
+    },
+  );
+  const projectsRef = collection(db, 'users', userId, 'projects');
+  const projectRef = doc(projectsRef);
 
-    await setDoc(projectRef, project);
+  await setDoc(projectRef, project);
 
-    return [true, projectRef.id];
-  } catch (error) {
-    console.error('Error creating project:', error);
-    return [false, ''];
-  }
+  return projectRef.id;
 };
 
 export const saveProject = async (
   userId: string,
   scene: Scene,
-  projectName: string,
-): Promise<boolean> => {
-  try {
-    const project = mapSceneToApiProject(scene, projectName);
-    const projectsRef = collection(db, 'users', userId, 'projects');
-    const projectRef = doc(projectsRef);
+): Promise<void> => {
+  const project = mapSceneToApiProject(scene);
+  const projectRef = doc(db, 'users', userId, 'projects', scene.projectId);
 
-    await setDoc(projectRef, project);
-
-    return true;
-  } catch (error) {
-    console.error('Error saving project:', error);
-    return false;
-  }
+  await setDoc(projectRef, project, { merge: true });
 };
 
 export const fetchModelsList = async (): Promise<

@@ -1,11 +1,11 @@
-import React from 'react';
-import Sidebar from '../../components/sidebar/Sidebar';
 import logo from '../../assets/logo.svg';
 import { useAuth } from '../../auth/AuthProvider';
+import Sidebar from '../../components/sidebar/Sidebar';
 import { ROUTES } from './routes';
 
 const projectGroup = [
   { name: 'Your projects', path: ROUTES.PROJECTS },
+  { name: 'Creator', path: ROUTES.CREATOR },
   { name: 'Editor', path: ROUTES.EDITOR },
   { name: 'Templates', path: ROUTES.TEMPLATES },
 ];

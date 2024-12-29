@@ -5,7 +5,6 @@ import { Scene, SceneObject } from '../types/Scene';
 
 export function mapSceneToApiProject(
   scene: Scene,
-  projectName: string,
 ): ApiProject {
   const objects: Object3D[] = scene.objectIds.map((id) => {
     const sceneObject = scene.objects[id];
@@ -21,9 +20,9 @@ export function mapSceneToApiProject(
   });
 
   return {
-    projectName,
-    objects,
+    projectName: scene.projectName,
     corners: scene.corners,
+    objects,
     isFirstTime: true,
     latitude: 0,
     longitude: 0,
@@ -61,6 +60,8 @@ export async function mapApiProjectToScene(
   );
 
   return {
+    projectName: project.projectName,
+    projectId: project.id || '',
     corners: project.corners,
     objectIds,
     objects,

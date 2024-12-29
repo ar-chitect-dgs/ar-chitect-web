@@ -69,6 +69,8 @@ export const initialState: SceneState = {
       },
     },
     selectedObjectId: null,
+    projectName: 'My project',
+    projectId: '',
   },
 };
 
@@ -219,11 +221,14 @@ const sceneSlice = createSlice({
     clear: (state) => {
       state.scene = initialState.scene;
     },
+    changeName: (state, action: PayloadAction<string>) => {
+      state.scene.projectName = action.payload;
+    },
   },
 });
 
 export const {
-  hover, click, move, rotate, add, remove, set, clear,
+  hover, click, move, rotate, add, remove, set, clear, changeName,
 } = sceneSlice.actions;
 
 export const sceneSelector = lruMemoize(

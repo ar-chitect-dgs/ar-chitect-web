@@ -83,13 +83,14 @@ describe('creator reducer', () => {
   });
 
   it('should handle clear action', () => {
-    const initialState = {
+    const testState = {
       points: [{ x: 1.0, y: 2.0 }, { x: 3.0, y: 4.0 }],
-      interaction: Interaction.AddingVertex,
+      interaction: Interaction.MovingVertex,
     };
     const action = clear();
-    const nextState = reducer(initialState, action);
+    const nextState = reducer(testState, action);
 
     expect(nextState.points.length).toBe(0);
+    expect(nextState.interaction).toBe(Interaction.AddingVertex);
   });
 });

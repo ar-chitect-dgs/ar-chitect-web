@@ -7,7 +7,7 @@ import { useAuth } from '../../../auth/AuthProvider';
 import FilledButton from '../../../components/filledButton/FilledButton';
 import { useAppDispatch } from '../../../redux';
 import {
-  changeInteractionState, creatorSelector, Interaction,
+  changeInteractionState, clearCreatorState, creatorSelector, Interaction,
 } from '../../../redux/slices/creator';
 import { set } from '../../../redux/slices/scene';
 import { ROUTES } from '../../navigation/routes';
@@ -33,20 +33,23 @@ function CreatorToolbar(): JSX.Element {
       return;
     }
 
-    const [ok, id] = await createProject(user.uid, projectName, points);
-
-    if (!ok) {
-      console.error('Error creating project');
+    let id;
+    try {
+      id = await createProject(user.uid, projectName, points);
+    } catch (error) {
+      console.error('Error creating project:', error);
       return;
     }
 
     try {
       const scene = await getProject(id, user.uid);
       dispatch(set(scene));
-      navigate(ROUTES.EDITOR);
     } catch (error) {
-      console.error('Error mapping project to scene:', error);
+      console.error('Error getting project:', error);
     }
+
+    navigate(ROUTES.EDITOR);
+    dispatch(clearCreatorState());
   };
 
   const handleSwitchDelete = () => {

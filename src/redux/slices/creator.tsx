@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-param-reassign */
 import {
   createSlice, Dispatch, lruMemoize, PayloadAction,
@@ -81,6 +82,7 @@ const creatorSlice = createSlice({
       state.interaction = action.payload.interaction;
     },
     clear: (state: CreatorState) => {
+      state.interaction = Interaction.AddingVertex;
       state.points = [];
     },
   },

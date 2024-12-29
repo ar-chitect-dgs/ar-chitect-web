@@ -17,4 +17,6 @@ export interface Scene {
   objectIds: number[];
   objects: { [id: number]: SceneObject };
   selectedObjectId: number | null;
+  projectName: string;
+  projectId: string;
 }
