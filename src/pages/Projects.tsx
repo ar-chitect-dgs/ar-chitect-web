@@ -8,7 +8,9 @@ import ProjectTile from '../components/projectTile/ProjectTile';
 import ScrollBar from '../components/scrollbar/ScrollBar';
 import { ROUTES } from '../feature/navigation/routes';
 import { set } from '../redux/slices/scene';
-import { mapApiProjectToScene } from '../utils/mappers';
+import {
+  mapApiProjectToProjectScene,
+} from '../utils/mappers';
 import { setProject } from '../redux/slices/project';
 import './styles/Projects.css';
 
@@ -48,19 +50,13 @@ const Projects = (): JSX.Element => {
     );
   }
 
-  const handleProjectClick = async (project: ApiProject) => {
-    console.log(`Navigating to project with ID: ${project.id}`);
+  const handleProjectClick = async (apiProject: ApiProject) => {
+    console.log(`Navigating to project with ID: ${apiProject.id}`);
 
     try {
-      const scene = await mapApiProjectToScene(project);
+      const { project, scene } = await mapApiProjectToProjectScene(apiProject);
       dispatch(set(scene));
-      dispatch(
-        setProject({
-          projectId: project.id,
-          projectName: project.projectName,
-          createdAt: project.createdAt,
-        }),
-      );
+      dispatch(setProject(project));
       navigate(ROUTES.EDITOR);
     } catch (error) {
       console.error('Error mapping project to scene:', error);

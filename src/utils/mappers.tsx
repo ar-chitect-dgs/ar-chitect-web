@@ -1,15 +1,14 @@
 import { fetchGLBUrl } from '../api/projectsApi';
 import { ApiProject } from '../api/types';
 import { Object3D } from '../types/Object3D';
+import { Project } from '../types/Project';
+import { ProjectScene } from '../types/ProjectScene';
 import { Scene, SceneObject } from '../types/Scene';
 
-export function mapSceneToApiProject(
+export function mapProjectSceneToApiProject(
   scene: Scene,
-  projectName: string,
-  corners: Point3D[],
-  thumb: string,
-  createdAt: number,
-): ApiProject {
+  project: Project,
+): Partial<ApiProject> {
   const objects: Object3D[] = scene.objectIds.map((id) => {
     const sceneObject = scene.objects[id];
     if (!sceneObject) {
@@ -23,28 +22,35 @@ export function mapSceneToApiProject(
     };
   });
 
+  const firstTimeFields = project.isNewProject
+    ? {
+      createdAt: Date.now(),
+      latitude: 0,
+      longitude: 0,
+      orientation: 0,
+      isFirstTime: true,
+      thumb: project.thumbnail || '',
+    }
+    : {};
+
   return {
-    projectName: scene.projectName,
+    ...firstTimeFields,
+    ...(project.thumbnail && { thumb: project.thumbnail }),
+    projectName: project.projectName,
     corners: scene.corners,
     objects,
-    isFirstTime: true,
-    latitude: 0,
-    longitude: 0,
-    orientation: 0,
-    createdAt,
     modifiedAt: Date.now(),
-    thumb,
   };
 }
 
-export async function mapApiProjectToScene(
-  project: ApiProject,
-): Promise<Scene> {
+export async function mapApiProjectToProjectScene(
+  apiProject: ApiProject,
+): Promise<ProjectScene> {
   const objects: { [id: number]: SceneObject } = {};
   const objectIds: number[] = [];
 
   await Promise.all(
-    project.objects.map(async (obj, index) => {
+    apiProject.objects.map(async (obj, index) => {
       const url = await fetchGLBUrl(obj.id, obj.color);
       const sceneObject: SceneObject = {
         inProjectId: index,
@@ -63,12 +69,20 @@ export async function mapApiProjectToScene(
     }),
   );
 
-  return {
-    projectName: project.projectName,
-    projectId: project.id || '',
-    corners: project.corners,
+  const scene = {
+    corners: apiProject.corners,
     objectIds,
     objects,
     selectedObjectId: null,
   };
+
+  const project = {
+    projectName: apiProject.projectName,
+    projectId: apiProject.id || '',
+    thumbnail: apiProject.thumb,
+    createdAt: apiProject.createdAt,
+    isNewProject: false,
+  };
+
+  return { scene, project };
 }

@@ -1,52 +1,48 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, lruMemoize, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '..';
+import { Project } from '../../types/Project';
 
-interface ProjectState {
-  createdAt: number;
-  projectName: string;
-  projectId: string | undefined;
-  thumbnail: any | null;
-  isNewProject: boolean;
-}
+type ProjectState = { project: Project };
 
 const initialState: ProjectState = {
-  createdAt: 0,
-  projectId: undefined,
-  projectName: '',
-  thumbnail: null,
-  isNewProject: false,
+  project: {
+    projectId: undefined,
+    projectName: '',
+    thumbnail: undefined,
+    createdAt: 0,
+    isNewProject: true,
+  },
 };
 
 const projectSlice = createSlice({
   name: 'project',
   initialState,
   reducers: {
-    setProject(
-      state,
-      action: PayloadAction<{
-        createdAt: number;
-        projectName: string;
-        projectId: string | undefined;
-      }>,
-    ) {
-      state.createdAt = action.payload.createdAt;
-      state.projectName = action.payload.projectName;
-      state.projectId = action.payload.projectId;
+    setProject(state, action: PayloadAction<Project>) {
+      state.project = action.payload;
     },
     setThumbnail(state, action: PayloadAction<any>) {
-      state.thumbnail = action.payload;
+      state.project.thumbnail = action.payload;
     },
     setProjectName(state, action: PayloadAction<string>) {
-      state.projectName = action.payload;
+      state.project.projectName = action.payload;
+    },
+    setProjectId(state, action: PayloadAction<string>) {
+      state.project.projectId = action.payload;
+    },
+    clearProject(state, _action: PayloadAction<any>) {
+      state.project = initialState.project;
     },
   },
 });
 
-export const { setProject, setThumbnail, setProjectName } = projectSlice.actions;
+export const {
+  setProject, setThumbnail, setProjectName, clearProject, setProjectId,
+} = projectSlice.actions;
 
 export const projectSelector = lruMemoize(
-  (state: RootState) => state.projectReducer,
+  (state: RootState) => state.projectReducer.project,
 );
 
 export default projectSlice.reducer;

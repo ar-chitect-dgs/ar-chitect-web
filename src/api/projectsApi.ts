@@ -1,23 +1,22 @@
 import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  setDoc,
+  collection, doc, getDoc, getDocs, setDoc,
 } from 'firebase/firestore';
-import { getDownloadURL, ref } from 'firebase/storage';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { db, storage } from '../firebaseConfig';
-import { Point2D } from '../types/Point';
-import {
-  Scene,
-} from '../types/Scene';
-import { mapApiProjectToScene, mapSceneToApiProject } from '../utils/mappers';
-import { normalizePoints } from '../utils/utils';
+import { Scene } from '../types/Scene';
 import { ApiProject, ApiProjects } from './types';
+import { Project } from '../types/Project';
+import { ProjectScene } from '../types/ProjectScene';
+import {
+  mapApiProjectToProjectScene,
+  mapProjectSceneToApiProject,
+} from '../utils/mappers';
 
 const MODELS_DIRECTORY = 'models/';
 
-export const fetchProjectsData = async (userId: string): Promise<ApiProjects> => {
+export const fetchProjectsData = async (
+  userId: string,
+): Promise<ApiProjects> => {
   const projectsRef = collection(db, 'users', userId, 'projects');
   const querySnapshot = await getDocs(projectsRef);
 
@@ -31,10 +30,10 @@ export const fetchProjectsData = async (userId: string): Promise<ApiProjects> =>
   return projectsData;
 };
 
-export const getProject = async (
+export const getProjectScene = async (
   projectId: string,
   userId: string,
-): Promise<Scene> => {
+): Promise<ProjectScene> => {
   const projectRef = doc(db, 'users', userId, 'projects', projectId);
   const projectDoc = await getDoc(projectRef);
 
@@ -43,11 +42,12 @@ export const getProject = async (
   }
 
   const project = projectDoc.data() as ApiProject;
-  const scene = await mapApiProjectToScene(project);
-  return scene;
+  return mapApiProjectToProjectScene(project);
 };
 
-export const fetchAllProjects = async (userId: string): Promise<ApiProject[]> => {
+export const fetchAllProjects = async (
+  userId: string,
+): Promise<ApiProject[]> => {
   const projectsRef = collection(db, 'users', userId, 'projects');
   const snapshot = await getDocs(projectsRef);
 
@@ -79,38 +79,30 @@ export const fetchGLBUrl = async (
   const url = await getDownloadURL(reference);
   return url;
 };
-
-export const createProject = async (
-  userId: string,
-  projectName: string,
-  corners: Point2D[],
+export const saveProjectThumbnail = async (
+  blob: Blob,
+  id: string,
 ): Promise<string> => {
-  const project = mapSceneToApiProject(
-    {
-      corners: normalizePoints(corners),
-      objectIds: [],
-      objects: {},
-      selectedObjectId: null,
-      projectName,
-      projectId: '',
-    },
-  );
-  const projectsRef = collection(db, 'users', userId, 'projects');
-  const projectRef = doc(projectsRef);
-
-  await setDoc(projectRef, project);
-
-  return projectRef.id;
+  const storageRef = ref(storage, `projectThumbnails/${id}.png`);
+  const snapshot = await uploadBytes(storageRef, blob);
+  const url = await getDownloadURL(snapshot.ref);
+  return url;
 };
 
 export const saveProject = async (
   userId: string,
   scene: Scene,
-): Promise<void> => {
-  const project = mapSceneToApiProject(scene);
-  const projectRef = doc(db, 'users', userId, 'projects', scene.projectId);
+  project: Project,
+): Promise<string> => {
+  const apiProject = mapProjectSceneToApiProject(scene, project);
+  const projectsRef = collection(db, 'users', userId, 'projects');
+  const projectRef = project.projectId
+    ? doc(db, 'users', userId, 'projects', project.projectId)
+    : doc(projectsRef);
 
-  await setDoc(projectRef, project, { merge: true });
+  await setDoc(projectRef, apiProject, { merge: true });
+
+  return projectRef.id;
 };
 
 export const fetchModelsList = async (): Promise<
