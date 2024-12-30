@@ -190,17 +190,17 @@ const sceneSlice = createSlice({
         scene.objectIds.splice(index, 1);
       }
     },
-    set: (state, action: PayloadAction<Partial<Scene>>) => {
+    setScene: (state, action: PayloadAction<Partial<Scene>>) => {
       state.scene = { ...state.scene, ...action.payload };
     },
-    clear: (state) => {
+    clearScene: (state) => {
       state.scene = initialState.scene;
     },
   },
 });
 
 export const {
-  hover, click, move, rotate, add, remove, set, clear,
+  hover, click, move, rotate, add, remove, setScene, clearScene,
 } = sceneSlice.actions;
 
 export const sceneSelector = lruMemoize(

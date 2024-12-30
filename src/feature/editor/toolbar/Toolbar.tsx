@@ -1,5 +1,5 @@
 import { FormControl, FormHelperText, TextField } from '@mui/material';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { saveProject, saveProjectThumbnail } from '../../../api/projectsApi';
 import FilledButton from '../../../components/filledButton/FilledButton';
@@ -12,9 +12,8 @@ import NotificationPopup, {
 import Properties from '../../../components/properties/Properties';
 import { auth } from '../../../firebaseConfig';
 import { useAppDispatch } from '../../../redux';
-import { clear, sceneSelector } from '../../../redux/slices/scene';
+import { sceneSelector } from '../../../redux/slices/scene';
 import {
-  clearProject,
   projectSelector,
   setProject,
   setProjectId,

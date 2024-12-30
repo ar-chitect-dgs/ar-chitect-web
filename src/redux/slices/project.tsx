@@ -31,7 +31,7 @@ const projectSlice = createSlice({
     setProjectId(state, action: PayloadAction<string>) {
       state.project.projectId = action.payload;
     },
-    clearProject(state, _action: PayloadAction<any>) {
+    clearProject(state) {
       state.project = initialState.project;
     },
   },

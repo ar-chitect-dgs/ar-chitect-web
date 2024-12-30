@@ -3,7 +3,6 @@ import sceneReducer, {
   Axis,
   click,
   hover,
-  initialState,
   move,
   remove,
   rotate,

@@ -24,12 +24,7 @@ export function mapProjectSceneToApiProject(
 
   const firstTimeFields = project.isNewProject
     ? {
-      createdAt: Date.now(),
-      latitude: 0,
-      longitude: 0,
-      orientation: 0,
-      isFirstTime: true,
-      thumb: project.thumbnail || '',
+      createdAt: project.createdAt,
     }
     : {};
 

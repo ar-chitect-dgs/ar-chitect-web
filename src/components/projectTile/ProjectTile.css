@@ -1,4 +1,5 @@
 .project-card {
+  position: relative;
   margin: 0;
   padding: 15px;
   box-shadow: 0 3px 10px rgba(89, 0, 255, 0.1);
@@ -10,18 +11,15 @@
   box-shadow: 0 6px 15px rgba(89, 0, 255, 0.158);
 }
 
-.project-card:hover {
-  transform: translate(0, -2px);
-  box-shadow: 0 6px 15px rgba(89, 0, 255, 0.158);
-}
-
 .project-wrapper {
   cursor: pointer;
 }
+
 .project-thumbnail {
-  width: 100%;
-  height: 170px;
+  width: 280px;
+  height: 200px;
   object-fit: cover;
+  display: block;
 }
 
 .project-details {
@@ -48,4 +46,21 @@
 .project-modified-at {
   font-size: 1rem;
   color: var(--purple-text-color);
+}
+
+.delete-icon-wrapper {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+}
+
+.delete-icon {
+  position: absolute;
+  color: #333;
+  z-index: 10;
+}
+
+.delete-icon:hover {
+  color: var(--red-text-color);
+  opacity: 0.65;
 }

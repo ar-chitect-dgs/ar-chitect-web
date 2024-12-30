@@ -1,5 +1,5 @@
 import {
-  collection, doc, getDoc, getDocs, setDoc,
+  collection, deleteDoc, doc, getDoc, getDocs, setDoc,
 } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { db, storage } from '../firebaseConfig';
@@ -103,6 +103,15 @@ export const saveProject = async (
   await setDoc(projectRef, apiProject, { merge: true });
 
   return projectRef.id;
+};
+
+export const deleteProject = async (userId: string, projectId?: string): Promise<void> => {
+  if (!projectId) {
+    throw new Error('Project ID is required to delete a project.');
+  }
+
+  const projectRef = doc(db, 'users', userId, 'projects', projectId);
+  await deleteDoc(projectRef);
 };
 
 export const fetchModelsList = async (): Promise<

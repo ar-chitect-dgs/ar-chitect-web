@@ -1,5 +1,4 @@
 import { FormControl, TextField } from '@mui/material';
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import FilledButton from '../../../components/filledButton/FilledButton';
@@ -10,7 +9,7 @@ import {
   creatorSelector,
   Interaction,
 } from '../../../redux/slices/creator';
-import { set } from '../../../redux/slices/scene';
+import { setScene } from '../../../redux/slices/scene';
 import { ROUTES } from '../../navigation/routes';
 import './Toolbar.css';
 import { projectSelector, setProjectName } from '../../../redux/slices/project';
@@ -23,7 +22,7 @@ function CreatorToolbar(): JSX.Element {
 
   const handleDone = async () => {
     try {
-      dispatch(set({ corners: points }));
+      dispatch(setScene({ corners: points }));
     } catch (error) {
       console.error('Error getting project:', error);
     }
