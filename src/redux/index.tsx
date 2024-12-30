@@ -3,10 +3,12 @@ import { combineReducers, configureStore, Dispatch } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 import creatorReducer from './slices/creator';
 import sceneReducer from './slices/scene';
+import projectReducer from './slices/project';
 
 const rootReducer = combineReducers({
   sceneReducer,
   creatorReducer,
+  projectReducer,
 });
 export type RootState = ReturnType<typeof rootReducer>;
 

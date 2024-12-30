@@ -81,7 +81,7 @@ const creatorSlice = createSlice({
     changeInteraction: (state: CreatorState, action: PayloadAction<ChangeInteractionPayload>) => {
       state.interaction = action.payload.interaction;
     },
-    clear: (state: CreatorState) => {
+    clearCreator: (state: CreatorState) => {
       state.interaction = Interaction.AddingVertex;
       state.points = [];
     },
@@ -89,7 +89,7 @@ const creatorSlice = createSlice({
 });
 
 export const {
-  add, move, remove, changeInteraction, clear,
+  add, move, remove, changeInteraction, clearCreator,
 } = creatorSlice.actions;
 
 export const creatorSelector = lruMemoize(
@@ -134,6 +134,6 @@ export function changeInteractionState(i: Interaction): ThunkActionVoid {
 
 export function clearCreatorState(): ThunkActionVoid {
   return async (dispatch: Dispatch) => {
-    dispatch(clear());
+    dispatch(clearCreator());
   };
 }

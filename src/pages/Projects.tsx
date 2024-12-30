@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { fetchAllProjects } from '../api/projectsApi';
+import { deleteProject, fetchAllProjects } from '../api/projectsApi';
 import { ApiProject } from '../api/types';
 import { useAuth } from '../auth/AuthProvider';
 import ProjectTile from '../components/projectTile/ProjectTile';
 import ScrollBar from '../components/scrollbar/ScrollBar';
 import { ROUTES } from '../feature/navigation/routes';
-import { set } from '../redux/slices/scene';
-import { mapApiProjectToScene } from '../utils/mappers';
+import { setScene } from '../redux/slices/scene';
+import { mapApiProjectToProjectScene } from '../utils/mappers';
+import { setProject } from '../redux/slices/project';
 import './styles/Projects.css';
 
 const Projects = (): JSX.Element => {
@@ -47,15 +48,30 @@ const Projects = (): JSX.Element => {
     );
   }
 
-  const handleProjectClick = async (project: ApiProject) => {
-    console.log(`Navigating to project with ID: ${project.id}`);
+  const handleProjectClick = async (apiProject: ApiProject) => {
+    console.log(`Navigating to project with ID: ${apiProject.id}`);
 
     try {
-      const scene = await mapApiProjectToScene(project);
-      dispatch(set(scene));
+      const { project, scene } = await mapApiProjectToProjectScene(apiProject);
+      dispatch(setScene(scene));
+      dispatch(setProject(project));
       navigate(ROUTES.EDITOR);
     } catch (error) {
       console.error('Error mapping project to scene:', error);
+    }
+  };
+
+  const handleProjectDelete = async (project: ApiProject) => {
+    console.log(`Deleting project with ID: ${project.id}`);
+    try {
+      if (user) {
+        await deleteProject(user.uid, project.id);
+        setProjects((prevProjects) =>
+          prevProjects.filter((p) => p.id !== project.id));
+        console.log(`Project with ID ${project.id} deleted successfully.`);
+      }
+    } catch (error) {
+      console.error('Error deleting project:', error);
     }
   };
 
@@ -71,6 +87,7 @@ const Projects = (): JSX.Element => {
               key={project.id}
               project={project}
               onClick={() => handleProjectClick(project)}
+              onDelete={() => handleProjectDelete(project)}
             />
           ))}
         </div>

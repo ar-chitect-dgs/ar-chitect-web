@@ -1,7 +1,7 @@
 import reducer, {
   add,
   changeInteraction,
-  clear,
+  clearCreator,
   initialState,
   Interaction,
   move,
@@ -87,7 +87,7 @@ describe('creator reducer', () => {
       points: [{ x: 1.0, y: 2.0 }, { x: 3.0, y: 4.0 }],
       interaction: Interaction.MovingVertex,
     };
-    const action = clear();
+    const action = clearCreator();
     const nextState = reducer(testState, action);
 
     expect(nextState.points.length).toBe(0);

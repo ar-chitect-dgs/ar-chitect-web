@@ -3,7 +3,7 @@ import SidebarItem from '../sidebarItem/SidebarItem';
 import './Sidebar.css';
 
 interface SidebarProps {
-  groups: { name: string; path: string }[][];
+  groups: { name: string; path: string; onClick?: () => void }[][];
   logo: string;
 }
 
@@ -19,7 +19,12 @@ const Sidebar = ({ groups, logo }: SidebarProps): JSX.Element => (
           <hr className="group-separator" />
           <ul className="nav-list">
             {group.map((link) => (
-              <SidebarItem key={link.path} name={link.name} path={link.path} />
+              <SidebarItem
+                key={link.path}
+                name={link.name}
+                path={link.path}
+                onClick={link.onClick}
+              />
             ))}
           </ul>
         </div>

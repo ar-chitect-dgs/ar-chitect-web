@@ -1,8 +1,11 @@
 import sceneReducer, {
   add,
-  Axis, click, hover,
-  initialState,
-  move, remove, rotate,
+  Axis,
+  click,
+  hover,
+  move,
+  remove,
+  rotate,
   SceneState,
 } from './scene';
 
@@ -10,7 +13,37 @@ describe('scene reducer', () => {
   let state: SceneState;
 
   beforeEach(() => {
-    state = JSON.parse(JSON.stringify(initialState));
+    state = {
+      scene: {
+        corners: [],
+        objectIds: [0, 1],
+        objects: {
+          0: {
+            inProjectId: 0,
+            objectId: 'sofa_1',
+            name: 'Sofa 1',
+            color: 'default',
+            url: 'sofa_url_1',
+            position: { x: 0, y: 0, z: 0 },
+            rotation: { x: 0, y: 0, z: 0 },
+            active: false,
+            hovered: false,
+          },
+          1: {
+            inProjectId: 1,
+            objectId: 'sofa_2',
+            name: 'Sofa 2',
+            color: 'creme',
+            url: 'sofa_url_2',
+            position: { x: 0, y: 0, z: 0 },
+            rotation: { x: 0, y: Math.PI, z: 0 },
+            active: false,
+            hovered: false,
+          },
+        },
+        selectedObjectId: null,
+      },
+    };
   });
 
   it('should handle hover action', () => {

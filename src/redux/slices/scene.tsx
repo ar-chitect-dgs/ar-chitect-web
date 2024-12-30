@@ -43,34 +43,9 @@ interface RemoveModelPayload {
 export const initialState: SceneState = {
   scene: {
     corners: [],
-    objectIds: [0, 1],
-    objects: {
-      0: {
-        inProjectId: 0,
-        objectId: 'sofa_1',
-        name: 'Sofa 1',
-        color: 'default',
-        url: 'https://firebasestorage.googleapis.com/v0/b/ar-chitect-a0b25.appspot.com/o/models%2Fsofa_1_default.glb?alt=media&token=7116eb13-5d8c-48e8-a078-ed742179e772',
-        position: { x: 0, y: 0, z: 0 },
-        rotation: { x: 0, y: 0, z: 0 },
-        active: false,
-        hovered: false,
-      },
-      1: {
-        inProjectId: 1,
-        objectId: 'sofa_1',
-        name: 'Sofa 1',
-        color: 'creme',
-        url: 'https://firebasestorage.googleapis.com/v0/b/ar-chitect-a0b25.appspot.com/o/models%2Fsofa_1_creme.glb?alt=media&token=500fb3cd-dd57-4bee-aaed-f5ce55009981',
-        position: { x: 3, y: 0, z: -2 },
-        rotation: { x: 0, y: Math.PI, z: 0 },
-        active: false,
-        hovered: false,
-      },
-    },
+    objectIds: [],
+    objects: {},
     selectedObjectId: null,
-    projectName: 'My project',
-    projectId: '',
   },
 };
 
@@ -215,20 +190,17 @@ const sceneSlice = createSlice({
         scene.objectIds.splice(index, 1);
       }
     },
-    set: (state, action: PayloadAction<Scene>) => {
-      state.scene = action.payload;
+    setScene: (state, action: PayloadAction<Partial<Scene>>) => {
+      state.scene = { ...state.scene, ...action.payload };
     },
-    clear: (state) => {
+    clearScene: (state) => {
       state.scene = initialState.scene;
-    },
-    changeName: (state, action: PayloadAction<string>) => {
-      state.scene.projectName = action.payload;
     },
   },
 });
 
 export const {
-  hover, click, move, rotate, add, remove, set, clear, changeName,
+  hover, click, move, rotate, add, remove, setScene, clearScene,
 } = sceneSlice.actions;
 
 export const sceneSelector = lruMemoize(
