@@ -112,6 +112,7 @@ const ModelsList = (): JSX.Element => {
                 <ListItem
                   component="button"
                   key={color}
+                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                   onClick={() => handleAddModel(selectedModel!, color)}
                   className="list-item"
                 >
