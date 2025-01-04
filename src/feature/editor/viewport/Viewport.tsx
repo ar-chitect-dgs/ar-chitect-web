@@ -15,44 +15,6 @@ function EditorViewport(): JSX.Element {
   const { scene } = useSelector(sceneSelector);
   const cameraControlRef = useRef<CameraControls | null>(null);
 
-  // function to download data, but we have to add setting state to use it
-  // const [models, setModels] = useState<
-  //   { [id: number]: SceneObject } | undefined
-  // >(undefined);
-  // useEffect(() => {
-  //   const loadProjectData = async (): Promise<void> => {
-  //     const user = auth.currentUser;
-  //     if (user) {
-  //       const userId = user.uid;
-  //       try {
-  //         const projects: Projects = await fetchProjectsData(userId);
-
-  //         const projectIds = Object.keys(projects);
-
-  //         if (projectIds.length === 0) {
-  //           console.warn('No projects found for the user.');
-  //           return;
-  //         }
-
-  //         const firstProjectId = projectIds[0];
-
-  //         const project = await getProject(firstProjectId, userId);
-
-  //         const modelsArray = project.objects;
-  //         console.log(modelsArray);
-  //         setModels(modelsArray);
-  //       } catch (error) {
-  //         console.error(
-  //           'Error while downloading and loading project data',
-  //           error,
-  //         );
-  //       }
-  //     }
-  //   };
-
-  //   loadProjectData();
-  // }, []);
-
   return (
     <Canvas
       camera={{
@@ -61,7 +23,7 @@ function EditorViewport(): JSX.Element {
         far: 2000,
         position: [5, 5, 5],
       }}
-      gl={{ antialias: true }}
+      gl={{ antialias: true, preserveDrawingBuffer: true }}
       scene={{}}
     >
       <CameraControls

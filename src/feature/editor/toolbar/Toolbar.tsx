@@ -1,11 +1,7 @@
-import {
-  FormControl,
-  FormHelperText,
-  TextField,
-} from '@mui/material';
+import { FormControl, FormHelperText, TextField } from '@mui/material';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { saveProject } from '../../../api/projectsApi';
+import { saveProject, saveProjectThumbnail } from '../../../api/projectsApi';
 import FilledButton from '../../../components/filledButton/FilledButton';
 import ModelsList from '../../../components/modelsList/ModelsList';
 import NotificationPopup, {
@@ -16,14 +12,41 @@ import NotificationPopup, {
 import Properties from '../../../components/properties/Properties';
 import { auth } from '../../../firebaseConfig';
 import { useAppDispatch } from '../../../redux';
-import { changeName, sceneSelector } from '../../../redux/slices/scene';
+import { sceneSelector } from '../../../redux/slices/scene';
+import {
+  projectSelector,
+  setProject,
+  setProjectId,
+  setProjectName,
+} from '../../../redux/slices/project';
 import './Toolbar.css';
 
 const EditorToolbar = (): JSX.Element => {
   const { scene } = useSelector(sceneSelector);
+  const project = useSelector(projectSelector);
   const [snackbar, setSnackbar] = useState<SnackBarState>(initialSnackBarState);
   const [nameError, setNameError] = useState(false);
   const dispatch = useAppDispatch();
+
+  const captureScreenshot = async (
+    userId: string,
+    timestamp: number,
+  ): Promise<string> => {
+    const canvas = document.querySelector('canvas') as HTMLCanvasElement;
+    if (!canvas) return '';
+
+    const id = `${userId}-${timestamp}`;
+
+    const blob = await new Promise<Blob | null>((resolve) => {
+      canvas.toBlob((blob) => resolve(blob), 'image/png');
+    });
+
+    if (blob) {
+      const url = await saveProjectThumbnail(blob, id);
+      return url;
+    }
+    throw new Error('Error saving project thumbnail.');
+  };
 
   const handleSaveProject = async () => {
     const user = auth.currentUser;
@@ -38,19 +61,32 @@ const EditorToolbar = (): JSX.Element => {
       return;
     }
 
-    if (scene.projectName.trim() === '') {
+    if (project.projectName.trim() === '') {
       setNameError(true);
       return;
     }
 
     setNameError(false);
 
+    const createdAt = project.isNewProject ? Date.now() : project.createdAt;
+    const thumbnail = await captureScreenshot(user.uid, createdAt);
+
+    const updatedProject = {
+      ...project,
+      createdAt,
+      thumbnail,
+    };
+
+    dispatch(setProject(updatedProject));
+
     try {
-      await saveProject(user.uid, scene);
+      const projectId = await saveProject(user.uid, scene, updatedProject);
+      dispatch(setProjectId(projectId));
       setSnackbar(
         setOpenSnackBarState('Project saved successfully.', 'success'),
       );
-    } catch {
+    } catch (error) {
+      console.log('Error saving project:', error);
       setSnackbar(setOpenSnackBarState('Error saving project.', 'error'));
     }
   };
@@ -62,8 +98,8 @@ const EditorToolbar = (): JSX.Element => {
           <FormControl fullWidth>
             <TextField
               label="Project Name"
-              value={scene.projectName}
-              onChange={(e) => dispatch(changeName(e.target.value))}
+              value={project.projectName}
+              onChange={(e) => dispatch(setProjectName(e.target.value))}
               error={nameError}
             />
             {nameError && (
@@ -87,11 +123,7 @@ const EditorToolbar = (): JSX.Element => {
         </div>
 
         <div className="button">
-          <FilledButton
-            onClick={handleSaveProject}
-          >
-            Save Project
-          </FilledButton>
+          <FilledButton onClick={handleSaveProject}>Save Project</FilledButton>
         </div>
       </div>
       <NotificationPopup
