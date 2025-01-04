@@ -4,7 +4,7 @@ import { getStorage } from 'firebase/storage';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  apiKey: process.env.FIREBASE_SERVICE_ACCOUNT_AR_CHITECT_A0B25,
   authDomain: 'ar-chitect-a0b25.firebaseapp.com',
   projectId: 'ar-chitect-a0b25',
   storageBucket: 'ar-chitect-a0b25.appspot.com',
