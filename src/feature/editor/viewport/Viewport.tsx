@@ -30,6 +30,12 @@ function EditorViewport(): JSX.Element {
         ref={cameraControlRef}
         maxDistance={30}
         maxPolarAngle={Math.PI / 2}
+        mouseButtons={{
+          left: 0,
+          middle: 1,
+          right: 2,
+          wheel: 8,
+        }}
       />
       <ambientLight intensity={Math.PI / 2} />
       <spotLight
