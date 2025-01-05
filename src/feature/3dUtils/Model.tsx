@@ -4,16 +4,20 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { useAppDispatch } from '../../redux';
 import {
-  changeActiveState,
-  changeHoveredState,
+  changeActiveState, changeHoveredState,
 } from '../../redux/slices/scene';
 import { SceneObject } from '../../types/Scene';
+
+const hoverOverlay = new THREE.Color(0.1, 0.1, 0.1);
+const activeOverlay = new THREE.Color(0.1, 0, 0.15);
 
 export function Model({
   inProjectId,
   url,
   position,
   rotation,
+  hovered,
+  active,
 }: SceneObject): JSX.Element {
   const [gltfModel, setGltfModel] = useState<THREE.Group | null>(null);
 
@@ -35,6 +39,34 @@ export function Model({
       },
     );
   }, [url]);
+
+  useEffect(() => {
+    if (!meshRef.current) return;
+
+    meshRef.current.traverse((node) => {
+      if (!(node instanceof THREE.Mesh)) return;
+
+      if (hovered) {
+        node.material.color.add(hoverOverlay);
+      } else {
+        node.material.color.sub(hoverOverlay);
+      }
+    });
+  }, [hovered]);
+
+  useEffect(() => {
+    if (!meshRef.current) return;
+
+    meshRef.current.traverse((node) => {
+      if (!(node instanceof THREE.Mesh)) return;
+
+      if (active) {
+        node.material.color.add(activeOverlay);
+      } else {
+        node.material.color.sub(activeOverlay);
+      }
+    });
+  }, [active]);
 
   return gltfModel ? (
     <mesh

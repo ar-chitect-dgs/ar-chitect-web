@@ -74,6 +74,11 @@ const sceneSlice = createSlice({
         return;
       }
 
+      const oldId = state.scene.selectedObjectId;
+      if (oldId) {
+        state.scene.objects[oldId].active = false;
+      }
+
       scene.selectedObjectId = id;
       object.active = !object.active;
     },

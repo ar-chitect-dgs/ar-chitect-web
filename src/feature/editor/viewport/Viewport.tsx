@@ -38,14 +38,8 @@ function EditorViewport(): JSX.Element {
         }}
       />
       <ambientLight intensity={Math.PI / 2} />
-      <spotLight
-        position={[10, 10, 10]}
-        angle={0.15}
-        penumbra={1}
-        decay={0}
-        intensity={Math.PI}
-      />
-      <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
+      <directionalLight intensity={2} position={[0, 1, 0]} />
+      <spotLight position={[0, 5, 0]} />
       <Floor points={scene.corners} />
       <Walls points={scene.corners} closed />
       {Object.values(scene.objects).map((model) => (

@@ -40,6 +40,39 @@ describe('scene reducer', () => {
             active: false,
             hovered: false,
           },
+          2: {
+            inProjectId: 2,
+            objectId: 'chair_1',
+            name: 'Chair 1',
+            color: 'blue',
+            url: 'chair_url_1',
+            position: { x: 1, y: 1, z: 1 },
+            rotation: { x: 0, y: 0, z: 0 },
+            active: false,
+            hovered: false,
+          },
+          3: {
+            inProjectId: 3,
+            objectId: 'table_1',
+            name: 'Table 1',
+            color: 'brown',
+            url: 'table_url_1',
+            position: { x: 2, y: 2, z: 2 },
+            rotation: { x: 0, y: 0, z: 0 },
+            active: false,
+            hovered: false,
+          },
+          4: {
+            inProjectId: 4,
+            objectId: 'lamp_1',
+            name: 'Lamp 1',
+            color: 'white',
+            url: 'lamp_url_1',
+            position: { x: 3, y: 3, z: 3 },
+            rotation: { x: 0, y: 0, z: 0 },
+            active: false,
+            hovered: false,
+          },
         },
         selectedObjectId: null,
       },
@@ -47,19 +80,47 @@ describe('scene reducer', () => {
   });
 
   it('should handle hover action', () => {
-    const id = 0;
+    const id = 2;
     const hovered = true;
 
     const nextState = sceneReducer(state, hover({ id, hovered }));
-    expect(nextState.scene.objects[id].hovered).toBe(true);
+    nextState.scene.objectIds.forEach((objectId) => {
+      expect(nextState.scene.objects[objectId].hovered).toBe(objectId === id);
+    });
+  });
+
+  it('should handle unhover action', () => {
+    const id = 2;
+    const hovered = false;
+
+    const nextState = sceneReducer(state, hover({ id, hovered }));
+    nextState.scene.objectIds.forEach((objectId) => {
+      expect(nextState.scene.objects[objectId].hovered).toBe(false);
+    });
   });
 
   it('should handle click action', () => {
-    const id = 0;
+    const id = 1;
 
     const nextState = sceneReducer(state, click(id));
     expect(nextState.scene.selectedObjectId).toBe(id);
-    expect(nextState.scene.objects[id].active).toBe(true);
+
+    nextState.scene.objectIds.forEach((objectId) => {
+      expect(nextState.scene.objects[objectId].active).toBe(objectId === id);
+    });
+  });
+
+  it('should have only one active model', () => {
+    const tmpId = 1;
+    const id = 3;
+
+    const tempState = sceneReducer(state, click(tmpId));
+    const nextState = sceneReducer(tempState, click(id));
+    expect(nextState.scene.selectedObjectId).toBe(id);
+
+    nextState.scene.objectIds.forEach((objectId) => {
+      expect(nextState.scene.objects[objectId].active).toBe(objectId === id);
+    });
   });
 
   it('should handle move action X', () => {
