@@ -2,9 +2,7 @@ import sceneReducer, {
   add,
   Axis,
   click,
-  hover,
-  move,
-  remove,
+  hover, move, remove,
   rotate,
   SceneState,
 } from './scene';

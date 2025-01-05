@@ -7,6 +7,7 @@ import {
 } from '@reduxjs/toolkit';
 import { RootState, ThunkActionVoid } from '..';
 import { Scene } from '../../types/Scene';
+import { round } from '../../utils/utils';
 
 export interface SceneState {
   scene: Scene;
@@ -27,6 +28,12 @@ interface MovePayload {
   id: number;
   value: number;
   axis: Axis;
+}
+
+interface MoveToPayload {
+  id: number;
+  x: number;
+  z: number;
 }
 
 interface AddModelPayload {
@@ -77,9 +84,9 @@ const sceneSlice = createSlice({
       scene.selectedObjectId = id;
       object.active = !object.active;
     },
-    // todo abstract move and rotate
     move: (state, action: PayloadAction<MovePayload>) => {
       const { id, axis, value } = action.payload;
+      const val = round(value, 2);
 
       const object = state.scene.objects[id];
 
@@ -91,7 +98,7 @@ const sceneSlice = createSlice({
       switch (axis) {
         case Axis.X:
           object.position = {
-            x: value,
+            x: val,
             y: object.position.y,
             z: object.position.z,
           };
@@ -99,7 +106,7 @@ const sceneSlice = createSlice({
         case Axis.Y:
           object.position = {
             x: object.position.x,
-            y: value,
+            y: val,
             z: object.position.z,
           };
           break;
@@ -107,13 +114,25 @@ const sceneSlice = createSlice({
           object.position = {
             x: object.position.x,
             y: object.position.y,
-            z: value,
+            z: val,
           };
           break;
         default:
           console.warn(`Wrong axis ${axis}`);
           break;
       }
+    },
+    moveTo: (state, action: PayloadAction<MoveToPayload>) => {
+      const { id, x, z } = action.payload;
+
+      const object = state.scene.objects[id];
+
+      if (!object) {
+        console.warn(`No object with id ${id} found.`);
+        return;
+      }
+
+      object.position = { x: round(x, 2), y: object.position.y, z: round(z, 2) };
     },
     rotate: (state, action: PayloadAction<MovePayload>) => {
       const { id, axis, value } = action.payload;
@@ -200,7 +219,7 @@ const sceneSlice = createSlice({
 });
 
 export const {
-  hover, click, move, rotate, add, remove, setScene, clearScene,
+  hover, click, move, moveTo, rotate, add, remove, setScene, clearScene,
 } = sceneSlice.actions;
 
 export const sceneSelector = lruMemoize(
@@ -231,6 +250,16 @@ export function moveObject(
 ): ThunkActionVoid {
   return async (dispatch: Dispatch) => {
     dispatch(move({ id, value: newValue, axis }));
+  };
+}
+
+export function moveObjectTo(
+  id: number,
+  x: number,
+  z: number,
+): ThunkActionVoid {
+  return async (dispatch: Dispatch) => {
+    dispatch(moveTo({ id, x, z }));
   };
 }
 

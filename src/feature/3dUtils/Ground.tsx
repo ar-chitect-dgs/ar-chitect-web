@@ -3,6 +3,8 @@
 import { Grid } from '@react-three/drei';
 import { ThreeEvent } from '@react-three/fiber';
 
+export const RAYCASTER_GROUND = 'raycasterGround';
+
 export function Ground({
   onClick = () => {},
   onPointerMove = () => {},
@@ -37,6 +39,7 @@ export function Ground({
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
         onPointerDown={onPointerDown}
+        userData={{ name: RAYCASTER_GROUND }}
       >
         <planeGeometry args={[100, 100]} />
         <meshBasicMaterial opacity={0} transparent />
