@@ -1,8 +1,8 @@
 /* eslint-disable react/no-unknown-property */
+import { ThreeEvent } from '@react-three/fiber';
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { ThreeEvent } from '@react-three/fiber';
 import { useAppDispatch } from '../../redux';
 import {
   changeActiveState,
@@ -21,6 +21,9 @@ export function Model({
 }: SceneObject): JSX.Element {
   const [gltfModel, setGltfModel] = useState<THREE.Group | null>(null);
   const [moving, setMoving] = useState(true);
+  const [width, setWidth] = useState(0);
+  const [height, setHeight] = useState(0);
+  const [depth, setDepth] = useState(0);
 
   const meshRef = useRef<THREE.Mesh>(null);
   const dispatch = useAppDispatch();
@@ -41,11 +44,23 @@ export function Model({
     );
   }, [url]);
 
+  useEffect(() => {
+    if (!meshRef.current) return;
+
+    meshRef.current.geometry.computeBoundingBox();
+
+    const boundingBox = new THREE.Box3().setFromObject(meshRef.current as THREE.Object3D);
+    console.log('bounding box:', boundingBox);
+
+    setWidth(boundingBox.max.x - boundingBox.min.x);
+    setHeight(boundingBox.max.y - boundingBox.min.y);
+    setDepth(boundingBox.max.z - boundingBox.min.z);
+  }, [meshRef.current]);
+
   // todo move these to viewport
   // see this along with comment https://stackoverflow.com/questions/75466281/three-js-drag-a-model-on-x-and-z-axis-react-three-fiber
   const handlePointerMove = (e: ThreeEvent<MouseEvent>) => {
     if (!active || !moving) return;
-    console.log('moving');
 
     e.intersections.forEach((intersection) => {
       if (intersection.object.userData
@@ -72,17 +87,24 @@ export function Model({
 
   return gltfModel ? (
     <mesh
-      ref={meshRef}
       position={[position.x, position.y, position.z]}
       rotation={[rotation.x, rotation.y, rotation.z]}
-      onClick={() => { console.log('made active'); dispatch(changeActiveState(inProjectId as number)); }}
+      ref={meshRef}
+      onClick={() => { dispatch(changeActiveState(inProjectId as number)); }}
       onPointerOver={() => dispatch(changeHoveredState(inProjectId as number, true))}
       onPointerOut={() => dispatch(changeHoveredState(inProjectId as number, false))}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
-     // onPointerDown={handlePointerDown}
     >
-      <primitive object={gltfModel} />
+      <mesh>
+        <primitive object={gltfModel} />
+      </mesh>
+      <mesh
+        position={[0, height / 2, 0]}
+      >
+        <boxGeometry args={[width, height, depth]} />
+        <meshBasicMaterial color="red" transparent opacity={0.5} />
+      </mesh>
     </mesh>
   ) : (
     <mesh />
