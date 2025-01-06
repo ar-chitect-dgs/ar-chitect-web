@@ -8,15 +8,18 @@ import {
 } from '@react-three/fiber';
 import {
   Suspense,
+  useEffect,
   useRef,
 } from 'react';
 import { useSelector } from 'react-redux';
+import * as THREE from 'three';
 import { useAppDispatch } from '../../../redux';
 import {
   activateObject,
+  Axis,
   disactivateObject,
   hoverObject,
-  moveObjectTo,
+  rotateObject,
   sceneSelector,
   unhoverObject,
 } from '../../../redux/slices/scene';
@@ -31,6 +34,8 @@ function EditorViewport(): JSX.Element {
   const { scene } = useSelector(sceneSelector);
   const cameraControlRef = useRef<CameraControls | null>(null);
   const dispatch = useAppDispatch();
+  // const { raycaster } = useThree();
+  // const planeRef = useContext(PlaneContext);
 
   const handleHover = (e: ThreeEvent<MouseEvent>) => {
     let hit = false;
@@ -53,7 +58,7 @@ function EditorViewport(): JSX.Element {
     }
   };
 
-  const handleActivate = (e: ThreeEvent<MouseEvent>) => {
+  const setActive = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
     let hit = false;
 
@@ -75,6 +80,24 @@ function EditorViewport(): JSX.Element {
     }
   };
 
+  const handlePointerUp = (e: ThreeEvent<MouseEvent>) => {
+    setActive(e);
+  };
+
+  const handlePointerDown = (e: ThreeEvent<MouseEvent>) => {
+    setActive(e);
+  };
+
+  useEffect(() => {
+    if (scene.activeObjectId != null) {
+      document.body.style.cursor = 'grabbing';
+    } else if (scene.hoveredObjectId != null) {
+      document.body.style.cursor = 'grab';
+    } else {
+      document.body.style.cursor = 'auto';
+    }
+  }, [scene.activeObjectId, scene.hoveredObjectId]);
+
   // todo move these to viewport
   // see this along with comment https://stackoverflow.com/questions/75466281/three-js-drag-a-model-on-x-and-z-axis-react-three-fiber
   const handlePointerMove = (e: ThreeEvent<MouseEvent>) => {
@@ -85,14 +108,43 @@ function EditorViewport(): JSX.Element {
 
         if (scene.activeObjectId == null) return;
 
-        dispatch(moveObjectTo(
-            scene.activeObjectId as number,
-            point.x,
-            point.z,
-        ));
+        const { position } = scene.objects[scene.activeObjectId];
+        const { x, z } = position;
+
+        const vector1 = new THREE.Vector2(point.x - x, point.z - z);
+        const vector2 = new THREE.Vector2(1, 0);
+
+        const angle = -vector2.angleTo(vector1) * Math.sign(point.z - z);
+
+        dispatch(rotateObject(scene.activeObjectId, angle, Axis.Y));
+
+        // dispatch(moveObjectTo(
+        //     scene.activeObjectId as number,
+        //     point.x,
+        //     point.z,
+        // ));
       }
     });
   };
+
+  // const bind = useGesture({
+  //   onDrag: () => {
+  //     const intersects = raycaster.intersectObjects([planeRef]);
+  //     if (intersects.length > 0) {
+  //       const intersection = intersects[0];
+  //       console.log(intersection.point.x);
+  //       setBoxPosition({
+  //         x: intersection.point.x,
+  //         y: intersection.point.y,
+  //         z: intersection.point.z,
+  //       });
+  //     }
+  //     setControlsDisabled(true);
+  //   },
+  //   onDragEnd: () => {
+  //     setControlsDisabled(false);
+  //   },
+  // });
 
   return (
     <Suspense fallback={<CircularProgress />}>
@@ -111,7 +163,7 @@ function EditorViewport(): JSX.Element {
           maxPolarAngle={Math.PI / 2}
           mouseButtons={{
             left: 1,
-            middle: 0,
+            middle: 1,
             right: 2,
             wheel: 8,
           }}
@@ -128,7 +180,8 @@ function EditorViewport(): JSX.Element {
 
         <mesh
           onPointerMove={handleHover}
-          onPointerDown={handleActivate}
+          onPointerDown={handlePointerDown}
+          onPointerUp={handlePointerUp}
         >
           <Floor points={scene.corners} />
           <Walls points={scene.corners} closed />

@@ -32,17 +32,6 @@ export function Model({
   const active = inProjectId === scene.activeObjectId;
 
   useEffect(() => {
-    // todo fix bug
-    if (active) {
-      document.body.style.cursor = 'grabbing';
-    } else if (hovered) {
-      document.body.style.cursor = 'grab';
-    } else {
-      document.body.style.cursor = 'auto';
-    }
-  }, [hovered, active]);
-
-  useEffect(() => {
     const loader = new GLTFLoader();
 
     loader.load(

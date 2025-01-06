@@ -68,8 +68,6 @@ const sceneSlice = createSlice({
     activate: (state, action: PayloadAction<number | null>) => {
       const id = action.payload;
 
-      console.log(id);
-      console.log('active', state.scene.activeObjectId);
       if (id != null && !state.scene.objectIds.includes(id)) {
         console.warn(`No object with id ${id} found.`);
       }
@@ -82,9 +80,8 @@ const sceneSlice = createSlice({
 
       const object = state.scene.objects[id];
 
-      if (!object) {
+      if (id != null && !state.scene.objectIds.includes(id)) {
         console.warn(`No object with id ${id} found.`);
-        return;
       }
 
       switch (axis) {
@@ -119,21 +116,21 @@ const sceneSlice = createSlice({
 
       const object = state.scene.objects[id];
 
-      if (!object) {
+      if (id != null && !state.scene.objectIds.includes(id)) {
         console.warn(`No object with id ${id} found.`);
-        return;
       }
 
       object.position = { x: round(x, 2), y: object.position.y, z: round(z, 2) };
     },
     rotate: (state, action: PayloadAction<MovePayload>) => {
-      const { id, axis, value } = action.payload;
+      const { id, axis, value: val } = action.payload;
+
+      const value = round(val, 2);
 
       const object = state.scene.objects[id];
 
-      if (!object) {
+      if (id != null && !state.scene.objectIds.includes(id)) {
         console.warn(`No object with id ${id} found.`);
-        return;
       }
 
       switch (axis) {
