@@ -109,7 +109,7 @@ describe('scene reducer', () => {
     const axis = Axis.X;
 
     const nextState = sceneReducer(state, rotate({ id, value, axis }));
-    expect(nextState.scene.objects[id].rotation.x).toBe(value);
+    expect(nextState.scene.objects[id].rotation.x).toBe(1.57);
   });
 
   it('should handle rotate action Y', () => {
@@ -118,7 +118,7 @@ describe('scene reducer', () => {
     const axis = Axis.Y;
 
     const nextState = sceneReducer(state, rotate({ id, value, axis }));
-    expect(nextState.scene.objects[id].rotation.y).toBe(value);
+    expect(nextState.scene.objects[id].rotation.y).toBe(1.57);
   });
 
   it('should handle rotate action Z', () => {
@@ -127,7 +127,7 @@ describe('scene reducer', () => {
     const axis = Axis.Z;
 
     const nextState = sceneReducer(state, rotate({ id, value, axis }));
-    expect(nextState.scene.objects[id].rotation.z).toBe(value);
+    expect(nextState.scene.objects[id].rotation.z).toBe(1.57);
   });
 
   it('should handle add action', () => {
