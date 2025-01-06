@@ -9,10 +9,10 @@ import {
   creatorSelector,
   Interaction,
 } from '../../../redux/slices/creator';
+import { projectSelector, setProjectName } from '../../../redux/slices/project';
 import { setScene } from '../../../redux/slices/scene';
 import { ROUTES } from '../../navigation/routes';
 import './Toolbar.css';
-import { projectSelector, setProjectName } from '../../../redux/slices/project';
 
 function CreatorToolbar(): JSX.Element {
   const dispatch = useAppDispatch();

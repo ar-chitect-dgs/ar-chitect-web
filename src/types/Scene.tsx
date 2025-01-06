@@ -16,5 +16,6 @@ export interface Scene {
   corners: Point2D[];
   objectIds: number[];
   objects: { [id: number]: SceneObject };
-  selectedObjectId: number | null;
+  hoveredObjectId: number | null;
+  activeObjectId: number | null;
 }

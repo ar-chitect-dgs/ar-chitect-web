@@ -1,7 +1,7 @@
 import sceneReducer, {
+  activate,
   add,
   Axis,
-  click,
   hover, move, remove,
   rotate,
   SceneState,
@@ -39,7 +39,8 @@ describe('scene reducer', () => {
             hovered: false,
           },
         },
-        selectedObjectId: null,
+        activeObjectId: null,
+        hoveredObjectId: null,
       },
     };
   });
@@ -48,15 +49,15 @@ describe('scene reducer', () => {
     const id = 0;
     const hovered = true;
 
-    const nextState = sceneReducer(state, hover({ id, hovered }));
+    const nextState = sceneReducer(state, hover(id));
     expect(nextState.scene.objects[id].hovered).toBe(true);
   });
 
   it('should handle click action', () => {
     const id = 0;
 
-    const nextState = sceneReducer(state, click(id));
-    expect(nextState.scene.selectedObjectId).toBe(id);
+    const nextState = sceneReducer(state, activate(id));
+    expect(nextState.scene.activeObjectId).toBe(id);
     expect(nextState.scene.objects[id].active).toBe(true);
   });
 
@@ -132,7 +133,7 @@ describe('scene reducer', () => {
       active: true,
       hovered: false,
     });
-    expect(nextState.scene.selectedObjectId).toBe(newId);
+    expect(nextState.scene.activeObjectId).toBe(newId);
   });
 
   it('should handle remove action', () => {

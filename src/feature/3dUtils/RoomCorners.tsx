@@ -8,7 +8,6 @@ import { Sphere, SphereType } from './Sphere';
 export function RoomCorners({ points, preview }
   : {points: Point2D[], preview: Point2D}): JSX.Element {
   return (
-
     <>
       {points.map((p: Point2D, index: number) => {
         const [areClose, distance] = arePointsCloseAndDistance(p, preview);

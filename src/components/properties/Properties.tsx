@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 // todo for the future^
-import { useEffect, useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../redux';
 import {
@@ -21,7 +21,7 @@ function Properties(): JSX.Element {
   const dispatch = useAppDispatch();
   const { scene } = useSelector(sceneSelector);
 
-  const id = scene.selectedObjectId;
+  const id = scene.activeObjectId;
 
   const moveX = useCallback(
     (_event: Event, newValue: number | number[]) => {

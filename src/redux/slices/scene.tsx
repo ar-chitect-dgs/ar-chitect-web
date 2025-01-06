@@ -19,11 +19,6 @@ export enum Axis {
   Z,
 }
 
-interface HoverPayload {
-  id: number;
-  hovered: boolean;
-}
-
 interface MovePayload {
   id: number;
   value: number;
@@ -52,7 +47,8 @@ export const initialState: SceneState = {
     corners: [],
     objectIds: [],
     objects: {},
-    selectedObjectId: null,
+    activeObjectId: null,
+    hoveredObjectId: null,
   },
 };
 
@@ -60,29 +56,25 @@ const sceneSlice = createSlice({
   name: 'scene',
   initialState,
   reducers: {
-    hover: (state, action: PayloadAction<HoverPayload>) => {
-      const { id } = action.payload;
-      const object = state.scene.objects[id];
-
-      if (!object) {
-        console.warn(`No object with id ${id} found.`);
-        return;
-      }
-
-      object.hovered = action.payload.hovered;
-    },
-    click: (state, action: PayloadAction<number>) => {
+    hover: (state, action: PayloadAction<number | null>) => {
       const id = action.payload;
-      const object = state.scene.objects[id];
-      const { scene } = state;
 
-      if (!object) {
+      if (id != null && !state.scene.objectIds.includes(id)) {
         console.warn(`No object with id ${id} found.`);
-        return;
       }
 
-      object.active = !object.active;
-      scene.selectedObjectId = object.active ? id : null;
+      state.scene.hoveredObjectId = id;
+    },
+    activate: (state, action: PayloadAction<number | null>) => {
+      const id = action.payload;
+
+      console.log(id);
+      console.log('active', state.scene.activeObjectId);
+      if (id != null && !state.scene.objectIds.includes(id)) {
+        console.warn(`No object with id ${id} found.`);
+      }
+
+      state.scene.activeObjectId = state.scene.activeObjectId == null ? id : null;
     },
     move: (state, action: PayloadAction<MovePayload>) => {
       const { id, axis, value } = action.payload;
@@ -195,13 +187,13 @@ const sceneSlice = createSlice({
       const { objects, objectIds } = state.scene;
       objects[newId] = newObject;
       objectIds.push(newId);
-      state.scene.selectedObjectId = newId;
+      state.scene.activeObjectId = newId;
     },
     remove: (state, action: PayloadAction<RemoveModelPayload>) => {
       const { id } = action.payload;
       const { scene } = state;
 
-      scene.selectedObjectId = null;
+      scene.activeObjectId = null;
 
       delete scene.objects[id];
       const index = scene.objectIds.indexOf(id, 0);
@@ -219,7 +211,7 @@ const sceneSlice = createSlice({
 });
 
 export const {
-  hover, click, move, moveTo, rotate, add, remove, setScene, clearScene,
+  hover, activate, move, moveTo, rotate, add, remove, setScene, clearScene,
 } = sceneSlice.actions;
 
 export const sceneSelector = lruMemoize(
@@ -228,18 +220,37 @@ export const sceneSelector = lruMemoize(
 
 export default sceneSlice.reducer;
 
-export function changeHoveredState(
+export function hoverObject(
   id: number,
-  hovered: boolean,
 ): ThunkActionVoid {
   return async (dispatch: Dispatch) => {
-    dispatch(hover({ id, hovered }));
+    dispatch(hover(id));
+  };
+}
+
+export function unhoverObject(): ThunkActionVoid {
+  return async (dispatch: Dispatch) => {
+    dispatch(hover(null));
+  };
+}
+
+export function activateObject(
+  id: number,
+): ThunkActionVoid {
+  return async (dispatch: Dispatch) => {
+    dispatch(activate(id));
+  };
+}
+
+export function disactivateObject(): ThunkActionVoid {
+  return async (dispatch: Dispatch) => {
+    dispatch(activate(null));
   };
 }
 
 export function changeActiveState(id: number): ThunkActionVoid {
   return async (dispatch: Dispatch) => {
-    dispatch(click(id));
+    dispatch(activate(id));
   };
 }
 

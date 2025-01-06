@@ -64,14 +64,15 @@ export async function mapApiProjectToProjectScene(
     }),
   );
 
-  const scene = {
+  const scene: Scene = {
     corners: apiProject.corners,
     objectIds,
     objects,
-    selectedObjectId: null,
+    activeObjectId: null,
+    hoveredObjectId: null,
   };
 
-  const project = {
+  const project: Project = {
     projectName: apiProject.projectName,
     projectId: apiProject.id || '',
     thumbnail: apiProject.thumb,
