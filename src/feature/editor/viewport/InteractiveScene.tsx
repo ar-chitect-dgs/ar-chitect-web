@@ -13,9 +13,9 @@ import {
 } from '../../../redux/slices/scene';
 import {
   Floor, Walls, Model, Ground,
+  RAYCASTER_MODEL,
+  RAYCASTER_GROUND,
 } from '../../3dUtils';
-import { RAYCASTER_GROUND } from '../../3dUtils/Ground';
-import { MODEL_BOUNDING_BOX } from '../../3dUtils/Model';
 
 export function InteractiveScene(): JSX.Element {
   const meshRef = useRef<THREE.Mesh>(null);
@@ -50,7 +50,7 @@ export function InteractiveScene(): JSX.Element {
 
   const hover = intersectionAction(
     (intersection: THREE.Intersection) => {
-      if (intersection.object.userData.name === MODEL_BOUNDING_BOX) {
+      if (intersection.object.userData.name === RAYCASTER_MODEL) {
         const { id } = intersection.object.userData;
 
         dispatch(hoverObject(id));
@@ -79,7 +79,7 @@ export function InteractiveScene(): JSX.Element {
 
   const setActive = intersectionAction(
     (intersection: THREE.Intersection) => {
-      if (intersection.object.userData.name === MODEL_BOUNDING_BOX) {
+      if (intersection.object.userData.name === RAYCASTER_MODEL) {
         const { id } = intersection.object.userData;
 
         dispatch(activateObject(id));
@@ -156,6 +156,7 @@ export function InteractiveScene(): JSX.Element {
     >
       <Floor points={scene.corners} />
       <Walls points={scene.corners} closed />
+      <Ground />
 
       {Object.values(scene.objects).map((model) => (
         <Model
@@ -172,7 +173,6 @@ export function InteractiveScene(): JSX.Element {
         />
       ))}
 
-      <Ground />
     </mesh>
   );
 }

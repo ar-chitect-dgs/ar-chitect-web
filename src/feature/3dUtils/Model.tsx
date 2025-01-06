@@ -2,13 +2,8 @@
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { useSelector } from 'react-redux';
-import { useAppDispatch } from '../../redux';
 import { SceneObject } from '../../types/Scene';
-import { sceneSelector } from '../../redux/slices/scene';
-
-// todo unify this
-export const MODEL_BOUNDING_BOX = 'model';
+import { RAYCASTER_MODEL } from '.';
 
 type ModelProps = SceneObject & {
   hovered: boolean,
@@ -29,15 +24,6 @@ export function Model({
   const [depth, setDepth] = useState(0);
 
   const meshRef = useRef<THREE.Mesh>(null);
-  const dispatch = useAppDispatch();
-
-  const { scene } = useSelector(sceneSelector);
-  let h = false;
-  if (scene.hoveredObjectId != null) {
-    h = scene.hoveredObjectId === inProjectId;
-  }
-
-  // todo these should be probably passed from the parent component
 
   useEffect(() => {
     const loader = new GLTFLoader();
@@ -69,7 +55,7 @@ export function Model({
   let opacity = 0;
   if (active) {
     opacity = 0.4;
-  } else if (h) {
+  } else if (hovered) {
     opacity = 0.2;
   }
 
@@ -86,11 +72,16 @@ export function Model({
       </mesh>
       <mesh
         position={[0, height / 2, 0]}
-        userData={{ name: MODEL_BOUNDING_BOX, id: inProjectId }}
+        userData={{ name: RAYCASTER_MODEL, id: inProjectId }}
         castShadow={false}
       >
         <boxGeometry args={[width, height, depth]} />
-        <meshBasicMaterial color="lightblue" transparent opacity={opacity} />
+        <meshStandardMaterial
+          color="lightblue"
+          transparent
+          opacity={opacity}
+          visible={hovered || active}
+        />
       </mesh>
     </mesh>
   );

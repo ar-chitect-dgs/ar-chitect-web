@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-// todo for the future^
 import { useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../redux';
@@ -72,7 +70,6 @@ function Properties(): JSX.Element {
     dispatch(deleteModel(id));
   }, [id]);
 
-  // todo maybe move this somewhere else
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (id === null) return;

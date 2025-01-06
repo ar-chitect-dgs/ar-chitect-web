@@ -77,8 +77,6 @@ export const fetchGLBUrl = async (
 
   const reference = ref(storage, MODELS_DIRECTORY + colorData.url);
 
-  // return '';
-  // todo
   const url = await getDownloadURL(reference);
   return url;
 };
