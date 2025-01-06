@@ -77,10 +77,10 @@ export const fetchGLBUrl = async (
 
   const reference = ref(storage, MODELS_DIRECTORY + colorData.url);
 
-  return '';
+  // return '';
   // todo
-  // const url = await getDownloadURL(reference);
-  // return url;
+  const url = await getDownloadURL(reference);
+  return url;
 };
 export const saveProjectThumbnail = async (
   blob: Blob,

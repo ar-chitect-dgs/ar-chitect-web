@@ -35,8 +35,8 @@ export function Model({
     const loader = new GLTFLoader();
 
     loader.load(
-      'chair_2_creme.glb',
-      // url, todo
+      // 'chair_2_creme.glb',
+      url,
       (gltf) => {
         const clonedScene = gltf.scene.clone(true);
         setGltfModel(clonedScene);
