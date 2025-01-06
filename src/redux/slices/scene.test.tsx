@@ -45,18 +45,35 @@ describe('scene reducer', () => {
 
   it('should handle hover action', () => {
     const id = 0;
-    const hovered = true;
 
     const nextState = sceneReducer(state, hover(id));
-  //  expect(nextState.scene.objects[id].hovered).toBe(true);
+    expect(nextState.scene.hoveredObjectId).toBe(id);
   });
 
-  it('should handle click action', () => {
+  it('should handle hover action with null input', () => {
+    const nextState = sceneReducer(state, hover(null));
+    expect(nextState.scene.hoveredObjectId).toBe(null);
+  });
+
+  it('should handle activate action', () => {
     const id = 0;
 
     const nextState = sceneReducer(state, activate(id));
     expect(nextState.scene.activeObjectId).toBe(id);
-    // expect(nextState.scene.objects[id].active).toBe(true);
+  });
+
+  it('should handle activate action with null input', () => {
+    const nextState = sceneReducer(state, hover(null));
+    expect(nextState.scene.hoveredObjectId).toBe(null);
+  });
+
+  it('should make object unactive if clicked again', () => {
+    const id = 0;
+
+    let nextState = sceneReducer(state, activate(id));
+    nextState = sceneReducer(nextState, activate(id));
+
+    expect(nextState.scene.activeObjectId).toBe(null);
   });
 
   it('should handle move action X', () => {
