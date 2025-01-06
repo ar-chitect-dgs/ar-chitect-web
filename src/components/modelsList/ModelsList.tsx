@@ -112,7 +112,7 @@ const ModelsList = (): JSX.Element => {
                 <ListItem
                   component="button"
                   key={color}
-                  onClick={() => handleAddModel(selectedModel!, color)}
+                  onClick={() => { if (selectedModel) handleAddModel(selectedModel, color); }}
                   className="list-item"
                 >
                   <ListItemText className="list-item-text" primary={color} />

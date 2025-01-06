@@ -2,23 +2,28 @@
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { useAppDispatch } from '../../redux';
-import {
-  changeActiveState,
-  changeHoveredState,
-} from '../../redux/slices/scene';
 import { SceneObject } from '../../types/Scene';
+import { RAYCASTER_MODEL } from '.';
+
+type ModelProps = SceneObject & {
+  hovered: boolean,
+  active: boolean,
+}
 
 export function Model({
   inProjectId,
   url,
   position,
   rotation,
-}: SceneObject): JSX.Element {
+  hovered,
+  active,
+}: ModelProps): JSX.Element {
   const [gltfModel, setGltfModel] = useState<THREE.Group | null>(null);
+  const [width, setWidth] = useState(0);
+  const [height, setHeight] = useState(0);
+  const [depth, setDepth] = useState(0);
 
   const meshRef = useRef<THREE.Mesh>(null);
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const loader = new GLTFLoader();
@@ -36,18 +41,47 @@ export function Model({
     );
   }, [url]);
 
-  return gltfModel ? (
+  useEffect(() => {
+    if (!meshRef.current) return;
+
+    const boundingBox = new THREE.Box3().setFromObject(meshRef.current as THREE.Object3D);
+
+    setWidth(boundingBox.max.x - boundingBox.min.x + 0.1);
+    setHeight(boundingBox.max.y - boundingBox.min.y + 0.1);
+    setDepth(boundingBox.max.z - boundingBox.min.z + 0.1);
+  }, [meshRef.current]);
+
+  let opacity = 0;
+  if (active) {
+    opacity = 0.4;
+  } else if (hovered) {
+    opacity = 0.2;
+  }
+
+  if (!gltfModel) return <mesh />;
+
+  return (
     <mesh
-      ref={meshRef}
       position={[position.x, position.y, position.z]}
       rotation={[rotation.x, rotation.y, rotation.z]}
-      onClick={() => dispatch(changeActiveState(inProjectId as number))}
-      onPointerOver={() => dispatch(changeHoveredState(inProjectId as number, true))}
-      onPointerOut={() => dispatch(changeHoveredState(inProjectId as number, false))}
+      ref={meshRef}
     >
-      <primitive object={gltfModel} />
+      <mesh>
+        <primitive object={gltfModel} />
+      </mesh>
+      <mesh
+        position={[0, height / 2, 0]}
+        userData={{ name: RAYCASTER_MODEL, id: inProjectId }}
+        castShadow={false}
+      >
+        <boxGeometry args={[width, height, depth]} />
+        <meshStandardMaterial
+          color="lightblue"
+          transparent
+          opacity={opacity}
+          visible={hovered || active}
+        />
+      </mesh>
     </mesh>
-  ) : (
-    <mesh />
   );
 }

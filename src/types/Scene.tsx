@@ -8,13 +8,12 @@ export interface SceneObject {
   url: string;
   position: Point3D;
   rotation: Point3D;
-  active: boolean;
-  hovered: boolean;
 }
 
 export interface Scene {
   corners: Point2D[];
   objectIds: number[];
   objects: { [id: number]: SceneObject };
-  selectedObjectId: number | null;
+  hoveredObjectId: number | null;
+  activeObjectId: number | null;
 }

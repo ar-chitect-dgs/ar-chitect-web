@@ -1,12 +1,11 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-// todo for the future^
-import { useEffect, useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../redux';
 import {
   addModel,
   Axis,
   deleteModel,
+  disactivateObject,
   moveObject,
   rotateObject,
   sceneSelector,
@@ -16,12 +15,17 @@ import FilledButton from '../filledButton/FilledButton';
 import { ValueSlider } from '../valueSlider/ValueSlider';
 
 import './Properties.css';
+import {
+  DESELECT,
+  MOVE_BACK, MOVE_DOWN, MOVE_FRONT, MOVE_LEFT, MOVE_RIGHT,
+  MOVE_UP,
+} from '../../config/keyBinds';
 
 function Properties(): JSX.Element {
   const dispatch = useAppDispatch();
   const { scene } = useSelector(sceneSelector);
 
-  const id = scene.selectedObjectId;
+  const id = scene.activeObjectId;
 
   const moveX = useCallback(
     (_event: Event, newValue: number | number[]) => {
@@ -73,8 +77,11 @@ function Properties(): JSX.Element {
       const step = 0.1;
       const roundPosition = (value: number) => round(value, 1);
 
-      switch (event.key) {
-        case 'ArrowLeft':
+      let { key } = event;
+      if (event.key.length === 1) key = event.key.toUpperCase();
+
+      switch (key) {
+        case MOVE_LEFT:
           dispatch(
             moveObject(
               id,
@@ -83,7 +90,7 @@ function Properties(): JSX.Element {
             ),
           );
           break;
-        case 'ArrowRight':
+        case MOVE_RIGHT:
           dispatch(
             moveObject(
               id,
@@ -92,7 +99,7 @@ function Properties(): JSX.Element {
             ),
           );
           break;
-        case 'ArrowUp':
+        case MOVE_BACK:
           dispatch(
             moveObject(
               id,
@@ -101,7 +108,7 @@ function Properties(): JSX.Element {
             ),
           );
           break;
-        case 'ArrowDown':
+        case MOVE_FRONT:
           dispatch(
             moveObject(
               id,
@@ -109,6 +116,27 @@ function Properties(): JSX.Element {
               Axis.Z,
             ),
           );
+          break;
+        case MOVE_DOWN:
+          dispatch(
+            moveObject(
+              id,
+              roundPosition(scene.objects[id].position.y - step),
+              Axis.Y,
+            ),
+          );
+          break;
+        case MOVE_UP:
+          dispatch(
+            moveObject(
+              id,
+              roundPosition(scene.objects[id].position.y + step),
+              Axis.Y,
+            ),
+          );
+          break;
+        case DESELECT:
+          dispatch(disactivateObject());
           break;
         default:
           break;

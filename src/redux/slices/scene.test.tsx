@@ -1,10 +1,8 @@
 import sceneReducer, {
+  activate,
   add,
   Axis,
-  click,
-  hover,
-  move,
-  remove,
+  hover, move, remove,
   rotate,
   SceneState,
 } from './scene';
@@ -26,8 +24,7 @@ describe('scene reducer', () => {
             url: 'sofa_url_1',
             position: { x: 0, y: 0, z: 0 },
             rotation: { x: 0, y: 0, z: 0 },
-            active: false,
-            hovered: false,
+
           },
           1: {
             inProjectId: 1,
@@ -37,29 +34,46 @@ describe('scene reducer', () => {
             url: 'sofa_url_2',
             position: { x: 0, y: 0, z: 0 },
             rotation: { x: 0, y: Math.PI, z: 0 },
-            active: false,
-            hovered: false,
+
           },
         },
-        selectedObjectId: null,
+        activeObjectId: null,
+        hoveredObjectId: null,
       },
     };
   });
 
   it('should handle hover action', () => {
     const id = 0;
-    const hovered = true;
 
-    const nextState = sceneReducer(state, hover({ id, hovered }));
-    expect(nextState.scene.objects[id].hovered).toBe(true);
+    const nextState = sceneReducer(state, hover(id));
+    expect(nextState.scene.hoveredObjectId).toBe(id);
   });
 
-  it('should handle click action', () => {
+  it('should handle hover action with null input', () => {
+    const nextState = sceneReducer(state, hover(null));
+    expect(nextState.scene.hoveredObjectId).toBe(null);
+  });
+
+  it('should handle activate action', () => {
     const id = 0;
 
-    const nextState = sceneReducer(state, click(id));
-    expect(nextState.scene.selectedObjectId).toBe(id);
-    expect(nextState.scene.objects[id].active).toBe(true);
+    const nextState = sceneReducer(state, activate(id));
+    expect(nextState.scene.activeObjectId).toBe(id);
+  });
+
+  it('should handle activate action with null input', () => {
+    const nextState = sceneReducer(state, hover(null));
+    expect(nextState.scene.hoveredObjectId).toBe(null);
+  });
+
+  it('should make object unactive if clicked again', () => {
+    const id = 0;
+
+    let nextState = sceneReducer(state, activate(id));
+    nextState = sceneReducer(nextState, activate(id));
+
+    expect(nextState.scene.activeObjectId).toBe(null);
   });
 
   it('should handle move action X', () => {
@@ -95,7 +109,7 @@ describe('scene reducer', () => {
     const axis = Axis.X;
 
     const nextState = sceneReducer(state, rotate({ id, value, axis }));
-    expect(nextState.scene.objects[id].rotation.x).toBe(value);
+    expect(nextState.scene.objects[id].rotation.x).toBe(1.57);
   });
 
   it('should handle rotate action Y', () => {
@@ -104,7 +118,7 @@ describe('scene reducer', () => {
     const axis = Axis.Y;
 
     const nextState = sceneReducer(state, rotate({ id, value, axis }));
-    expect(nextState.scene.objects[id].rotation.y).toBe(value);
+    expect(nextState.scene.objects[id].rotation.y).toBe(1.57);
   });
 
   it('should handle rotate action Z', () => {
@@ -113,7 +127,7 @@ describe('scene reducer', () => {
     const axis = Axis.Z;
 
     const nextState = sceneReducer(state, rotate({ id, value, axis }));
-    expect(nextState.scene.objects[id].rotation.z).toBe(value);
+    expect(nextState.scene.objects[id].rotation.z).toBe(1.57);
   });
 
   it('should handle add action', () => {
@@ -134,7 +148,7 @@ describe('scene reducer', () => {
       active: true,
       hovered: false,
     });
-    expect(nextState.scene.selectedObjectId).toBe(newId);
+    expect(nextState.scene.activeObjectId).toBe(newId);
   });
 
   it('should handle remove action', () => {

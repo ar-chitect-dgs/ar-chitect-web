@@ -52,7 +52,6 @@ function CreatorViewport(): JSX.Element {
       return;
     }
 
-    console.log(clickedVertexId);
     dispatch(deletePoint(clickedVertexId));
   };
 

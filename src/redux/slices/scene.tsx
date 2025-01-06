@@ -7,6 +7,7 @@ import {
 } from '@reduxjs/toolkit';
 import { RootState, ThunkActionVoid } from '..';
 import { Scene } from '../../types/Scene';
+import { round } from '../../utils/utils';
 
 export interface SceneState {
   scene: Scene;
@@ -18,15 +19,16 @@ export enum Axis {
   Z,
 }
 
-interface HoverPayload {
-  id: number;
-  hovered: boolean;
-}
-
 interface MovePayload {
   id: number;
   value: number;
   axis: Axis;
+}
+
+interface MoveToPayload {
+  id: number;
+  x: number;
+  z: number;
 }
 
 interface AddModelPayload {
@@ -45,7 +47,8 @@ export const initialState: SceneState = {
     corners: [],
     objectIds: [],
     objects: {},
-    selectedObjectId: null,
+    activeObjectId: null,
+    hoveredObjectId: null,
   },
 };
 
@@ -53,45 +56,38 @@ const sceneSlice = createSlice({
   name: 'scene',
   initialState,
   reducers: {
-    hover: (state, action: PayloadAction<HoverPayload>) => {
-      const { id } = action.payload;
-      const object = state.scene.objects[id];
-
-      if (!object) {
-        console.warn(`No object with id ${id} found.`);
-        return;
-      }
-
-      object.hovered = action.payload.hovered;
-    },
-    click: (state, action: PayloadAction<number>) => {
+    hover: (state, action: PayloadAction<number | null>) => {
       const id = action.payload;
-      const object = state.scene.objects[id];
-      const { scene } = state;
 
-      if (!object) {
+      if (id != null && !state.scene.objectIds.includes(id)) {
         console.warn(`No object with id ${id} found.`);
-        return;
       }
 
-      scene.selectedObjectId = id;
-      object.active = !object.active;
+      state.scene.hoveredObjectId = id;
     },
-    // todo abstract move and rotate
+    activate: (state, action: PayloadAction<number | null>) => {
+      const id = action.payload;
+
+      if (id != null && !state.scene.objectIds.includes(id)) {
+        console.warn(`No object with id ${id} found.`);
+      }
+
+      state.scene.activeObjectId = state.scene.activeObjectId == null ? id : null;
+    },
     move: (state, action: PayloadAction<MovePayload>) => {
       const { id, axis, value } = action.payload;
+      const val = round(value, 2);
 
       const object = state.scene.objects[id];
 
-      if (!object) {
+      if (id != null && !state.scene.objectIds.includes(id)) {
         console.warn(`No object with id ${id} found.`);
-        return;
       }
 
       switch (axis) {
         case Axis.X:
           object.position = {
-            x: value,
+            x: val,
             y: object.position.y,
             z: object.position.z,
           };
@@ -99,7 +95,7 @@ const sceneSlice = createSlice({
         case Axis.Y:
           object.position = {
             x: object.position.x,
-            y: value,
+            y: val,
             z: object.position.z,
           };
           break;
@@ -107,7 +103,7 @@ const sceneSlice = createSlice({
           object.position = {
             x: object.position.x,
             y: object.position.y,
-            z: value,
+            z: val,
           };
           break;
         default:
@@ -115,14 +111,26 @@ const sceneSlice = createSlice({
           break;
       }
     },
-    rotate: (state, action: PayloadAction<MovePayload>) => {
-      const { id, axis, value } = action.payload;
+    moveTo: (state, action: PayloadAction<MoveToPayload>) => {
+      const { id, x, z } = action.payload;
 
       const object = state.scene.objects[id];
 
-      if (!object) {
+      if (id != null && !state.scene.objectIds.includes(id)) {
         console.warn(`No object with id ${id} found.`);
-        return;
+      }
+
+      object.position = { x: round(x, 2), y: object.position.y, z: round(z, 2) };
+    },
+    rotate: (state, action: PayloadAction<MovePayload>) => {
+      const { id, axis, value: val } = action.payload;
+
+      const value = round(val, 2);
+
+      const object = state.scene.objects[id];
+
+      if (id != null && !state.scene.objectIds.includes(id)) {
+        console.warn(`No object with id ${id} found.`);
       }
 
       switch (axis) {
@@ -176,13 +184,13 @@ const sceneSlice = createSlice({
       const { objects, objectIds } = state.scene;
       objects[newId] = newObject;
       objectIds.push(newId);
-      state.scene.selectedObjectId = newId;
+      state.scene.activeObjectId = newId;
     },
     remove: (state, action: PayloadAction<RemoveModelPayload>) => {
       const { id } = action.payload;
       const { scene } = state;
 
-      scene.selectedObjectId = null;
+      scene.activeObjectId = null;
 
       delete scene.objects[id];
       const index = scene.objectIds.indexOf(id, 0);
@@ -200,7 +208,7 @@ const sceneSlice = createSlice({
 });
 
 export const {
-  hover, click, move, rotate, add, remove, setScene, clearScene,
+  hover, activate, move, moveTo, rotate, add, remove, setScene, clearScene,
 } = sceneSlice.actions;
 
 export const sceneSelector = lruMemoize(
@@ -209,18 +217,37 @@ export const sceneSelector = lruMemoize(
 
 export default sceneSlice.reducer;
 
-export function changeHoveredState(
+export function hoverObject(
   id: number,
-  hovered: boolean,
 ): ThunkActionVoid {
   return async (dispatch: Dispatch) => {
-    dispatch(hover({ id, hovered }));
+    dispatch(hover(id));
+  };
+}
+
+export function unhoverObject(): ThunkActionVoid {
+  return async (dispatch: Dispatch) => {
+    dispatch(hover(null));
+  };
+}
+
+export function activateObject(
+  id: number,
+): ThunkActionVoid {
+  return async (dispatch: Dispatch) => {
+    dispatch(activate(id));
+  };
+}
+
+export function disactivateObject(): ThunkActionVoid {
+  return async (dispatch: Dispatch) => {
+    dispatch(activate(null));
   };
 }
 
 export function changeActiveState(id: number): ThunkActionVoid {
   return async (dispatch: Dispatch) => {
-    dispatch(click(id));
+    dispatch(activate(id));
   };
 }
 
@@ -231,6 +258,16 @@ export function moveObject(
 ): ThunkActionVoid {
   return async (dispatch: Dispatch) => {
     dispatch(move({ id, value: newValue, axis }));
+  };
+}
+
+export function moveObjectTo(
+  id: number,
+  x: number,
+  z: number,
+): ThunkActionVoid {
+  return async (dispatch: Dispatch) => {
+    dispatch(moveTo({ id, x, z }));
   };
 }
 
