@@ -55,8 +55,6 @@ export async function mapApiProjectToProjectScene(
         url,
         position: obj.position,
         rotation: obj.rotation,
-        active: false,
-        hovered: false,
       };
 
       objects[index] = sceneObject;

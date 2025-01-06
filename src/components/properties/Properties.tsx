@@ -7,6 +7,7 @@ import {
   addModel,
   Axis,
   deleteModel,
+  disactivateObject,
   moveObject,
   rotateObject,
   sceneSelector,
@@ -16,6 +17,11 @@ import FilledButton from '../filledButton/FilledButton';
 import { ValueSlider } from '../valueSlider/ValueSlider';
 
 import './Properties.css';
+import {
+  DESELECT,
+  MOVE_BACK, MOVE_DOWN, MOVE_FRONT, MOVE_LEFT, MOVE_RIGHT,
+  MOVE_UP,
+} from '../../config/keyBinds';
 
 function Properties(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -66,6 +72,7 @@ function Properties(): JSX.Element {
     dispatch(deleteModel(id));
   }, [id]);
 
+  // todo maybe move this somewhere else
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (id === null) return;
@@ -73,8 +80,11 @@ function Properties(): JSX.Element {
       const step = 0.1;
       const roundPosition = (value: number) => round(value, 1);
 
-      switch (event.key) {
-        case 'ArrowLeft':
+      let { key } = event;
+      if (event.key.length === 1) key = event.key.toUpperCase();
+
+      switch (key) {
+        case MOVE_LEFT:
           dispatch(
             moveObject(
               id,
@@ -83,7 +93,7 @@ function Properties(): JSX.Element {
             ),
           );
           break;
-        case 'ArrowRight':
+        case MOVE_RIGHT:
           dispatch(
             moveObject(
               id,
@@ -92,7 +102,7 @@ function Properties(): JSX.Element {
             ),
           );
           break;
-        case 'ArrowUp':
+        case MOVE_BACK:
           dispatch(
             moveObject(
               id,
@@ -101,7 +111,7 @@ function Properties(): JSX.Element {
             ),
           );
           break;
-        case 'ArrowDown':
+        case MOVE_FRONT:
           dispatch(
             moveObject(
               id,
@@ -109,6 +119,27 @@ function Properties(): JSX.Element {
               Axis.Z,
             ),
           );
+          break;
+        case MOVE_DOWN:
+          dispatch(
+            moveObject(
+              id,
+              roundPosition(scene.objects[id].position.y - step),
+              Axis.Y,
+            ),
+          );
+          break;
+        case MOVE_UP:
+          dispatch(
+            moveObject(
+              id,
+              roundPosition(scene.objects[id].position.y + step),
+              Axis.Y,
+            ),
+          );
+          break;
+        case DESELECT:
+          dispatch(disactivateObject());
           break;
         default:
           break;

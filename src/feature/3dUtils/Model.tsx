@@ -1,23 +1,28 @@
 /* eslint-disable react/no-unknown-property */
 import { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../redux';
-import {
-  sceneSelector,
-} from '../../redux/slices/scene';
 import { SceneObject } from '../../types/Scene';
+import { sceneSelector } from '../../redux/slices/scene';
 
 // todo unify this
-export const MODEL_TYPE = 'model';
+export const MODEL_BOUNDING_BOX = 'model';
+
+type ModelProps = SceneObject & {
+  hovered: boolean,
+  active: boolean,
+}
 
 export function Model({
   inProjectId,
   url,
   position,
   rotation,
-}: SceneObject): JSX.Element {
+  hovered,
+  active,
+}: ModelProps): JSX.Element {
   const [gltfModel, setGltfModel] = useState<THREE.Group | null>(null);
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
@@ -26,10 +31,13 @@ export function Model({
   const meshRef = useRef<THREE.Mesh>(null);
   const dispatch = useAppDispatch();
 
-  // todo these should be probably passed from the parent component
   const { scene } = useSelector(sceneSelector);
-  const hovered = inProjectId === scene.hoveredObjectId;
-  const active = inProjectId === scene.activeObjectId;
+  let h = false;
+  if (scene.hoveredObjectId != null) {
+    h = scene.hoveredObjectId === inProjectId;
+  }
+
+  // todo these should be probably passed from the parent component
 
   useEffect(() => {
     const loader = new GLTFLoader();
@@ -53,15 +61,15 @@ export function Model({
 
     const boundingBox = new THREE.Box3().setFromObject(meshRef.current as THREE.Object3D);
 
-    setWidth(boundingBox.max.x - boundingBox.min.x);
-    setHeight(boundingBox.max.y - boundingBox.min.y);
-    setDepth(boundingBox.max.z - boundingBox.min.z);
+    setWidth(boundingBox.max.x - boundingBox.min.x + 0.1);
+    setHeight(boundingBox.max.y - boundingBox.min.y + 0.1);
+    setDepth(boundingBox.max.z - boundingBox.min.z + 0.1);
   }, [meshRef.current]);
 
   let opacity = 0;
   if (active) {
     opacity = 0.4;
-  } else if (hovered) {
+  } else if (h) {
     opacity = 0.2;
   }
 
@@ -78,7 +86,8 @@ export function Model({
       </mesh>
       <mesh
         position={[0, height / 2, 0]}
-        userData={{ name: MODEL_TYPE, id: inProjectId }}
+        userData={{ name: MODEL_BOUNDING_BOX, id: inProjectId }}
+        castShadow={false}
       >
         <boxGeometry args={[width, height, depth]} />
         <meshBasicMaterial color="lightblue" transparent opacity={opacity} />

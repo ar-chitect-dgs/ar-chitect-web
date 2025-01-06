@@ -8,8 +8,6 @@ export interface SceneObject {
   url: string;
   position: Point3D;
   rotation: Point3D;
-  active: boolean;
-  hovered: boolean;
 }
 
 export interface Scene {
