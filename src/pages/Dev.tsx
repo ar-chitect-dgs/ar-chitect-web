@@ -1,11 +1,13 @@
+/* eslint-disable guard-for-in */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable no-alert */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-await-in-loop */
 import React, { useState } from 'react';
 import { collection, doc, setDoc } from 'firebase/firestore';
+import { getDownloadURL, ref } from 'firebase/storage';
 import { Button } from '@mui/material';
-import { db } from '../firebaseConfig';
+import { db, storage } from '../firebaseConfig';
 
 const UploadJsonFiles: React.FC = () => {
   const [collectionName, setCollectionName] = useState('');
@@ -31,13 +33,27 @@ const UploadJsonFiles: React.FC = () => {
         const fileText = await file.text();
         const jsonData = JSON.parse(fileText);
 
-        const docId = file.name.replace('.json', '');
+        for (const variantKey in jsonData.color_variants) {
+          const variant = jsonData.color_variants[variantKey];
 
+          const thumbPath = `modelThumbnails/${variant.url.replace('.glb', '.png')}`;
+          const thumbRef = ref(storage, thumbPath);
+          const thumbUrl = await getDownloadURL(thumbRef);
+
+          const modelPath = `models/${variant.url}`;
+          const modelRef = ref(storage, modelPath);
+          const modelUrl = await getDownloadURL(modelRef);
+
+          variant.thumb = thumbUrl;
+          variant.modelUrl = modelUrl;
+        }
+
+        const docId = file.name.replace('.json', '');
         const docRef = doc(collection(db, collectionName), docId);
         await setDoc(docRef, jsonData);
 
         console.log(
-          `Uploaded ${file.name} to Firestore collection "${collectionName}" with ID "${docId}"`,
+          `Uploaded ${file.name} to Firestore collection "${collectionName}" with ID "${docId}".`,
         );
       }
 
