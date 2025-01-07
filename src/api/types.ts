@@ -20,3 +20,15 @@ export interface ApiProject {
 export interface ApiProjects {
   [projectId: string]: ApiProject;
 }
+
+export interface ApiModel {
+  id: string;
+  name: string;
+  colorVariants: {
+    [color: string]: {
+      thumb: string;
+      modelUrl: string;
+      url: string;
+    };
+  };
+}

@@ -3,14 +3,14 @@ import {
 } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { db, storage } from '../firebaseConfig';
+import { Scene } from '../types/Scene';
+import { ApiModel, ApiProject, ApiProjects } from './types';
 import { Project } from '../types/Project';
 import { ProjectScene } from '../types/ProjectScene';
-import { Scene } from '../types/Scene';
 import {
   mapApiProjectToProjectScene,
   mapProjectSceneToApiProject,
 } from '../utils/mappers';
-import { ApiProject, ApiProjects } from './types';
 
 const MODELS_DIRECTORY = 'models/';
 
@@ -116,17 +116,19 @@ export const deleteProject = async (userId: string, projectId?: string): Promise
 };
 
 export const fetchModelsList = async (): Promise<
-  { id: string; name: string }[]
+  ApiModel[]
 > => {
-  const modelsRef = collection(db, 'models2');
+  const modelsRef = collection(db, 'models');
   const querySnapshot = await getDocs(modelsRef);
 
   const models = querySnapshot.docs.map((doc) => ({
-    id: doc.id,
+    ...doc.data(),
+    colorVariants: doc.data().color_variants,
     name: doc.data().name,
   }));
+  console.log(models);
 
-  return models;
+  return models as ApiModel[];
 };
 
 export const fetchModelColors = async (objectId: string): Promise<string[]> => {
