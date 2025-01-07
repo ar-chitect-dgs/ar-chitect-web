@@ -17,15 +17,9 @@ const Navbar = (): JSX.Element => {
     dispatch(clearScene());
   };
 
-  const handleEditorClick = () => {
-    dispatch(clearProject());
-    dispatch(clearScene());
-  };
-
   const projectGroup = [
     { name: 'Your projects', path: ROUTES.PROJECTS },
     { name: 'Creator', path: ROUTES.CREATOR, onClick: handleCreatorClick },
-    { name: 'Editor', path: ROUTES.EDITOR, onClick: handleEditorClick },
     { name: 'Templates', path: ROUTES.TEMPLATES },
   ];
 

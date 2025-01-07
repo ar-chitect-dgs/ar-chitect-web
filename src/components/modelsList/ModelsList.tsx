@@ -1,41 +1,18 @@
-import {
-  CircularProgress,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  List,
-  ListItem,
-  ListItemText,
-} from '@mui/material';
-import { useEffect, useState } from 'react';
-import {
-  fetchGLBUrl,
-  fetchModelColors,
-  fetchModelsList,
-} from '../../api/projectsApi';
+import React, { useEffect, useState } from 'react';
 import { useAppDispatch } from '../../redux';
 import { addModel } from '../../redux/slices/scene';
 import NotificationPopup, {
   initialSnackBarState,
-  setOpenSnackBarState,
   SnackBarState,
 } from '../notificationPopup/NotificationPopup';
-import TextButton from '../textButton/TextButton';
 import './ModelsList.css';
-
-interface modelItem {
-  id: string;
-  name: string;
-}
+import { fetchModelsList } from '../../api/projectsApi';
+import ModelTile, { SelectedModel } from '../modelTile/ModelTile';
+import { ApiModel } from '../../api/types';
 
 const ModelsList = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const [modelsList, setModelsList] = useState<modelItem[]>([]);
-  const [selectedModel, setSelectedModel] = useState<modelItem | null>(null);
-  const [colors, setColors] = useState<string[]>([]);
-  const [loadingColors, setLoadingColors] = useState(false);
-  const [openColorDialog, setOpenColorDialog] = useState(false);
+  const [modelsList, setModelsList] = useState<ApiModel[]>([]);
   const [snackbar, setSnackbar] = useState<SnackBarState>(initialSnackBarState);
 
   useEffect(() => {
@@ -50,83 +27,22 @@ const ModelsList = (): JSX.Element => {
     fetchModels();
   }, []);
 
-  const handleAddModel = async (model: modelItem, color: string) => {
-    try {
-      const url = await fetchGLBUrl(model.id, color);
-      dispatch(addModel(model.id, model.name, color, url));
-      setSnackbar(
-        setOpenSnackBarState(
-          `Added ${model.name} with color ${color}`,
-          'success',
-        ),
-      );
-    } catch (error) {
-      setSnackbar(setOpenSnackBarState('Error adding model', 'error'));
-    } finally {
-      setOpenColorDialog(false);
-      setSelectedModel(null);
-    }
-  };
-
-  const handleModelClick = async (model?: modelItem) => {
-    if (!model) {
-      return;
-    }
-    setLoadingColors(true);
-    try {
-      const fetchedColors = await fetchModelColors(model.id);
-      setColors(fetchedColors);
-      setSelectedModel(model);
-      setOpenColorDialog(true);
-    } catch (error) {
-      setSnackbar(setOpenSnackBarState('Error fetching model colors', 'error'));
-    } finally {
-      setLoadingColors(false);
-    }
+  const handleAddModel = (model: SelectedModel) => {
+    console.log('Adding model:', model);
+    dispatch(addModel(model.id, model.name, model.color, model.url));
   };
 
   return (
     <div className="models-list-container">
-      <List>
+      <div className="models-grid">
         {modelsList.map((model) => (
-          <ListItem
-            component="button"
+          <ModelTile
             key={model.id}
-            onClick={() => handleModelClick(model)}
-            className="list-item"
-          >
-            <ListItemText className="list-item-text" primary={model.name} />
-          </ListItem>
+            model={model}
+            onClick={handleAddModel}
+          />
         ))}
-      </List>
-      <Dialog open={openColorDialog} onClose={() => setOpenColorDialog(false)}>
-        <DialogTitle className="dialog-title">Select a Color</DialogTitle>
-        <DialogContent className="dialog-content">
-          {loadingColors ? (
-            <div className="color-loader">
-              <CircularProgress />
-            </div>
-          ) : (
-            <List>
-              {colors.map((color) => (
-                <ListItem
-                  component="button"
-                  key={color}
-                  onClick={() => { if (selectedModel) handleAddModel(selectedModel, color); }}
-                  className="list-item"
-                >
-                  <ListItemText className="list-item-text" primary={color} />
-                </ListItem>
-              ))}
-            </List>
-          )}
-        </DialogContent>
-        <DialogActions className="dialog-actions">
-          <TextButton onClick={() => setOpenColorDialog(false)}>
-            Cancel
-          </TextButton>
-        </DialogActions>
-      </Dialog>
+      </div>
       <NotificationPopup
         snackbar={snackbar}
         setOpenSnackbar={(open: boolean) =>
