@@ -2,8 +2,8 @@
   color: var(--text-color);
   padding: 30px;
   padding-top: 50px;
-  height: 90vh; /* Adjust as needed */
-  overflow: hidden; /* Prevents scrolling of the entire page */
+  height: 90vh;
+  overflow: hidden;
 }
 
 .projects-container {
