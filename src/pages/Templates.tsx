@@ -72,10 +72,10 @@ const Templates = (): JSX.Element => {
     <div className="projects-page">
       {message}
       <div className="scrollbar-outside-container">
-      <ScrollBar className="scrollbar">
-        <div className="scrollbar-inside-container">
-          {!loading &&
-            sections.map((section) => (
+        <ScrollBar className="scrollbar">
+          <div className="scrollbar-inside-container">
+            {!loading
+            && sections.map((section) => (
               <div key={section.sectionName} className="template-section">
                 <h2 className="section-title">{section.sectionName}</h2>
                 <Scrollbars
@@ -99,8 +99,8 @@ const Templates = (): JSX.Element => {
                 </Scrollbars>
               </div>
             ))}
-        </div>
-      </ScrollBar>
+          </div>
+        </ScrollBar>
       </div>
     </div>
   );
