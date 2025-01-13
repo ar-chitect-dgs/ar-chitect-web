@@ -13,6 +13,7 @@ import { projectSelector, setProjectName } from '../../../redux/slices/project';
 import { setScene } from '../../../redux/slices/scene';
 import { ROUTES } from '../../navigation/routes';
 import './Toolbar.css';
+import TextButton from '../../../components/textButton/TextButton';
 
 function CreatorToolbar(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -40,7 +41,7 @@ function CreatorToolbar(): JSX.Element {
   };
 
   return (
-    <div>
+    <div className="toolbar">
       <FormControl fullWidth>
         <TextField
           label="Project Name"
@@ -48,15 +49,20 @@ function CreatorToolbar(): JSX.Element {
           onChange={(e) => dispatch(setProjectName(e.target.value))}
         />
       </FormControl>
-      <FilledButton onClick={handleDone}>Done</FilledButton>
-      <FilledButton
-        className={
-          interaction === Interaction.DeletingVertex ? 'active' : 'inactive'
-        }
-        onClick={handleSwitchDelete}
-      >
-        Delete
-      </FilledButton>
+      <div className="toolbar-delete">
+        <TextButton
+          className={
+            interaction === Interaction.DeletingVertex ? 'active' : 'inactive'
+          }
+          onClick={handleSwitchDelete}
+        >
+          {`${interaction === Interaction.DeletingVertex ? 'Stop deleting vertices' : 'Start deleting vertices'}`}
+        </TextButton>
+      </div>
+
+      <div className="toolbar-next">
+        <FilledButton onClick={handleDone}>Go to the room design</FilledButton>
+      </div>
     </div>
   );
 }

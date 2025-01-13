@@ -17,6 +17,7 @@ export function mapProjectSceneToApiProject(
     return {
       id: sceneObject.objectId,
       color: sceneObject.color,
+      name: sceneObject.name,
       position: sceneObject.position,
       rotation: sceneObject.rotation,
     };

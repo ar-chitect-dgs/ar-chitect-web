@@ -119,8 +119,10 @@ const Profile = (): JSX.Element => {
         ) : (
           <div className="edit-button-container">
             <FilledButton onClick={() => setEditMode(true)}>
-              <EditIcon />
-              Edit Profile
+              <div className="edit-button">
+                <EditIcon />
+                Edit Profile
+              </div>
             </FilledButton>
           </div>
         )}

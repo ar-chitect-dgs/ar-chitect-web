@@ -78,8 +78,10 @@ const Login = (): JSX.Element => {
         <Divider style={{ margin: '20px 0' }}>OR</Divider>
         <div className="google-link">
           <TextButton onClick={handleGoogleLogin}>
-            <img src={googleIcon} height="20px" alt="Google Icon" />
-            Connect with Google
+            <div className="google-button">
+              <img src={googleIcon} height="20px" alt="Google Icon" />
+              Connect with Google
+            </div>
           </TextButton>
         </div>
       </Card>

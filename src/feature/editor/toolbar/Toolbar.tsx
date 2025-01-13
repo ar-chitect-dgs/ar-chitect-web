@@ -121,9 +121,12 @@ const EditorToolbar = (): JSX.Element => {
           <div className="header">Modify selected model:</div>
           <Properties />
         </div>
-
-        <div className="button">
-          <FilledButton onClick={handleSaveProject}>Save Project</FilledButton>
+        <div className="button-container">
+          <div className="button">
+            <FilledButton onClick={handleSaveProject}>
+              Save Project
+            </FilledButton>
+          </div>
         </div>
       </div>
       <NotificationPopup

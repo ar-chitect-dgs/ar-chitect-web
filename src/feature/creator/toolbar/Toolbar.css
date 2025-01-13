@@ -7,6 +7,17 @@
   color: red;
 }
 
-.inactive {
+.toolbar {
+  padding: 10px;
+  height: 100%;
+  display: flex;
+}
 
+.toolbar-next {
+  margin-top: 20px;
+}
+
+.toolbar-delete{
+  margin-top: 20px;
+  color: var(--purple-accent-button);
 }

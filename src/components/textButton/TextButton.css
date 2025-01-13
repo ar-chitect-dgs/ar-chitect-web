@@ -6,6 +6,7 @@
   font-weight: normal;
   background: none;
   font-size: 18px;
+  color: var(--purple-accent-button);
 }
 
 .text-button:hover {

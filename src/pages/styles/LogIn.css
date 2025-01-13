@@ -43,3 +43,11 @@ h2 {
   display: flex;
   justify-content: center;
 }
+
+.google-button {
+  display: flex;
+  gap: 2px;
+  padding: 5px;
+  justify-items: center;
+  align-items: center;
+}
