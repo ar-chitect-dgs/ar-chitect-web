@@ -126,7 +126,6 @@ export const fetchModelsList = async (): Promise<
     colorVariants: doc.data().color_variants,
     name: doc.data().name,
   }));
-  console.log(models);
 
   return models as ApiModel[];
 };

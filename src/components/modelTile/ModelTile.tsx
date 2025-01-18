@@ -25,7 +25,6 @@ const MAP_COLORS = {
 };
 
 const ModelTile = ({ model, onClick }: ModelTileProps): JSX.Element => {
-  console.log('color variants', model.colorVariants);
   const colorOptions = Object.keys(model.colorVariants);
   const [selectedColor, setSelectedColor] = useState(
     colorOptions.findIndex((e) => e === 'default') === -1 ? colorOptions[0] : 'default',

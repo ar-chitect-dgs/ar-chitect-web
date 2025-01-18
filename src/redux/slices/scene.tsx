@@ -44,7 +44,14 @@ interface RemoveModelPayload {
 
 export const initialState: SceneState = {
   scene: {
-    corners: [],
+    corners: [
+      { x: -2, y: -2 },
+      { x: -2, y: 2 },
+      { x: 2, y: 2 },
+      { x: 5, y: 0 },
+      { x: 3, y: -3 },
+      { x: 4, y: -5 },
+    ],
     objectIds: [],
     objects: {},
     activeObjectId: null,

@@ -1,12 +1,12 @@
-import AppRouter from './feature/navigation/AppRouter';
 import './firebaseConfig';
-import AuthProvider from './auth/AuthProvider';
+import Editor from './feature/editor/Editor';
 
 function App(): JSX.Element {
   return (
-    <AuthProvider>
-      <AppRouter />
-    </AuthProvider>
+    <Editor />
+    // <AuthProvider>
+    //   <AppRouter />
+    // </AuthProvider>
   );
 }
 

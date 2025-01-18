@@ -16,6 +16,71 @@ import {
   RAYCASTER_MODEL,
   RAYCASTER_GROUND,
 } from '../../3dUtils';
+import { Point2D } from '../../../types/Point';
+
+const EPS = 0.7;
+
+// todo move
+function distanceToSegment(point: THREE.Vector2, v: THREE.Vector2, u: THREE.Vector2): number {
+  const l2 = v.distanceToSquared(u);
+  if (l2 === 0) return point.distanceTo(v);
+  const t = Math.max(0, Math.min(1, point.clone().sub(v).dot(u.clone().sub(v)) / l2));
+  const projection = v.clone().add(u.clone().sub(v).multiplyScalar(t));
+  return point.distanceTo(projection);
+}
+
+function snapObject(position: THREE.Vector2, corners: Point2D[]): {
+  position: THREE.Vector2,
+  rotation: number,
+} {
+  let ret = position;
+  let minDistance = Infinity;
+
+  let closestWallIndex = -1;
+
+  for (let i = 0; i < corners.length; i += 1) {
+    const v = new THREE.Vector2(corners[i].x, corners[i].y);
+    const u = new THREE.Vector2(
+      corners[(i + 1) % corners.length].x,
+      corners[(i + 1) % corners.length].y,
+    );
+    const distance = distanceToSegment(position, v, u);
+
+    if (distance < minDistance && distance < EPS) {
+      minDistance = distance;
+      closestWallIndex = i;
+    }
+  }
+
+  if (closestWallIndex === -1) {
+    return { position, rotation: 0 };
+  }
+
+  const i = closestWallIndex;
+  const v = new THREE.Vector2(corners[i].x, corners[i].y);
+  const u = new THREE.Vector2(
+    corners[(i + 1) % corners.length].x,
+    corners[(i + 1) % corners.length].y,
+  );
+
+  const segmentVector = u.clone().sub(v);
+
+  ret = v.clone().lerp(
+    u,
+    Math.max(
+      0,
+      Math.min(
+        1,
+        position.clone().sub(v).dot(segmentVector) / v.distanceToSquared(u),
+      ),
+    ),
+  );
+  ret.multiplyScalar(0.83);
+
+  const normal = new THREE.Vector2(-segmentVector.y, segmentVector.x);
+  // const xVector = new THREE.Vector2(1, 0);
+  return { position: ret, rotation: Math.PI - normal.angle() };
+}
 
 export function InteractiveScene(): JSX.Element {
   const meshRef = useRef<THREE.Mesh>(null);
@@ -66,11 +131,18 @@ export function InteractiveScene(): JSX.Element {
       if (intersection.object.userData.name === RAYCASTER_GROUND) {
         const { point } = intersection;
 
+        // todo not sure which component should handle this
+        const { position, rotation } = snapObject(
+          new THREE.Vector2(point.x, point.z), scene.corners,
+        );
+
         dispatch(moveObjectTo(
             scene.activeObjectId as number,
-            point.x,
-            point.z,
+            position.x,
+            position.y,
         ));
+
+        dispatch(rotateObject(scene.activeObjectId as number, rotation, Axis.Y));
         return true;
       }
       return false;
