@@ -1,6 +1,7 @@
 import { FormControl, TextField } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import FilledButton from '../../../components/filledButton/FilledButton';
 import { useAppDispatch } from '../../../redux';
 import {
@@ -21,6 +22,7 @@ function CreatorToolbar(): JSX.Element {
   const navigate = useNavigate();
   const { projectName } = useSelector(projectSelector);
   const { interaction, points } = useSelector(creatorSelector);
+  const { t } = useTranslation();
 
   const handleDone = async () => {
     try {
@@ -28,7 +30,7 @@ function CreatorToolbar(): JSX.Element {
 
       dispatch(setScene({ corners }));
     } catch (error) {
-      console.error('Error getting project:', error);
+      console.error(error);
     }
 
     navigate(ROUTES.EDITOR);
@@ -47,7 +49,7 @@ function CreatorToolbar(): JSX.Element {
     <div className="toolbar">
       <FormControl fullWidth>
         <TextField
-          label="Project Name"
+          label={t('creatorToolbar.projectNameLabel')}
           value={projectName}
           onChange={(e) => dispatch(setProjectName(e.target.value))}
         />
@@ -59,12 +61,16 @@ function CreatorToolbar(): JSX.Element {
           }
           onClick={handleSwitchDelete}
         >
-          {`${interaction === Interaction.DeletingVertex ? 'Stop deleting vertices' : 'Start deleting vertices'}`}
+          {interaction === Interaction.DeletingVertex
+            ? t('creatorToolbar.stopDeletingVertices')
+            : t('creatorToolbar.startDeletingVertices')}
         </TextButton>
       </div>
 
       <div className="toolbar-next">
-        <FilledButton onClick={handleDone}>Go to the room design</FilledButton>
+        <FilledButton onClick={handleDone}>
+          {t('creatorToolbar.goToRoomDesign')}
+        </FilledButton>
       </div>
     </div>
   );

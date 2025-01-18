@@ -19,7 +19,7 @@ describe('Projects Component', () => {
     render(<Projects />);
 
     await waitFor(() => {
-      expect(screen.getByText(/loading projects/i)).toBeInTheDocument();
+      expect(screen.getByText(/projects.loading/i)).toBeInTheDocument();
     });
   });
 
@@ -29,7 +29,7 @@ describe('Projects Component', () => {
     render(<Projects />);
 
     await waitFor(() => {
-      expect(screen.getByText(/no projects found/i)).toBeInTheDocument();
+      expect(screen.getByText(/projects.noProjects/i)).toBeInTheDocument();
     });
   });
 
@@ -43,7 +43,7 @@ describe('Projects Component', () => {
     render(<Projects />);
 
     await waitFor(() => {
-      expect(screen.getByText(/your latest projects/i)).toBeInTheDocument();
+      expect(screen.getByText(/projects.title/i)).toBeInTheDocument();
       expect(screen.getByText(/project 1/i)).toBeInTheDocument();
       expect(screen.getByText(/project 2/i)).toBeInTheDocument();
     });
@@ -57,7 +57,7 @@ describe('Projects Component', () => {
     render(<Projects />);
 
     await waitFor(() => {
-      expect(screen.getByText(/no projects found/i)).toBeInTheDocument();
+      expect(screen.getByText(/projects.noProjects/i)).toBeInTheDocument();
     });
   });
 });

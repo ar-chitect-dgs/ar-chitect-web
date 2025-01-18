@@ -27,8 +27,8 @@ describe('SignUp Component', () => {
       </BrowserRouter>,
     );
 
-    expect(screen.getByText(/choose a profile picture/i)).toBeInTheDocument();
-    expect(screen.getByText(/sign up/i)).toBeInTheDocument();
+    expect(screen.getByText(/signUp.profilePictureHeader/i)).toBeInTheDocument();
+    expect(screen.getByText(/signUp.signUpButton/i)).toBeInTheDocument();
   });
 
   it('should sign up with email and password successfully', async () => {
@@ -40,16 +40,16 @@ describe('SignUp Component', () => {
       </BrowserRouter>,
     );
 
-    fireEvent.change(screen.getByLabelText(/display name/i), {
+    fireEvent.change(screen.getByLabelText(/signUp.displayNameLabel/i), {
       target: { value: 'name' },
     });
-    fireEvent.change(screen.getByLabelText(/email/i), {
+    fireEvent.change(screen.getByLabelText(/signup.emailLabel/i), {
       target: { value: 'test@example.com' },
     });
-    fireEvent.change(screen.getByLabelText(/password/i), {
+    fireEvent.change(screen.getByLabelText(/signUp.passwordLabel/i), {
       target: { value: 'password' },
     });
-    fireEvent.click(screen.getByText(/sign up/i));
+    fireEvent.click(screen.getByText(/signUp.signUpButton/i));
 
     await waitFor(() => {
       expect(createUserWithEmailAndPassword).toHaveBeenCalledWith(
@@ -73,16 +73,16 @@ describe('SignUp Component', () => {
       </BrowserRouter>,
     );
 
-    fireEvent.change(screen.getByLabelText(/display name/i), {
+    fireEvent.change(screen.getByLabelText(/signUp.displayNameLabel/i), {
       target: { value: 'name' },
     });
-    fireEvent.change(screen.getByLabelText(/email/i), {
+    fireEvent.change(screen.getByLabelText(/signup.emailLabel/i), {
       target: { value: 'test@example.com' },
     });
-    fireEvent.change(screen.getByLabelText(/password/i), {
+    fireEvent.change(screen.getByLabelText(/signUp.passwordLabel/i), {
       target: { value: 'password' },
     });
-    fireEvent.click(screen.getByText(/sign up/i));
+    fireEvent.click(screen.getByText(/signUp.signUpButton/i));
 
     await waitFor(() => {
       expect(createUserWithEmailAndPassword).toHaveBeenCalledWith(
@@ -90,7 +90,7 @@ describe('SignUp Component', () => {
         'test@example.com',
         'password',
       );
-      expect(screen.getByText(/sign-up failed/i)).toBeInTheDocument();
+      expect(screen.getByText(/signUp.alreadyHaveAccountText/i)).toBeInTheDocument();
     });
   });
 
@@ -101,7 +101,7 @@ describe('SignUp Component', () => {
       </BrowserRouter>,
     );
 
-    fireEvent.click(screen.getByText(/log in/i));
+    fireEvent.click(screen.getByText(/signUp.loginLink/i));
 
     await waitFor(() => {
       expect(mockNavigate).toHaveBeenCalledWith(
