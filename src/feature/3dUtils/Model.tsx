@@ -24,7 +24,6 @@ export function Model({
   const [depth, setDepth] = useState(0);
   const [height, setHeight] = useState(0);
   const [width, setWidth] = useState(0);
-  const [geometry, setGeometry] = useState<THREE.BufferGeometry | null>(null);
 
   const meshRef = useRef<THREE.Mesh>(null);
 
@@ -52,8 +51,6 @@ export function Model({
     setDepth(boundingBox.max.x - boundingBox.min.x);
     setHeight(boundingBox.max.y - boundingBox.min.y);
     setWidth(boundingBox.max.z - boundingBox.min.z);
-
-    setGeometry(meshRef.current.geometry);
   }, [meshRef.current, url]);
 
   useEffect(() => {
