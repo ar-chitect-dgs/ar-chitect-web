@@ -8,6 +8,7 @@ import { RAYCASTER_MODEL } from '.';
 type ModelProps = SceneObject & {
   hovered: boolean,
   active: boolean,
+  passDepthToParent?: (_: number) => void
 }
 
 export function Model({
@@ -17,11 +18,13 @@ export function Model({
   rotation,
   hovered,
   active,
+  passDepthToParent,
 }: ModelProps): JSX.Element {
   const [gltfModel, setGltfModel] = useState<THREE.Group | null>(null);
-  const [width, setWidth] = useState(0);
-  const [height, setHeight] = useState(0);
   const [depth, setDepth] = useState(0);
+  const [height, setHeight] = useState(0);
+  const [width, setWidth] = useState(0);
+  const [geometry, setGeometry] = useState<THREE.BufferGeometry | null>(null);
 
   const meshRef = useRef<THREE.Mesh>(null);
 
@@ -46,10 +49,18 @@ export function Model({
 
     const boundingBox = new THREE.Box3().setFromObject(meshRef.current as THREE.Object3D);
 
-    setWidth(boundingBox.max.x - boundingBox.min.x + 0.1);
-    setHeight(boundingBox.max.y - boundingBox.min.y + 0.1);
-    setDepth(boundingBox.max.z - boundingBox.min.z + 0.1);
-  }, [meshRef.current]);
+    setDepth(boundingBox.max.x - boundingBox.min.x);
+    setHeight(boundingBox.max.y - boundingBox.min.y);
+    setWidth(boundingBox.max.z - boundingBox.min.z);
+
+    setGeometry(meshRef.current.geometry);
+  }, [meshRef.current, url]);
+
+  useEffect(() => {
+    if (passDepthToParent !== undefined) {
+      passDepthToParent(depth);
+    }
+  }, [depth, passDepthToParent]);
 
   let opacity = 0;
   if (active) {
@@ -64,17 +75,17 @@ export function Model({
     <mesh
       position={[position.x, position.y, position.z]}
       rotation={[rotation.x, rotation.y, rotation.z]}
-      ref={meshRef}
     >
-      <mesh>
+      <mesh ref={meshRef}>
         <primitive object={gltfModel} />
       </mesh>
       <mesh
         position={[0, height / 2, 0]}
+        // rotation={[0, 0, 0]}
         userData={{ name: RAYCASTER_MODEL, id: inProjectId }}
         castShadow={false}
       >
-        <boxGeometry args={[width, height, depth]} />
+        <boxGeometry args={[depth + 0.1, height + 0.1, width + 0.1]} />
         <meshStandardMaterial
           color="lightblue"
           transparent

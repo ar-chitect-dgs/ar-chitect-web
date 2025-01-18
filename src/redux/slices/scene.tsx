@@ -44,6 +44,7 @@ interface RemoveModelPayload {
 
 export const initialState: SceneState = {
   scene: {
+    // corners: [],
     corners: [
       { x: -2, y: -2 },
       { x: -2, y: 2 },
@@ -51,7 +52,7 @@ export const initialState: SceneState = {
       { x: 5, y: 0 },
       { x: 3, y: -3 },
       { x: 4, y: -5 },
-    ],
+    ].reverse(),
     objectIds: [],
     objects: {},
     activeObjectId: null,
@@ -102,7 +103,7 @@ const sceneSlice = createSlice({
         case Axis.Y:
           object.position = {
             x: object.position.x,
-            y: val,
+            y: Math.max(val, 0),
             z: object.position.z,
           };
           break;

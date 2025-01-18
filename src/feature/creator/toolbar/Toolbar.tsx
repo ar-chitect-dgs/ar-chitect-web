@@ -14,6 +14,7 @@ import { setScene } from '../../../redux/slices/scene';
 import { ROUTES } from '../../navigation/routes';
 import './Toolbar.css';
 import TextButton from '../../../components/textButton/TextButton';
+import { normalizePoints } from '../../../utils/utils';
 
 function CreatorToolbar(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -23,7 +24,9 @@ function CreatorToolbar(): JSX.Element {
 
   const handleDone = async () => {
     try {
-      dispatch(setScene({ corners: points }));
+      const corners = normalizePoints(points);
+
+      dispatch(setScene({ corners }));
     } catch (error) {
       console.error('Error getting project:', error);
     }
