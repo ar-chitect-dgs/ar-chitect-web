@@ -68,7 +68,6 @@ export function InteractiveScene(): JSX.Element {
       if (intersection.object.userData.name === GROUND) {
         const { point } = intersection;
 
-        // todo not sure which component should handle this
         const { snapped, position, rotation } = snapObject(
           new THREE.Vector2(point.x, point.z), activeModelDepth, scene.corners,
         );
