@@ -1,6 +1,7 @@
 import { FormControl, FormHelperText, TextField } from '@mui/material';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { saveProject, saveProjectThumbnail } from '../../../api/projectsApi';
 import FilledButton from '../../../components/filledButton/FilledButton';
 import ModelsList from '../../../components/modelsList/ModelsList';
@@ -20,7 +21,6 @@ import {
   setProjectName,
 } from '../../../redux/slices/project';
 import './Toolbar.css';
-import { useTranslation } from 'react-i18next';
 
 const EditorToolbar = (): JSX.Element => {
   const { t } = useTranslation();

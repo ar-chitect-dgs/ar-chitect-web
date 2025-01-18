@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import logo from '../../assets/logo.svg';
 import { useAuth } from '../../auth/AuthProvider';
 import Sidebar from '../../components/sidebar/Sidebar';
@@ -6,7 +7,6 @@ import { clearProject } from '../../redux/slices/project';
 import { useAppDispatch } from '../../redux';
 import { clearCreator } from '../../redux/slices/creator';
 import { clearScene } from '../../redux/slices/scene';
-import { useTranslation } from 'react-i18next';
 
 const Navbar = (): JSX.Element => {
   const { isLoggedIn } = useAuth();
