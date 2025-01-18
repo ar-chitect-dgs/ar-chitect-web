@@ -69,9 +69,13 @@ export function InteractiveScene(): JSX.Element {
         const { point } = intersection;
 
         // todo not sure which component should handle this
-        const { position, rotation } = snapObject(
+        const { snapped, position, rotation } = snapObject(
           new THREE.Vector2(point.x, point.z), activeModelDepth, scene.corners,
         );
+
+        if (snapped) {
+          dispatch(rotateObject(scene.activeObjectId as number, rotation, Axis.Y));
+        }
 
         dispatch(moveObjectTo(
             scene.activeObjectId as number,
@@ -79,7 +83,6 @@ export function InteractiveScene(): JSX.Element {
             position.y,
         ));
 
-        dispatch(rotateObject(scene.activeObjectId as number, rotation, Axis.Y));
         return true;
       }
       return false;

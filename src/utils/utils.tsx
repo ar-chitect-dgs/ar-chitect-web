@@ -88,6 +88,7 @@ export function snapObject(
   depth: number,
   corners: Point2D[],
 ): {
+  snapped: boolean,
   position: THREE.Vector2,
   rotation: number,
 } {
@@ -110,7 +111,7 @@ export function snapObject(
   }
 
   if (closestWallIndex === -1) {
-    return { position, rotation: 0 };
+    return { snapped: false, position, rotation: 0 };
   }
 
   const i = closestWallIndex;
@@ -136,5 +137,5 @@ export function snapObject(
   const ret = onWallPosition.clone().add(objectOffsetVector);
 
   const normal = new THREE.Vector2(segmentVector.y, -segmentVector.x);
-  return { position: ret, rotation: Math.PI - normal.angle() };
+  return { snapped: true, position: ret, rotation: Math.PI - normal.angle() };
 }
