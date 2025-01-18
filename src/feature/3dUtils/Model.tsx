@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { SceneObject } from '../../types/Scene';
-import { RAYCASTER_MODEL } from '.';
+import { MODEL } from '.';
 
 type ModelProps = SceneObject & {
   hovered: boolean,
@@ -82,7 +82,7 @@ export function Model({
       <mesh
         position={[0, height / 2, 0]}
         // rotation={[0, 0, 0]}
-        userData={{ name: RAYCASTER_MODEL, id: inProjectId }}
+        userData={{ name: MODEL, id: inProjectId }}
         castShadow={false}
       >
         <boxGeometry args={[depth + 0.1, height + 0.1, width + 0.1]} />

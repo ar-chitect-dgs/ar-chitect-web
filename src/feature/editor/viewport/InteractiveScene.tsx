@@ -13,8 +13,8 @@ import {
 } from '../../../redux/slices/scene';
 import {
   Floor, Walls, Model, Ground,
-  RAYCASTER_MODEL,
-  RAYCASTER_GROUND,
+  MODEL,
+  GROUND,
 } from '../../3dUtils';
 import { snapObject } from '../../../utils/utils';
 
@@ -52,7 +52,7 @@ export function InteractiveScene(): JSX.Element {
 
   const hover = intersectionAction(
     (intersection: THREE.Intersection) => {
-      if (intersection.object.userData.name === RAYCASTER_MODEL) {
+      if (intersection.object.userData.name === MODEL) {
         const { id } = intersection.object.userData;
 
         dispatch(hoverObject(id));
@@ -65,7 +65,7 @@ export function InteractiveScene(): JSX.Element {
 
   const move = intersectionAction(
     (intersection: THREE.Intersection) => {
-      if (intersection.object.userData.name === RAYCASTER_GROUND) {
+      if (intersection.object.userData.name === GROUND) {
         const { point } = intersection;
 
         // todo not sure which component should handle this
@@ -88,7 +88,7 @@ export function InteractiveScene(): JSX.Element {
 
   const setActive = intersectionAction(
     (intersection: THREE.Intersection) => {
-      if (intersection.object.userData.name === RAYCASTER_MODEL) {
+      if (intersection.object.userData.name === MODEL) {
         const { id } = intersection.object.userData;
 
         dispatch(activateObject(id));
@@ -104,7 +104,7 @@ export function InteractiveScene(): JSX.Element {
     (intersection: THREE.Intersection) => {
       if (scene.activeObjectId == null) return false;
 
-      if (intersection.object.userData.name === RAYCASTER_GROUND) {
+      if (intersection.object.userData.name === GROUND) {
         const { point } = intersection;
 
         const { position } = scene.objects[scene.activeObjectId];

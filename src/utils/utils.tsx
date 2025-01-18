@@ -103,7 +103,7 @@ export function snapObject(
     );
     const distance = distanceToSegment(position, v, u);
 
-    if (distance < minDistance && distance < pointEps) {
+    if (distance < minDistance && distance < snapEps) {
       minDistance = distance;
       closestWallIndex = i;
     }
