@@ -33,7 +33,7 @@ describe('Login Component', () => {
       </BrowserRouter>,
     );
 
-    expect(screen.getByText(/login/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/login.emailLabel/i)[0]).toBeInTheDocument();
   });
 
   it('should login with email and password successfully', async () => {
@@ -45,13 +45,13 @@ describe('Login Component', () => {
       </BrowserRouter>,
     );
 
-    fireEvent.change(screen.getByLabelText(/email/i), {
+    fireEvent.change(screen.getByLabelText(/login.emailLabel/i), {
       target: { value: 'test@example.com' },
     });
-    fireEvent.change(screen.getByLabelText(/password/i), {
+    fireEvent.change(screen.getByLabelText(/login.passwordLabel/i), {
       target: { value: 'password' },
     });
-    fireEvent.click(screen.getByText(/log in/i));
+    fireEvent.click(screen.getByText(/login.loginButton/i));
 
     await waitFor(() => {
       expect(signInWithEmailAndPassword).toHaveBeenCalledWith(
@@ -74,13 +74,13 @@ describe('Login Component', () => {
       </BrowserRouter>,
     );
 
-    fireEvent.change(screen.getByLabelText(/email/i), {
+    fireEvent.change(screen.getByLabelText(/login.emailLabel/i), {
       target: { value: 'test@example.com' },
     });
-    fireEvent.change(screen.getByLabelText(/password/i), {
+    fireEvent.change(screen.getByLabelText(/login.passwordLabel/i), {
       target: { value: 'password' },
     });
-    fireEvent.click(screen.getByText(/log in/i));
+    fireEvent.click(screen.getByText(/login.loginButton/i));
 
     await waitFor(() => {
       expect(signInWithEmailAndPassword).toHaveBeenCalledWith(
@@ -88,7 +88,7 @@ describe('Login Component', () => {
         'test@example.com',
         'password',
       );
-      expect(screen.getByText(/invalid credentials/i)).toBeInTheDocument();
+      expect(screen.getByText(/loginFailed/i)).toBeInTheDocument();
     });
   });
 
@@ -101,7 +101,7 @@ describe('Login Component', () => {
       </BrowserRouter>,
     );
 
-    fireEvent.click(screen.getByAltText(/google/i));
+    fireEvent.click(screen.getByText(/googleButton/i));
 
     await waitFor(() => {
       expect(signInWithPopup).toHaveBeenCalledWith(
@@ -123,14 +123,14 @@ describe('Login Component', () => {
       </BrowserRouter>,
     );
 
-    fireEvent.click(screen.getByAltText(/google/i));
+    fireEvent.click(screen.getByText(/login.googleButton/i));
 
     await waitFor(() => {
       expect(signInWithPopup).toHaveBeenCalledWith(
         auth,
         expect.any(GoogleAuthProvider),
       );
-      expect(screen.getByText(/google login failed/i)).toBeInTheDocument();
+      expect(screen.getByText(/login.loginFailed/i)).toBeInTheDocument();
     });
   });
 });

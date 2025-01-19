@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import logo from '../../assets/logo.svg';
 import { useAuth } from '../../auth/AuthProvider';
 import Sidebar from '../../components/sidebar/Sidebar';
@@ -10,6 +11,7 @@ import { clearScene } from '../../redux/slices/scene';
 const Navbar = (): JSX.Element => {
   const { isLoggedIn } = useAuth();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const handleCreatorClick = () => {
     dispatch(clearCreator());
@@ -18,24 +20,24 @@ const Navbar = (): JSX.Element => {
   };
 
   const projectGroup = [
-    { name: 'Your projects', path: ROUTES.PROJECTS },
-    { name: 'Creator', path: ROUTES.CREATOR, onClick: handleCreatorClick },
-    { name: 'Templates', path: ROUTES.TEMPLATES },
+    { name: t('navbar.yourProjects'), path: ROUTES.PROJECTS },
+    { name: t('navbar.creator'), path: ROUTES.CREATOR, onClick: handleCreatorClick },
+    { name: t('navbar.templates'), path: ROUTES.TEMPLATES },
   ];
 
   const infoGroup = [
-    { name: 'About us', path: ROUTES.ABOUT },
-    { name: 'ARchitect Mobile', path: ROUTES.MOBILE },
+    { name: t('navbar.aboutUs'), path: ROUTES.ABOUT },
+    { name: t('navbar.mobileApp'), path: ROUTES.MOBILE },
   ];
 
   const authGroup = [
-    { name: 'Sign Up', path: ROUTES.SIGN_UP },
-    { name: 'Log In', path: ROUTES.LOGIN },
+    { name: t('navbar.signUp'), path: ROUTES.SIGN_UP },
+    { name: t('navbar.logIn'), path: ROUTES.LOGIN },
   ];
 
   const profileGroup = [
-    { name: 'Profile', path: ROUTES.PROFILE },
-    { name: 'Settings', path: ROUTES.SETTINGS },
+    { name: t('navbar.profile'), path: ROUTES.PROFILE },
+    { name: t('navbar.settings'), path: ROUTES.SETTINGS },
   ];
 
   const groups = [

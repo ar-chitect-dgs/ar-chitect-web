@@ -1,0 +1,116 @@
+{
+  "welcome": "Bienvenue dans notre application",
+  "about": {
+    "description": "Notre application est conçue pour donner vie à vos idées de design.",
+    "feature1": "Sur le web, vous pouvez utiliser notre éditeur 3D pour concevoir votre pièce exactement comme vous le souhaitez. Déplacez les meubles et personnalisez leurs couleurs en temps réel.",
+    "feature2": "Une fois que vous êtes satisfait de votre design, vous pouvez passer à notre application mobile pour voir votre création en réalité augmentée. Promenez-vous dans votre pièce comme si elle était déjà construite pour voir comment elle s'adapte à votre espace et effectuez des modifications en direct.",
+    "feature3": "Que vous planifiez une rénovation ou rêviez de la pièce parfaite, notre application facilite la transformation de votre vision en réalité."
+  },
+  "settings": {
+    "title": "Paramètres",
+    "language": "Langue"
+  },
+  "mobile": {
+    "title": "Vivez l'expérience complète avec ARchitect Mobile",
+    "description1": "L'éditeur web n'est que la moitié de l'expérience ARchitect.",
+    "description2": "Téléchargez notre application mobile ARchitect pour visualiser et modifier vos designs en réalité augmentée !",
+    "reviewsTitle": "Ce que disent nos utilisateurs :",
+    "review1": {
+      "text": "\"Absolument incroyable ! Concevoir en RA n'a jamais été aussi facile. Je n'arrive pas à croire à quel point cela semble réaliste !\"",
+      "author": "- John B."
+    },
+    "review2": {
+      "text": "\"J'ai utilisé ARchitect pour concevoir l'agencement de mon salon, et le résultat est parfait ! Je recommande vivement.\"",
+      "author": "- Marci N."
+    },
+    "review3": {
+      "text": "\"Cette application change la donne. Pouvoir modifier des designs en réalité augmentée est tellement intuitif et amusant !\"",
+      "author": "- Alex K."
+    }
+  },
+  "profile": {
+    "noUserLoggedIn": "Aucun utilisateur connecté.",
+    "altText": "Photo de profil",
+    "changeProfilePic": "Changer la photo de profil :",
+    "editProfile": "Modifier le profil",
+    "changeDisplayName": "Changer le nom d'affichage :",
+    "displayNameLabel": "Nom d'affichage",
+    "saveChanges": "Sauvegarder les modifications",
+    "cancel": "Annuler",
+    "displayName": "Nom d'affichage",
+    "defaultUser": "Utilisateur",
+    "email": "Email",
+    "logOut": "Se déconnecter",
+    "deleteAccount": "Supprimer le compte",
+    "deleteAccountTitle": "Supprimer le compte",
+    "deleteAccountConfirmation": "Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.",
+    "delete": "Supprimer",
+    "deleteAccountError": "Échec de la suppression du compte. Veuillez réessayer.",
+    "updateSuccess": "Profil mis à jour avec succès",
+    "updateError": "Échec de la mise à jour du profil"
+  },
+  "projects": {
+    "title": "Vos derniers projets",
+    "loading": "Chargement des projets...",
+    "noProjects": "Aucun projet trouvé. Vous pouvez en créer un dans l'éditeur !",
+    "fetchError": "Erreur lors de la récupération des projets",
+    "mapError": "Erreur lors de l'attribution du projet à la scène",
+    "deleteError": "Erreur lors de la suppression du projet",
+    "lastEdited": "Dernière édition :",
+    "deleteTitle": "Supprimer le projet",
+    "deleteBody": "Êtes-vous sûr de vouloir supprimer ce projet ? Cette action est irréversible."
+  },
+  "login": {
+    "title": "Connectez-vous à votre compte existant",
+    "emailLabel": "Email",
+    "passwordLabel": "Mot de passe",
+    "loginButton": "Se connecter",
+    "signupText": "Vous n'avez pas de compte ?",
+    "signupLink": "Inscription",
+    "orDivider": "OU",
+    "googleIconAlt": "Icône Google",
+    "googleButton": "Se connecter avec Google",
+    "loginFailed": "Échec de la connexion. Veuillez vérifier votre email et votre mot de passe et réessayer."
+  },
+  "signup": {
+    "title": "Créer un nouveau compte",
+    "emailLabel": "Email",
+    "passwordLabel": "Mot de passe",
+    "displayNameLabel": "Nom d'affichage",
+    "profilePictureHeader": "Choisir une photo de profil :",
+    "signUpButton": "S'inscrire",
+    "alreadyHaveAccountText": "Vous avez déjà un compte ?",
+    "loginLink": "Se connecter",
+    "invalidEmail": "Veuillez entrer un email valide",
+    "invalidPassword": "Le mot de passe doit contenir au moins 6 caractères",
+    "signupError": "Erreur lors de l'inscription. Veuillez réessayer."
+  },
+  "navbar": {
+    "yourProjects": "Vos projets",
+    "creator": "Créateur",
+    "templates": "Modèles",
+    "aboutUs": "À propos de nous",
+    "mobileApp": "ARchitect Mobile",
+    "signUp": "S'inscrire",
+    "logIn": "Se connecter",
+    "profile": "Profil",
+    "settings": "Paramètres"
+  },
+  "creatorToolbar": {
+    "projectNameLabel": "Nom du projet",
+    "stopDeletingVertices": "Arrêter de supprimer les sommets",
+    "startDeletingVertices": "Commencer à supprimer les sommets",
+    "goToRoomDesign": "Aller à la conception de la pièce",
+    "errorGettingProject": "Erreur lors de la récupération du projet"
+  },
+  "editorToolbar": {
+    "projectNameLabel": "Nom du projet",
+    "nameError": "Le nom du projet ne peut pas être vide.",
+    "addModelHeader": "Ajouter un modèle...",
+    "modifyModelHeader": "Modifier le modèle sélectionné :",
+    "saveProjectButton": "Sauvegarder le projet",
+    "saveProjectError": "Vous devez être connecté pour sauvegarder un projet.",
+    "saveProjectSuccess": "Projet sauvegardé avec succès.",
+    "saveProjectFailure": "Erreur lors de la sauvegarde du projet."
+  }
+}

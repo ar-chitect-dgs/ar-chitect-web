@@ -1,6 +1,7 @@
 import { FormControl, FormHelperText, TextField } from '@mui/material';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { saveProject, saveProjectThumbnail } from '../../../api/projects';
 import FilledButton from '../../../components/filledButton/FilledButton';
 import ModelsList from '../../../components/modelsList/ModelsList';
@@ -20,8 +21,10 @@ import {
 } from '../../../redux/slices/project';
 import { sceneSelector } from '../../../redux/slices/scene';
 import './Toolbar.css';
+import ScrollBar from '../../../components/scrollbar/ScrollBar';
 
 const EditorToolbar = (): JSX.Element => {
+  const { t } = useTranslation();
   const { scene } = useSelector(sceneSelector);
   const project = useSelector(projectSelector);
   const [snackbar, setSnackbar] = useState<SnackBarState>(initialSnackBarState);
@@ -53,10 +56,7 @@ const EditorToolbar = (): JSX.Element => {
 
     if (!user) {
       setSnackbar(
-        setOpenSnackBarState(
-          'You must be logged in to save a project.',
-          'error',
-        ),
+        setOpenSnackBarState(t('editorToolbar.saveProjectError'), 'error'),
       );
       return;
     }
@@ -83,11 +83,13 @@ const EditorToolbar = (): JSX.Element => {
       const projectId = await saveProject(user.uid, scene, updatedProject);
       dispatch(setProjectId(projectId));
       setSnackbar(
-        setOpenSnackBarState('Project saved successfully.', 'success'),
+        setOpenSnackBarState(t('editorToolbar.saveProjectSuccess'), 'success'),
       );
     } catch (error) {
       console.log('Error saving project:', error);
-      setSnackbar(setOpenSnackBarState('Error saving project.', 'error'));
+      setSnackbar(
+        setOpenSnackBarState(t('editorToolbar.saveProjectFailure'), 'error'),
+      );
     }
   };
 
@@ -97,34 +99,37 @@ const EditorToolbar = (): JSX.Element => {
         <div className="project-name-panel">
           <FormControl fullWidth>
             <TextField
-              label="Project Name"
+              label={t('editorToolbar.projectNameLabel')}
               value={project.projectName}
               onChange={(e) => dispatch(setProjectName(e.target.value))}
               error={nameError}
             />
             {nameError && (
               <FormHelperText error>
-                Project name cannot be empty.
+                {t('editorToolbar.nameError')}
               </FormHelperText>
             )}
           </FormControl>
         </div>
 
         <div className="adding-panel">
-          <div className="header">Add a model...</div>
-          <div className="models-list">
-            <ModelsList />
+          <div className="header">{t('editorToolbar.addModelHeader')}</div>
+          <div className="scrollbar-container">
+            <ScrollBar>
+              <div className="models-list">
+                <ModelsList />
+              </div>
+            </ScrollBar>
           </div>
         </div>
 
         <div className="editing-panel">
-          <div className="header">Modify selected model:</div>
           <Properties />
         </div>
         <div className="button-container">
           <div className="button">
             <FilledButton onClick={handleSaveProject}>
-              Save Project
+              {t('editorToolbar.saveProjectButton')}
             </FilledButton>
           </div>
         </div>

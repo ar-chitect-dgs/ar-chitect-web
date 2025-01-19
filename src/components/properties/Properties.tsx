@@ -17,6 +17,7 @@ import { ValueSlider } from '../valueSlider/ValueSlider';
 import { EditorAction } from '../../types/KeyBinds';
 import './Properties.css';
 import { settingsSelector } from '../../redux/slices/settings';
+import { DELETE, BACKSPACE, COPY } from '../../config/keyBinds';
 
 function Properties(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -79,6 +80,14 @@ function Properties(): JSX.Element {
       if (event.key.length === 1) key = event.key.toUpperCase();
 
       switch (key) {
+        // todo
+        case DELETE:
+        case BACKSPACE:
+          deleteObject();
+          break;
+        case COPY:
+          copyObject();
+          break;
         case keyBinds[EditorAction.MOVE_LEFT]:
           dispatch(
             moveObject(
@@ -165,7 +174,9 @@ function Properties(): JSX.Element {
       </div>
       <div className="button-panel">
         <FilledButton onClick={copyObject}>Copy</FilledButton>
-        <FilledButton onClick={deleteObject}>Delete</FilledButton>
+        <FilledButton onClick={deleteObject} className="delete-obj-button">
+          Delete
+        </FilledButton>
       </div>
     </div>
   );

@@ -7,11 +7,13 @@ import {
   DialogTitle,
   IconButton,
 } from '@mui/material';
-import { useState } from 'react';
-import { ApiProject } from '../../api/projects/types';
+
+import { useTranslation } from 'react-i18next';
+import { ApiProject } from '../../api/types';
 import placeholder from '../../assets/placeholder_project.png';
 import Card from '../card/Card';
 import './ProjectTile.css';
+import { useState } from 'react';
 
 interface ProjectTileProps {
   project: ApiProject;
@@ -24,6 +26,7 @@ const ProjectTile = ({
   onClick,
   onDelete,
 }: ProjectTileProps): JSX.Element => {
+  const { t } = useTranslation();
   const [showDeleteIcon, setShowDeleteIcon] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
 
@@ -71,24 +74,23 @@ const ProjectTile = ({
             </span>
           </div>
           <span className="project-modified-at">
-            Last edited:
+            {t('projects.lastEdited')}
             {' '}
             {new Date(project.modifiedAt).toLocaleDateString()}
           </span>
         </div>
       </div>
       <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
-        <DialogTitle>Delete Project</DialogTitle>
+        <DialogTitle>{t('projects.deleteTitle')}</DialogTitle>
         <DialogContent>
-          {`Are you sure you want to delete the project
-          ${project.projectName}? This action cannot be undone.`}
+          {t('projects.deleteBody', { name: project.projectName })}
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpenDialog(false)} color="primary">
-            Cancel
+            {t('profile.cancel')}
           </Button>
           <Button onClick={handleDelete} color="error">
-            Delete
+            {t('profile.delete')}
           </Button>
         </DialogActions>
       </Dialog>
