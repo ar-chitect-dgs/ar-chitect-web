@@ -10,7 +10,7 @@ import {
   rotateObject,
   sceneSelector,
 } from '../../redux/slices/scene';
-import { round } from '../../utils/utils';
+import { positionToString, round } from '../../utils/utils';
 import FilledButton from '../filledButton/FilledButton';
 
 import './Properties.css';
@@ -26,6 +26,7 @@ import {
   BACKSPACE,
   COPY,
 } from '../../config/keyBinds';
+import { ValueSlider } from '../valueSlider/ValueSlider';
 
 function Properties(): JSX.Element {
   const dispatch = useAppDispatch();
