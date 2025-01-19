@@ -1,3 +1,4 @@
+import * as THREE from 'three';
 import { Point2D } from '../types/Point';
 
 export function positionToString(pos: { x: number, y: number, z: number }): string {
@@ -8,7 +9,7 @@ export function round(val: number, decimalPlaces: number): number {
   return Number(val.toFixed(decimalPlaces));
 }
 
-const EPS = 0.2;
+const pointEps = 0.2;
 
 export function getDistance(p1: Point2D, p2: Point2D): number {
   const x = (p1.x - p2.x);
@@ -17,18 +18,35 @@ export function getDistance(p1: Point2D, p2: Point2D): number {
 }
 
 export function arePointsClose(p1: Point2D, p2: Point2D): boolean {
-  return getDistance(p1, p2) < EPS;
+  return getDistance(p1, p2) < pointEps;
 }
 
 export function arePointsCloseAndDistance(p1: Point2D, p2: Point2D): [boolean, number] {
   const dist = getDistance(p1, p2);
-  return [dist < EPS, dist];
+  return [dist < pointEps, dist];
 }
 
-export function normalizePoints(points: Point2D[]): Point2D[] {
-  if (points.length === 0) return [];
+function isClockwise(points: Point2D[]): boolean {
+  let sum = 0;
+  for (let i = 0; i < points.length; i += 1) {
+    const v = points[i];
+    const u = points[(i + 1) % points.length];
 
-  const total = points.reduce(
+    sum += (u.x - v.x) * (u.y + v.y);
+  }
+  return sum > 0.0;
+}
+
+export function normalizePoints(p: Point2D[]): Point2D[] {
+  if (p.length === 0) return [];
+
+  let points = [...p];
+
+  if (isClockwise(points)) {
+    points = points.reverse();
+  }
+
+  const sum = points.reduce(
     (acc, point) => {
       acc.x += point.x;
       acc.y += point.y;
@@ -38,12 +56,86 @@ export function normalizePoints(points: Point2D[]): Point2D[] {
   );
 
   const centerOfMass = {
-    x: round(total.x / points.length, 2),
-    y: round(total.y / points.length, 2),
+    x: round(sum.x / points.length, 2),
+    y: round(sum.y / points.length, 2),
   };
 
   return points.map((point) => ({
     x: round(point.x - centerOfMass.x, 2),
     y: round(point.y - centerOfMass.y, 2),
   }));
+}
+
+const snapEps = 0.7;
+
+// todo move
+export function distanceToSegment(
+  point: THREE.Vector2, v: THREE.Vector2, u: THREE.Vector2,
+): number {
+  const l2 = v.distanceToSquared(u);
+  if (l2 === 0) return point.distanceTo(v);
+  const t = Math.max(0, Math.min(1, point.clone().sub(v).dot(u.clone().sub(v)) / l2));
+  const projection = v.clone().add(u.clone().sub(v).multiplyScalar(t));
+  return point.distanceTo(projection);
+}
+
+function clamp(value: number, min: number, max: number): number {
+  return Math.max(min, Math.min(max, value));
+}
+
+export function snapObject(
+  position: THREE.Vector2,
+  depth: number,
+  corners: Point2D[],
+): {
+  snapped: boolean,
+  position: THREE.Vector2,
+  rotation: number,
+} {
+  let minDistance = Infinity;
+
+  let closestWallIndex = -1;
+
+  for (let i = 0; i < corners.length; i += 1) {
+    const v = new THREE.Vector2(corners[i].x, corners[i].y);
+    const u = new THREE.Vector2(
+      corners[(i + 1) % corners.length].x,
+      corners[(i + 1) % corners.length].y,
+    );
+    const distance = distanceToSegment(position, v, u);
+
+    if (distance < minDistance && distance < snapEps) {
+      minDistance = distance;
+      closestWallIndex = i;
+    }
+  }
+
+  if (closestWallIndex === -1) {
+    return { snapped: false, position, rotation: 0 };
+  }
+
+  const i = closestWallIndex;
+  const v = new THREE.Vector2(corners[i].x, corners[i].y);
+  const u = new THREE.Vector2(
+    corners[(i + 1) % corners.length].x,
+    corners[(i + 1) % corners.length].y,
+  );
+
+  const segmentVector = u.clone().sub(v);
+
+  let projection = position.clone().sub(v).dot(segmentVector) / v.distanceToSquared(u);
+  projection = clamp(projection, 0, 1);
+
+  const onWallPosition = v.clone().lerp(
+    u,
+    projection,
+  );
+  const rejectionVector = position.clone().sub(onWallPosition);
+  rejectionVector.normalize();
+  const objectOffsetVector = rejectionVector.multiplyScalar(depth / 2);
+
+  const ret = onWallPosition.clone().add(objectOffsetVector);
+
+  const normal = new THREE.Vector2(segmentVector.y, -segmentVector.x);
+  return { snapped: true, position: ret, rotation: Math.PI - normal.angle() };
 }

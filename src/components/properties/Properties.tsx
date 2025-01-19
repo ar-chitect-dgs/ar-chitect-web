@@ -12,7 +12,6 @@ import {
 } from '../../redux/slices/scene';
 import { positionToString, round } from '../../utils/utils';
 import FilledButton from '../filledButton/FilledButton';
-import { ValueSlider } from '../valueSlider/ValueSlider';
 
 import './Properties.css';
 import {
@@ -27,6 +26,7 @@ import {
   BACKSPACE,
   COPY,
 } from '../../config/keyBinds';
+import { ValueSlider } from '../valueSlider/ValueSlider';
 
 function Properties(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -169,6 +169,7 @@ function Properties(): JSX.Element {
 
   const { name, position, rotation } = scene.objects[id];
 
+  // todo will make it enable-able in settings in seperate PR
   return (
     <div className="container">
       <div className="name">{name}</div>

@@ -95,7 +95,7 @@ const sceneSlice = createSlice({
         case Axis.Y:
           object.position = {
             x: object.position.x,
-            y: val,
+            y: Math.max(val, 0),
             z: object.position.z,
           };
           break;

@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unknown-property */
 import { ThreeEvent } from '@react-three/fiber';
 import { Grid } from '@react-three/drei';
-import { RAYCASTER_GROUND } from '.';
+import { GROUND } from '.';
 
 export function Ground({
   onClick = () => {},
@@ -37,7 +37,7 @@ export function Ground({
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
         onPointerDown={onPointerDown}
-        userData={{ name: RAYCASTER_GROUND }}
+        userData={{ name: GROUND }}
       >
         <planeGeometry args={[100, 100]} />
         <meshBasicMaterial visible={false} />
