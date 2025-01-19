@@ -10,9 +10,8 @@ import {
   rotateObject,
   sceneSelector,
 } from '../../redux/slices/scene';
-import { positionToString, round } from '../../utils/utils';
+import { round } from '../../utils/utils';
 import FilledButton from '../filledButton/FilledButton';
-import { ValueSlider } from '../valueSlider/ValueSlider';
 
 import './Properties.css';
 import {
@@ -155,16 +154,17 @@ function Properties(): JSX.Element {
 
   const { name, position, rotation } = scene.objects[id];
 
+  // todo will make it enable-able in settings in seperate PR
   return (
     <div className="container">
       <div className="name">{name}</div>
-      <div className="position">{positionToString(position)}</div>
-      <div className="sliders">
+      {/* <div className="position">{positionToString(position)}</div> */}
+      {/* <div className="sliders">
         <ValueSlider value={position.x} label="x" handleChange={moveX} />
         <ValueSlider value={position.y} label="y" handleChange={moveY} />
         <ValueSlider value={position.z} label="z" handleChange={moveZ} />
         <ValueSlider value={rotation.y} label="roty" handleChange={rotateY} />
-      </div>
+      </div> */}
       <div className="button-panel">
         <FilledButton onClick={copyObject}>Copy</FilledButton>
         <FilledButton onClick={deleteObject}>Delete</FilledButton>
