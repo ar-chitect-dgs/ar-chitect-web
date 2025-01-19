@@ -172,13 +172,13 @@ function Properties(): JSX.Element {
   return (
     <div className="container">
       <div className="name">{name}</div>
-      {/* <div className="position">{positionToString(position)}</div> */}
-      {/* <div className="sliders">
+      <div className="position">{positionToString(position)}</div>
+      <div className="sliders">
         <ValueSlider value={position.x} label="x" handleChange={moveX} />
         <ValueSlider value={position.y} label="y" handleChange={moveY} />
         <ValueSlider value={position.z} label="z" handleChange={moveZ} />
         <ValueSlider value={rotation.y} label="roty" handleChange={rotateY} />
-      </div> */}
+      </div>
       <div className="button-panel">
         <FilledButton onClick={copyObject}>Copy</FilledButton>
         <FilledButton onClick={deleteObject} className="delete-obj-button">
