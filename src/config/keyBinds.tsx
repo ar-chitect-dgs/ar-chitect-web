@@ -5,3 +5,7 @@ export const MOVE_RIGHT = 'ArrowRight';
 export const MOVE_FRONT = 'ArrowUp';
 export const MOVE_BACK = 'ArrowDown';
 export const DESELECT = 'Escape';
+export const DELETE = 'Delete';
+export const SAVE = 'S';
+export const COPY = 'C';
+export const BACKSPACE = 'Backspace';
