@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import Popper from '@mui/material/Popper';
+import { useTranslation } from 'react-i18next';
 import Button from '../button/Button';
 
 import { EditorAction, editorActionNames } from '../../types/KeyBinds';
+
 import './SettingsTile.css';
 
 interface SettingsTileProps {
@@ -22,6 +24,8 @@ export const SettingsTile = ({
 }: SettingsTileProps): JSX.Element => {
   const [anchor, setAnchor] = useState<null | HTMLElement>(null);
   const [failedKey, setFailedKey] = useState('');
+
+  const { t } = useTranslation();
 
   const open = Boolean(anchor);
 
@@ -45,10 +49,10 @@ export const SettingsTile = ({
   return (
     <div className="tile">
       <span className="label">
-        {editorActionNames[actionName]}
+        {t(editorActionNames[actionName])}
       </span>
       <Button
-        className={`button${listening ? ' listening' : ''}`}
+        className={`key-button${listening ? ' listening' : ''}`}
         onClick={() => setListening(listening ? null : actionName)}
         onKeyDown={listenForKey}
       >

@@ -4,16 +4,16 @@
     justify-content: space-between;
     align-items: center;
     width: 350px;
-    height: 50px;
+    height: 70px;
 }
 
 .label { 
     width: 200px;
-    padding: auto;
-    vertical-align:middle;
+    padding-right: 10px;
+    vertical-align: middle;
 }
 
-.button {
+.key-button {
     width: 150px;
     align-self: center;
 }

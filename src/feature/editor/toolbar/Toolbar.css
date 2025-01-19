@@ -50,10 +50,6 @@
   padding: 10px;
 }
 
-.button {
-  align-self: flex-end;
-}
-
 .button-container {
   margin: auto;
   margin-bottom: 20px;

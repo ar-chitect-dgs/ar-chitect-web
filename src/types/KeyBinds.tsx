@@ -8,18 +8,22 @@ export enum EditorAction {
   ROTATE_CW,
   ROTATE_CCW,
   DESELECT,
+  DELETE,
+  COPY,
 }
 
 export const editorActionNames: Record<EditorAction, string> = {
-  [EditorAction.MOVE_UP]: 'Move model up',
-  [EditorAction.MOVE_DOWN]: 'Move model down',
-  [EditorAction.MOVE_LEFT]: 'Move model left',
-  [EditorAction.MOVE_RIGHT]: 'Move model right',
-  [EditorAction.MOVE_FRONT]: 'Move model front',
-  [EditorAction.MOVE_BACK]: 'Move model back',
-  [EditorAction.ROTATE_CW]: 'Rotate clockwise',
-  [EditorAction.ROTATE_CCW]: 'Rotate counterclockwise',
-  [EditorAction.DESELECT]: 'Deselect',
+  [EditorAction.MOVE_UP]: 'settings.moveUp',
+  [EditorAction.MOVE_DOWN]: 'settings.moveDown',
+  [EditorAction.MOVE_LEFT]: 'settings.moveLeft',
+  [EditorAction.MOVE_RIGHT]: 'settings.moveRight',
+  [EditorAction.MOVE_FRONT]: 'settings.moveFront',
+  [EditorAction.MOVE_BACK]: 'settings.moveBack',
+  [EditorAction.ROTATE_CW]: 'settings.rotateCw',
+  [EditorAction.ROTATE_CCW]: 'settings.rotateCcw',
+  [EditorAction.DESELECT]: 'settings.deselect',
+  [EditorAction.DELETE]: 'settings.delete',
+  [EditorAction.COPY]: 'settings.copy',
 };
 
 export type KeyBinds = Record<EditorAction, string>
@@ -34,4 +38,6 @@ export const defaultKeyBinds: KeyBinds = {
   [EditorAction.ROTATE_CW]: ',',
   [EditorAction.ROTATE_CCW]: '.',
   [EditorAction.DESELECT]: 'Escape',
+  [EditorAction.DELETE]: 'Delete',
+  [EditorAction.COPY]: 'C',
 };

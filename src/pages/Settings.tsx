@@ -8,7 +8,6 @@ import {
   SelectChangeEvent,
   Modal,
 } from '@mui/material';
-import './styles/About.css';
 import { useSelector } from 'react-redux';
 
 import { useAuth } from '../auth/AuthProvider';
@@ -20,36 +19,7 @@ import FilledButton from '../components/filledButton/FilledButton';
 import './styles/Settings.css';
 import { useAppDispatch } from '../redux';
 
-const Settings = (): JSX.Element => {
-  const { i18n, t } = useTranslation();
-
-  const changeLanguage = (event: SelectChangeEvent<string>) => {
-    const language = event.target.value as string;
-    i18n.changeLanguage(language);
-  };
-
-  return (
-    <div className="about-page">
-      <h1>{t('settings.title')}</h1>
-      <FormControl sx={{ minWidth: 200 }}>
-        <InputLabel>{t('settings.language')}</InputLabel>
-        <Select
-          value={i18n.language}
-          label="Language"
-          onChange={changeLanguage}
-          defaultValue="en"
-        >
-          <MenuItem value="en">English</MenuItem>
-          <MenuItem value="fr">Français</MenuItem>
-          <MenuItem value="pl">Polski</MenuItem>
-          {/* Add more languages as needed */}
-        </Select>
-      </FormControl>
-    </div>
-  );
-};
-
-const Settings = (): JSX.Element => {
+const KeyBindSettings = (): JSX.Element => {
   const { user } = useAuth();
   const [listening, setListening] = useState<EditorAction | null>(null);
   const { keyBinds: currentKeyBinds } = useSelector(settingsSelector);
@@ -85,8 +55,7 @@ const Settings = (): JSX.Element => {
   }
 
   return (
-    <div className="settings-page">
-      <h1>Settings</h1>
+    <>
       <div className="settings-container">
         {availableActions.map((action) => (
           <SettingsTile
@@ -107,6 +76,36 @@ const Settings = (): JSX.Element => {
           bruh
         </div>
       </Modal>
+    </>
+  );
+};
+
+const Settings = (): JSX.Element => {
+  const { i18n, t } = useTranslation();
+
+  const changeLanguage = (event: SelectChangeEvent<string>) => {
+    const language = event.target.value as string;
+    i18n.changeLanguage(language);
+  };
+
+  return (
+    <div className="settings-page">
+      <h1>{t('settings.title')}</h1>
+      <FormControl sx={{ minWidth: 200 }}>
+        <InputLabel>{t('settings.language')}</InputLabel>
+        <Select
+          value={i18n.language}
+          label="Language"
+          onChange={changeLanguage}
+          defaultValue="en"
+        >
+          <MenuItem value="en">English</MenuItem>
+          <MenuItem value="fr">Français</MenuItem>
+          <MenuItem value="pl">Polski</MenuItem>
+          {/* Add more languages as needed */}
+        </Select>
+      </FormControl>
+      <KeyBindSettings />
     </div>
   );
 };

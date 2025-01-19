@@ -3,7 +3,7 @@
   padding: 30px;
   padding-top: 50px;
   height: 90vh;
-  overflow: hidden;
+  overflow-y: scroll;
   padding-right: 300px;
 }
 
