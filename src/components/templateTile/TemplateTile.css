@@ -1,0 +1,40 @@
+.project-card {
+  position: relative;
+  margin: 0;
+  padding: 15px;
+  box-shadow: 0 3px 10px rgba(89, 0, 255, 0.1);
+  transition: 0.3s ease;
+}
+
+.project-thumbnail {
+  width: 280px;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+.project-details {
+  padding: 10px 0;
+  max-width: 280px;
+}
+
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.project-name {
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.project-objects {
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block; 
+  max-width: 100%;
+  color: var(--purple-text-color);
+}

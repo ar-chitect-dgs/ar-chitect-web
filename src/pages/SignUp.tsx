@@ -3,6 +3,7 @@ import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useNavigate, Link } from 'react-router-dom';
 import { TextField, Typography } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 import { auth, storage } from '../firebaseConfig';
 import Card from '../components/card/Card';
 import FilledButton from '../components/filledButton/FilledButton';
@@ -14,6 +15,7 @@ const SignUp = (): JSX.Element => {
   const [displayName, setDisplayName] = useState('');
   const [profilePic, setProfilePic] = useState<File | null>(null);
   const [error, setError] = useState('');
+  const { t } = useTranslation();
 
   const navigate = useNavigate();
 
@@ -24,12 +26,12 @@ const SignUp = (): JSX.Element => {
 
   const handleSignUp = async () => {
     if (!isEmailValid(email)) {
-      setError('Please enter a valid email');
+      setError(t('signup.invalidEmail'));
       return;
     }
 
     if (!isPasswordValid(password)) {
-      setError('Password must be at least 6 characters');
+      setError(t('signup.invalidPassword'));
       return;
     }
 
@@ -54,16 +56,16 @@ const SignUp = (): JSX.Element => {
       });
       navigate('/projects');
     } catch (error: any) {
-      setError(error.message);
+      setError(t('signup.signupError'));
     }
   };
 
   return (
     <div className="login-container">
       <Card className="login-card">
-        <h2>Create a new account</h2>
+        <h2>{t('signup.title')}</h2>
         <TextField
-          label="Email"
+          label={t('signup.emailLabel')}
           type="email"
           fullWidth
           value={email}
@@ -72,11 +74,11 @@ const SignUp = (): JSX.Element => {
           InputProps={{ sx: { borderRadius: 5 } }}
           error={!!error && !isEmailValid(email)}
           helperText={
-            !!error && !isEmailValid(email) ? 'Invalid email format' : ''
+            !!error && !isEmailValid(email) ? t('signup.invalidEmail') : ''
           }
         />
         <TextField
-          label="Password"
+          label={t('signup.passwordLabel')}
           type="password"
           fullWidth
           value={password}
@@ -86,12 +88,12 @@ const SignUp = (): JSX.Element => {
           error={!!error && !isPasswordValid(password)}
           helperText={
             !!error && !isPasswordValid(password)
-              ? 'Password must be at least 6 characters'
+              ? t('signup.invalidPassword')
               : ''
           }
         />
         <TextField
-          label="Display Name"
+          label={t('signup.displayNameLabel')}
           fullWidth
           value={displayName}
           onChange={(e) => setDisplayName(e.target.value)}
@@ -99,7 +101,7 @@ const SignUp = (): JSX.Element => {
           InputProps={{ sx: { borderRadius: 5 } }}
         />
         <div className="profile-picture-group">
-          <h3>Choose a profile picture:</h3>
+          <h3>{t('signup.profilePictureHeader')}</h3>
           <input
             type="file"
             accept="image/*"
@@ -111,12 +113,14 @@ const SignUp = (): JSX.Element => {
         {error && <Typography color="error">{error}</Typography>}
 
         <div className="button-group">
-          <FilledButton onClick={handleSignUp}>Sign Up</FilledButton>
+          <FilledButton onClick={handleSignUp}>
+            {t('signup.signUpButton')}
+          </FilledButton>
           <div className="signup-text">
-            Already have an account?
+            {t('signup.alreadyHaveAccountText')}
             {' '}
             <Link to="/login" className="login-link">
-              Log in
+              {t('signup.loginLink')}
             </Link>
           </div>
         </div>

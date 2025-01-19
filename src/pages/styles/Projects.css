@@ -12,3 +12,60 @@
   gap: 30px 20px;
   justify-content: flex-start;
 }
+
+.projects-message {
+  text-align: center;
+  margin: 20px 0;
+}
+.scrollbar-outside-container{
+  height: 100%;
+  padding-top: 30px;
+}
+.scrollbar-inside-container{
+  padding-right: 30px;
+}
+.templates-container {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 30px 20px;
+  justify-content: flex-start;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+.template-section {
+  margin-bottom: 40px;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+.templates-scrollbar {
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  min-height: 320px; 
+}
+
+.scrollbar-track-horizontal {
+  height: 5px;
+  width: 100%;
+  background: transparent; /* Style the horizontal track */
+  bottom: 0;
+}
+
+.scrollbar-thumb-horizontal {
+  background: #ccc;
+  border-radius: 10px;
+  bottom: 0;
+}
+
+.scrollbar-view {
+  display: flex;
+  gap: 15px;
+  flex-wrap: nowrap;
+  height: 100%;
+  align-items: center; 
+}

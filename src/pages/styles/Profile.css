@@ -101,3 +101,11 @@
   margin-bottom: 10px;
   font-weight: bold;
 }
+
+.edit-button{
+  display: flex;
+  gap: 7px;
+  padding: 5px;
+  justify-items: center;
+  align-items: center;
+}
