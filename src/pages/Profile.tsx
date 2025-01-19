@@ -155,11 +155,17 @@ const Profile = (): JSX.Element => {
         ) : (
           <div className="display-mode">
             <div className="profile-field">
-              <strong>{t('profile.displayName')}:</strong>
+              <strong>
+                {t('profile.displayName')}
+                :
+              </strong>
               <span>{user.displayName || t('profile.defaultUser')}</span>
             </div>
             <div className="profile-field">
-              <strong>{t('profile.email')}:</strong>
+              <strong>
+                {t('profile.email')}
+                :
+              </strong>
               <span>{user.email}</span>
             </div>
             <div className="profile-button-group">
@@ -185,8 +191,7 @@ const Profile = (): JSX.Element => {
             setSnackbar((prev: SnackBarState) => ({
               ...prev,
               open,
-            }))
-          }
+            }))}
         />
       </Card>
       <Dialog

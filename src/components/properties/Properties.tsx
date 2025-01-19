@@ -66,7 +66,9 @@ function Properties(): JSX.Element {
 
   const copyObject = useCallback(() => {
     if (id === null) return;
-    const { objectId, name, color, url } = scene.objects[id];
+    const {
+      objectId, name, color, url,
+    } = scene.objects[id];
     dispatch(addModel(objectId, name, color, url));
   }, [id]);
 
