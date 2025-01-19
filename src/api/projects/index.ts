@@ -63,7 +63,7 @@ export const fetchGLBUrl = async (
   objectId: string,
   color: string,
 ): Promise<string> => {
-  const modelDoc = await getDoc(doc(db, 'models2', objectId));
+  const modelDoc = await getDoc(doc(db, 'models', objectId));
 
   if (!modelDoc.exists()) {
     throw new Error(`Model with ID ${objectId} not found in Firestore`);
@@ -125,8 +125,8 @@ export const fetchModelsList = async (): Promise<
     ...doc.data(),
     colorVariants: doc.data().color_variants,
     name: doc.data().name,
+    id: doc.id,
   }));
-  console.log(models);
 
   return models as ApiModel[];
 };
