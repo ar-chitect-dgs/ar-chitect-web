@@ -1,38 +1,66 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import Popper from '@mui/material/Popper';
 import Button from '../button/Button';
 
-import { useAppDispatch } from '../../redux';
-import { setKeyBind, settingsSelector } from '../../redux/slices/settings';
-import { EditorAction } from '../../types/KeyBinds';
+import { EditorAction, editorActionNames } from '../../types/KeyBinds';
 import './SettingsTile.css';
 
-export const SettingsTile = ({ action } : {action: EditorAction}): JSX.Element => {
-  const [listening, setListening] = useState(false);
-  const dispatch = useAppDispatch();
-  const { keyBinds } = useSelector(settingsSelector);
+interface SettingsTileProps {
+  actionName: EditorAction;
+  actionKey: string;
+  listening: boolean;
+  setListening: (action: EditorAction | null) => void;
+  changeKeyBind: (action: EditorAction, key: string) => boolean;
+}
 
-  console.log(keyBinds, action);
+export const SettingsTile = ({
+  actionName,
+  actionKey,
+  listening,
+  setListening,
+  changeKeyBind,
+}: SettingsTileProps): JSX.Element => {
+  const [anchor, setAnchor] = useState<null | HTMLElement>(null);
+  const [failedKey, setFailedKey] = useState('');
+
+  const open = Boolean(anchor);
 
   const listenForKey = (event: React.KeyboardEvent) => {
     if (!listening) return;
 
-    dispatch(setKeyBind(action, event.key));
-    setListening(!listening);
+    let { key } = event;
+    if (key.length === 1) key = key.toUpperCase();
+
+    const ok = changeKeyBind(actionName, key);
+
+    if (ok) {
+      setListening(null);
+    } else {
+      setFailedKey(key);
+      setAnchor(event.currentTarget as HTMLElement);
+      setTimeout(() => setAnchor(null), 1000);
+    }
   };
 
   return (
     <div className="tile">
-      <div className="label">
-        {action}
-      </div>
+      <span className="label">
+        {editorActionNames[actionName]}
+      </span>
       <Button
-        className="button"
-        onClick={() => setListening(!listening)}
+        className={`button${listening ? ' listening' : ''}`}
+        onClick={() => setListening(listening ? null : actionName)}
         onKeyDown={listenForKey}
       >
-        {keyBinds[action]}
+        {actionKey}
       </Button>
+      <Popper open={open} anchorEl={anchor} className="popup">
+        Key
+        {' '}
+        {failedKey}
+        {' '}
+        is already used.
+      </Popper>
     </div>
   );
 };

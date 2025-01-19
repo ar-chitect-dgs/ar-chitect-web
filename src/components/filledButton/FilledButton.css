@@ -16,4 +16,9 @@
 
 .disabled {
   background: #c5ddcf;
+  cursor: default;
+}
+
+.disabled:hover {
+  opacity: 1;
 }

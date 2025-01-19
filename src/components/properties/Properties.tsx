@@ -16,10 +16,12 @@ import { ValueSlider } from '../valueSlider/ValueSlider';
 
 import { EditorAction } from '../../types/KeyBinds';
 import './Properties.css';
+import { settingsSelector } from '../../redux/slices/settings';
 
 function Properties(): JSX.Element {
   const dispatch = useAppDispatch();
   const { scene } = useSelector(sceneSelector);
+  const { keyBinds } = useSelector(settingsSelector);
 
   const id = scene.activeObjectId;
 
@@ -77,7 +79,7 @@ function Properties(): JSX.Element {
       if (event.key.length === 1) key = event.key.toUpperCase();
 
       switch (key) {
-        case EditorAction.MOVE_LEFT:
+        case keyBinds[EditorAction.MOVE_LEFT]:
           dispatch(
             moveObject(
               id,
@@ -86,7 +88,7 @@ function Properties(): JSX.Element {
             ),
           );
           break;
-        case EditorAction.MOVE_RIGHT:
+        case keyBinds[EditorAction.MOVE_RIGHT]:
           dispatch(
             moveObject(
               id,
@@ -95,7 +97,7 @@ function Properties(): JSX.Element {
             ),
           );
           break;
-        case EditorAction.MOVE_BACK:
+        case keyBinds[EditorAction.MOVE_BACK]:
           dispatch(
             moveObject(
               id,
@@ -104,7 +106,7 @@ function Properties(): JSX.Element {
             ),
           );
           break;
-        case EditorAction.MOVE_FRONT:
+        case keyBinds[EditorAction.MOVE_FRONT]:
           dispatch(
             moveObject(
               id,
@@ -113,7 +115,7 @@ function Properties(): JSX.Element {
             ),
           );
           break;
-        case EditorAction.MOVE_DOWN:
+        case keyBinds[EditorAction.MOVE_DOWN]:
           dispatch(
             moveObject(
               id,
@@ -122,7 +124,7 @@ function Properties(): JSX.Element {
             ),
           );
           break;
-        case EditorAction.MOVE_UP:
+        case keyBinds[EditorAction.MOVE_UP]:
           dispatch(
             moveObject(
               id,
@@ -131,7 +133,7 @@ function Properties(): JSX.Element {
             ),
           );
           break;
-        case EditorAction.DESELECT:
+        case keyBinds[EditorAction.DESELECT]:
           dispatch(disactivateObject());
           break;
         default:

@@ -1,14 +1,54 @@
 .tile {
     display: flex;
-    align-items: center;
     padding: 10px;
     justify-content: space-between;
+    align-items: center;
     width: 350px;
+    height: 50px;
 }
 
 .label { 
+    width: 200px;
+    padding: auto;
+    vertical-align:middle;
 }
 
 .button {
     width: 150px;
+    align-self: center;
+}
+
+.listening {
+    background-color: transparent;
+    animation: colorCycle 1.5s infinite;
+    box-shadow: inset -3px 0 0 var(--purple-accent-button), 
+        inset 0 -3px 0 var(--purple-accent-button), 
+        inset 3px 0 0 var(--purple-accent-button), 
+        inset 0 3px 0 var(--purple-accent-button);
+}
+
+@keyframes colorCycle {
+    0% { 
+        color: var(--purple-accent-button);
+        border-color: var(--purple-accent-button);
+    }
+    50% {
+        color: var(--background-color);
+        border-color: var(--background-color);
+    }
+    100% {
+        color: var(--purple-accent-button);
+        border-color: var(--purple-accent-button);
+    }
+}
+
+.popup {
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgb(0 0 0 / 0.7);
+    padding: 0.75rem;
+    background-color: white;
+    color: var(--text-color);
+    font-size: 90%;
+    opacity: 1;
+    margin: 10;
 }

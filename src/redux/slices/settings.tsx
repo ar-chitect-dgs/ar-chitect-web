@@ -22,15 +22,18 @@ const settingsSlice = createSlice({
   name: 'settings',
   initialState,
   reducers: {
-    set: (state, action: PayloadAction<SetPayload>) => {
+    set: (state: SettingsState, action: PayloadAction<SetPayload>) => {
       const { actionName, key } = action.payload;
       state.keyBinds[actionName] = key;
+    },
+    apply: (state: SettingsState, action: PayloadAction<KeyBinds>) => {
+      state.keyBinds = action.payload;
     },
   },
 });
 
 export const {
-  set,
+  set, apply,
 } = settingsSlice.actions;
 
 export const settingsSelector = lruMemoize(
@@ -44,5 +47,13 @@ export function setKeyBind(
 ): ThunkActionVoid {
   return async (dispatch: Dispatch) => {
     dispatch(set({ actionName, key }));
+  };
+}
+
+export function applyNewKeyBinds(
+  keyBinds: KeyBinds,
+): ThunkActionVoid {
+  return async (dispatch: Dispatch) => {
+    dispatch(apply(keyBinds));
   };
 }
