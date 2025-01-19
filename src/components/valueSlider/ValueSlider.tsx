@@ -20,8 +20,9 @@ export function ValueSlider({
         min={-3}
         max={3}
         step={0.1}
-        value={value || 0} // prevents the slider from being uncontrolled
+        value={value || 0}
         valueLabelDisplay="auto"
+        size="small"
       />
       <p className="value-label">{value.toFixed(1)}</p>
     </div>

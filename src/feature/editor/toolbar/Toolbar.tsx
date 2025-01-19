@@ -21,6 +21,7 @@ import {
   setProjectName,
 } from '../../../redux/slices/project';
 import './Toolbar.css';
+import ScrollBar from '../../../components/scrollbar/ScrollBar';
 
 const EditorToolbar = (): JSX.Element => {
   const { t } = useTranslation();
@@ -55,10 +56,7 @@ const EditorToolbar = (): JSX.Element => {
 
     if (!user) {
       setSnackbar(
-        setOpenSnackBarState(
-          t('editorToolbar.saveProjectError'),
-          'error',
-        ),
+        setOpenSnackBarState(t('editorToolbar.saveProjectError'), 'error'),
       );
       return;
     }
@@ -89,7 +87,9 @@ const EditorToolbar = (): JSX.Element => {
       );
     } catch (error) {
       console.log('Error saving project:', error);
-      setSnackbar(setOpenSnackBarState(t('editorToolbar.saveProjectFailure'), 'error'));
+      setSnackbar(
+        setOpenSnackBarState(t('editorToolbar.saveProjectFailure'), 'error'),
+      );
     }
   };
 
@@ -114,13 +114,16 @@ const EditorToolbar = (): JSX.Element => {
 
         <div className="adding-panel">
           <div className="header">{t('editorToolbar.addModelHeader')}</div>
-          <div className="models-list">
-            <ModelsList />
+          <div className="scrollbar-container">
+            <ScrollBar>
+              <div className="models-list">
+                <ModelsList />
+              </div>
+            </ScrollBar>
           </div>
         </div>
 
         <div className="editing-panel">
-          <div className="header">{t('editorToolbar.modifyModelHeader')}</div>
           <Properties />
         </div>
         <div className="button-container">

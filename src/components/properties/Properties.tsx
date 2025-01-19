@@ -17,8 +17,15 @@ import { ValueSlider } from '../valueSlider/ValueSlider';
 import './Properties.css';
 import {
   DESELECT,
-  MOVE_BACK, MOVE_DOWN, MOVE_FRONT, MOVE_LEFT, MOVE_RIGHT,
+  MOVE_BACK,
+  MOVE_DOWN,
+  MOVE_FRONT,
+  MOVE_LEFT,
+  MOVE_RIGHT,
   MOVE_UP,
+  DELETE,
+  BACKSPACE,
+  COPY,
 } from '../../config/keyBinds';
 
 function Properties(): JSX.Element {
@@ -81,6 +88,13 @@ function Properties(): JSX.Element {
       if (event.key.length === 1) key = event.key.toUpperCase();
 
       switch (key) {
+        case DELETE:
+        case BACKSPACE:
+          deleteObject();
+          break;
+        case COPY:
+          copyObject();
+          break;
         case MOVE_LEFT:
           dispatch(
             moveObject(
@@ -167,7 +181,9 @@ function Properties(): JSX.Element {
       </div>
       <div className="button-panel">
         <FilledButton onClick={copyObject}>Copy</FilledButton>
-        <FilledButton onClick={deleteObject}>Delete</FilledButton>
+        <FilledButton onClick={deleteObject} className="delete-obj-button">
+          Delete
+        </FilledButton>
       </div>
     </div>
   );
