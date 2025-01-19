@@ -1,4 +1,4 @@
-import { ApiProject } from '../../api/types';
+import { ApiProject } from '../../api/projects/types';
 import placeholder from '../../assets/placeholder_project.png';
 import Card from '../card/Card';
 import './TemplateTile.css';

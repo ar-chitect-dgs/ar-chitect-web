@@ -2,15 +2,15 @@ import {
   collection, deleteDoc, doc, getDoc, getDocs, setDoc,
 } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { db, storage } from '../firebaseConfig';
-import { Scene } from '../types/Scene';
-import { ApiModel, ApiProject, ApiProjects } from './types';
-import { Project } from '../types/Project';
-import { ProjectScene } from '../types/ProjectScene';
+import { db, storage } from '../../firebaseConfig';
+import { Project } from '../../types/Project';
+import { ProjectScene } from '../../types/ProjectScene';
+import { Scene } from '../../types/Scene';
 import {
   mapApiProjectToProjectScene,
   mapProjectSceneToApiProject,
-} from '../utils/mappers';
+} from '../../utils/mappers';
+import { ApiModel, ApiProject, ApiProjects } from './types';
 
 const MODELS_DIRECTORY = 'models/';
 

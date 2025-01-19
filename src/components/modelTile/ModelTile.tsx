@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ApiModel } from '../../api/types';
+import { ApiModel } from '../../api/projects/types';
 import './ModelTile.css';
 
 export interface SelectedModel {

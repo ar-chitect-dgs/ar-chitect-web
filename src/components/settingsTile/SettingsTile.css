@@ -1,0 +1,14 @@
+.tile {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    justify-content: space-between;
+    width: 350px;
+}
+
+.label { 
+}
+
+.button {
+    width: 150px;
+}

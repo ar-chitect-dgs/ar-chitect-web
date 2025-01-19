@@ -1,7 +1,7 @@
 import { FormControl, FormHelperText, TextField } from '@mui/material';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { saveProject, saveProjectThumbnail } from '../../../api/projectsApi';
+import { saveProject, saveProjectThumbnail } from '../../../api/projects';
 import FilledButton from '../../../components/filledButton/FilledButton';
 import ModelsList from '../../../components/modelsList/ModelsList';
 import NotificationPopup, {
@@ -12,13 +12,13 @@ import NotificationPopup, {
 import Properties from '../../../components/properties/Properties';
 import { auth } from '../../../firebaseConfig';
 import { useAppDispatch } from '../../../redux';
-import { sceneSelector } from '../../../redux/slices/scene';
 import {
   projectSelector,
   setProject,
   setProjectId,
   setProjectName,
 } from '../../../redux/slices/project';
+import { sceneSelector } from '../../../redux/slices/scene';
 import './Toolbar.css';
 
 const EditorToolbar = (): JSX.Element => {

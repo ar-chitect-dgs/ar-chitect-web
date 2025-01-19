@@ -1,14 +1,14 @@
-import { useState } from 'react';
+import DeleteIcon from '@mui/icons-material/Delete';
 import {
+  Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  Button,
   IconButton,
 } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { ApiProject } from '../../api/types';
+import { useState } from 'react';
+import { ApiProject } from '../../api/projects/types';
 import placeholder from '../../assets/placeholder_project.png';
 import Card from '../card/Card';
 import './ProjectTile.css';

@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
+import { Scrollbars } from 'react-custom-scrollbars-2';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Scrollbars } from 'react-custom-scrollbars-2';
-import { fetchAllProjects } from '../api/projectsApi';
-import { ApiProject } from '../api/types';
+import { fetchAllProjects } from '../api/projects';
+import { ApiProject } from '../api/projects/types';
 import { useAuth } from '../auth/AuthProvider';
+import ScrollBar from '../components/scrollbar/ScrollBar';
+import TemplateTile from '../components/templateTile/TemplateTile';
 import { ROUTES } from '../feature/navigation/routes';
+import { setProject } from '../redux/slices/project';
 import { setScene } from '../redux/slices/scene';
 import { mapApiProjectToProjectScene } from '../utils/mappers';
-import { setProject } from '../redux/slices/project';
 import './styles/Projects.css';
-import TemplateTile from '../components/templateTile/TemplateTile';
-import ScrollBar from '../components/scrollbar/ScrollBar';
 
 interface ProjectSection {
   sectionName: string;

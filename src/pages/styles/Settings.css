@@ -1,0 +1,16 @@
+.settings-page {
+  color: var(--text-color);
+  padding: 30px;
+  padding-top: 50px;
+  height: 90vh;
+  overflow: hidden;
+  padding-right: 300px;
+}
+
+.settings-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-size: large;
+  width: 700px;
+}

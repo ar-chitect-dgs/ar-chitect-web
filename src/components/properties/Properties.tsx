@@ -14,12 +14,8 @@ import { positionToString, round } from '../../utils/utils';
 import FilledButton from '../filledButton/FilledButton';
 import { ValueSlider } from '../valueSlider/ValueSlider';
 
+import { EditorAction } from '../../types/KeyBinds';
 import './Properties.css';
-import {
-  DESELECT,
-  MOVE_BACK, MOVE_DOWN, MOVE_FRONT, MOVE_LEFT, MOVE_RIGHT,
-  MOVE_UP,
-} from '../../config/keyBinds';
 
 function Properties(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -81,7 +77,7 @@ function Properties(): JSX.Element {
       if (event.key.length === 1) key = event.key.toUpperCase();
 
       switch (key) {
-        case MOVE_LEFT:
+        case EditorAction.MOVE_LEFT:
           dispatch(
             moveObject(
               id,
@@ -90,7 +86,7 @@ function Properties(): JSX.Element {
             ),
           );
           break;
-        case MOVE_RIGHT:
+        case EditorAction.MOVE_RIGHT:
           dispatch(
             moveObject(
               id,
@@ -99,7 +95,7 @@ function Properties(): JSX.Element {
             ),
           );
           break;
-        case MOVE_BACK:
+        case EditorAction.MOVE_BACK:
           dispatch(
             moveObject(
               id,
@@ -108,7 +104,7 @@ function Properties(): JSX.Element {
             ),
           );
           break;
-        case MOVE_FRONT:
+        case EditorAction.MOVE_FRONT:
           dispatch(
             moveObject(
               id,
@@ -117,7 +113,7 @@ function Properties(): JSX.Element {
             ),
           );
           break;
-        case MOVE_DOWN:
+        case EditorAction.MOVE_DOWN:
           dispatch(
             moveObject(
               id,
@@ -126,7 +122,7 @@ function Properties(): JSX.Element {
             ),
           );
           break;
-        case MOVE_UP:
+        case EditorAction.MOVE_UP:
           dispatch(
             moveObject(
               id,
@@ -135,7 +131,7 @@ function Properties(): JSX.Element {
             ),
           );
           break;
-        case DESELECT:
+        case EditorAction.DESELECT:
           dispatch(disactivateObject());
           break;
         default:
