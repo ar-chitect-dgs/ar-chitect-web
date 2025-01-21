@@ -19,7 +19,9 @@
     "rotateCcw": "Obróć przeciwnie do ruchu wskazówek zegara",
     "deselect": "Odznacz",
     "delete": "Usuń",
-    "copy": "Kopiuj"
+    "copy": "Kopiuj",
+    "saveChanges": "Zapisz zmiany",
+    "reset": "Przywróć domyślne"
   },
   "mobile": {
     "title": "Doświadcz pełnej wersji ARchitect Mobile",

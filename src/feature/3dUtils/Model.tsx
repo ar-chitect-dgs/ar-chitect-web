@@ -1,9 +1,10 @@
 /* eslint-disable react/no-unknown-property */
+import { Outlines } from '@react-three/drei';
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { SceneObject } from '../../types/Scene';
 import { MODEL } from '.';
+import { SceneObject } from '../../types/Scene';
 
 type ModelProps = SceneObject & {
   hovered: boolean,
@@ -81,14 +82,16 @@ export function Model({
         // rotation={[0, 0, 0]}
         userData={{ name: MODEL, id: inProjectId }}
         castShadow={false}
+        visible={false}
       >
         <boxGeometry args={[depth + 0.1, height + 0.1, width + 0.1]} />
         <meshStandardMaterial
           color="lightblue"
           transparent
-          opacity={opacity}
+          opacity={1}
           visible={hovered || active}
         />
+        <Outlines />
       </mesh>
     </mesh>
   );

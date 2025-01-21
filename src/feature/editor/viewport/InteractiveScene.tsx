@@ -5,18 +5,24 @@ import { useSelector } from 'react-redux';
 import * as THREE from 'three';
 import { useAppDispatch } from '../../../redux';
 import {
-  sceneSelector, moveObjectTo,
-  activateObject, disactivateObject,
-  rotateObject, Axis,
+  activateObject,
+  Axis,
+  disactivateObject,
   hoverObject,
+  moveObjectTo,
+  rotateObject,
+  sceneSelector,
   unhoverObject,
 } from '../../../redux/slices/scene';
-import {
-  Floor, Walls, Model, Ground,
-  MODEL,
-  GROUND,
-} from '../../3dUtils';
 import { snapObject } from '../../../utils/utils';
+import {
+  Floor,
+  Ground,
+  GROUND,
+  Model,
+  MODEL,
+  Walls,
+} from '../../3dUtils';
 
 export function InteractiveScene(): JSX.Element {
   const meshRef = useRef<THREE.Mesh>(null);

@@ -7,10 +7,24 @@
   padding-right: 300px;
 }
 
-.settings-container {
+.columns-container {
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+}
+
+.keys {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   font-size: large;
-  width: 700px;
+  flex-wrap: wrap;
+  height: 600px;
+  min-width: 800px;
+}
+
+.buttons-panel {
+  display: flex;
+  justify-content: left;
+  gap: 10px;
 }

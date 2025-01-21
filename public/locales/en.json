@@ -19,7 +19,9 @@
     "rotateCcw": "Rotate counter-clockwise",
     "deselect": "Deselect",
     "delete": "Delete",
-    "copy": "Copy"
+    "copy": "Copy",
+    "saveChanges": "Save changes",
+    "reset": "Reset to defaults"
   },
   "mobile": {
     "title": "Get the full experience with ARchitect Mobile",

@@ -62,24 +62,26 @@ export const fetchAllProjects = async (
 export const fetchGLBUrl = async (
   objectId: string,
   color: string,
-): Promise<string> => {
-  const modelDoc = await getDoc(doc(db, 'models', objectId));
+): Promise<string> =>
+  'chair_2_creme.glb';
 
-  if (!modelDoc.exists()) {
-    throw new Error(`Model with ID ${objectId} not found in Firestore`);
-  }
-  const modelData = modelDoc.data();
+// const modelDoc = await getDoc(doc(db, 'models', objectId));
 
-  const colorData = modelData.color_variants[color];
-  if (!colorData) {
-    throw new Error(`Color ${color} not found for model ${objectId}`);
-  }
+// if (!modelDoc.exists()) {
+//   throw new Error(`Model with ID ${objectId} not found in Firestore`);
+// }
+// const modelData = modelDoc.data();
 
-  const reference = ref(storage, MODELS_DIRECTORY + colorData.url);
+// const colorData = modelData.color_variants[color];
+// if (!colorData) {
+//   throw new Error(`Color ${color} not found for model ${objectId}`);
+// }
 
-  const url = await getDownloadURL(reference);
-  return url;
-};
+// const reference = ref(storage, MODELS_DIRECTORY + colorData.url);
+
+// const url = await getDownloadURL(reference);
+// return url;
+
 export const saveProjectThumbnail = async (
   blob: Blob,
   id: string,

@@ -1,26 +1,28 @@
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import {
   FormControl,
   InputLabel,
-  Select,
   MenuItem,
-  SelectChangeEvent,
   Modal,
+  Select,
+  SelectChangeEvent,
 } from '@mui/material';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import { useAuth } from '../auth/AuthProvider';
-import { EditorAction, KeyBinds } from '../types/KeyBinds';
+import FilledButton from '../components/filledButton/FilledButton';
 import { SettingsTile } from '../components/settingsTile/SettingsTile';
 import { applyNewKeyBinds, settingsSelector } from '../redux/slices/settings';
-import FilledButton from '../components/filledButton/FilledButton';
+import { defaultKeyBinds, EditorAction, KeyBinds } from '../types/KeyBinds';
 
-import './styles/Settings.css';
+import { updateKeyBinds } from '../api/settings';
 import { useAppDispatch } from '../redux';
+import './styles/Settings.css';
 
 const KeyBindSettings = (): JSX.Element => {
   const { user } = useAuth();
+  const { t } = useTranslation();
   const [listening, setListening] = useState<EditorAction | null>(null);
   const { keyBinds: currentKeyBinds } = useSelector(settingsSelector);
   const [keyBinds, setKeyBinds] = useState<KeyBinds>(currentKeyBinds);
@@ -44,10 +46,22 @@ const KeyBindSettings = (): JSX.Element => {
     return true;
   };
 
-  const saveChanges = () => {
-    // todo send to api
+  const saveChanges = async () => {
+    if (user == null) return;
+
+    try {
+      await updateKeyBinds(user.uid, keyBinds);
+    } catch (error) {
+      console.error('Error setting new key bindings:', error);
+    }
+
     dispatch(applyNewKeyBinds(keyBinds));
     setIsDirty(false);
+  };
+
+  const resetToDefaults = () => {
+    setIsDirty(true);
+    setKeyBinds(defaultKeyBinds);
   };
 
   if (user == null) {
@@ -55,8 +69,16 @@ const KeyBindSettings = (): JSX.Element => {
   }
 
   return (
-    <>
-      <div className="settings-container">
+    <div>
+      <div className="buttons-panel">
+        <FilledButton onClick={saveChanges} isDisabled={!isDirty}>
+          {t('settings.saveChanges')}
+        </FilledButton>
+        <FilledButton onClick={resetToDefaults}>
+          {t('settings.reset')}
+        </FilledButton>
+      </div>
+      <div className="keys">
         {availableActions.map((action) => (
           <SettingsTile
             key={action}
@@ -68,15 +90,12 @@ const KeyBindSettings = (): JSX.Element => {
           />
         ))}
       </div>
-      <FilledButton onClick={saveChanges} isDisabled={!isDirty}>
-        Save changes
-      </FilledButton>
       <Modal open={false}>
         <div>
           bruh
         </div>
       </Modal>
-    </>
+    </div>
   );
 };
 
@@ -91,21 +110,22 @@ const Settings = (): JSX.Element => {
   return (
     <div className="settings-page">
       <h1>{t('settings.title')}</h1>
-      <FormControl sx={{ minWidth: 200 }}>
-        <InputLabel>{t('settings.language')}</InputLabel>
-        <Select
-          value={i18n.language}
-          label="Language"
-          onChange={changeLanguage}
-          defaultValue="en"
-        >
-          <MenuItem value="en">English</MenuItem>
-          <MenuItem value="fr">Français</MenuItem>
-          <MenuItem value="pl">Polski</MenuItem>
-          {/* Add more languages as needed */}
-        </Select>
-      </FormControl>
-      <KeyBindSettings />
+      <div className="columns-container">
+        <KeyBindSettings />
+        <FormControl sx={{ minWidth: 200 }}>
+          <InputLabel>{t('settings.language')}</InputLabel>
+          <Select
+            value={i18n.language}
+            label="Language"
+            onChange={changeLanguage}
+            defaultValue="en"
+          >
+            <MenuItem value="en">English</MenuItem>
+            <MenuItem value="fr">Français</MenuItem>
+            <MenuItem value="pl">Polski</MenuItem>
+          </Select>
+        </FormControl>
+      </div>
     </div>
   );
 };

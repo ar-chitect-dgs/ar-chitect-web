@@ -5,11 +5,11 @@ import {
 import { RootState, ThunkActionVoid } from '..';
 import { defaultKeyBinds, EditorAction, KeyBinds } from '../../types/KeyBinds';
 
-export interface SettingsState {
+export interface Settings {
   keyBinds: KeyBinds;
 }
 
-export const initialState: SettingsState = {
+export const initialState: Settings = {
   keyBinds: defaultKeyBinds,
 };
 
@@ -22,11 +22,11 @@ const settingsSlice = createSlice({
   name: 'settings',
   initialState,
   reducers: {
-    set: (state: SettingsState, action: PayloadAction<SetPayload>) => {
+    set: (state: Settings, action: PayloadAction<SetPayload>) => {
       const { actionName, key } = action.payload;
       state.keyBinds[actionName] = key;
     },
-    apply: (state: SettingsState, action: PayloadAction<KeyBinds>) => {
+    apply: (state: Settings, action: PayloadAction<KeyBinds>) => {
       state.keyBinds = action.payload;
     },
   },

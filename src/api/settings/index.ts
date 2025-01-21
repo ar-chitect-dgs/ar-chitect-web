@@ -1,8 +1,9 @@
 import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { Settings } from 'http2';
 import { db } from '../../firebaseConfig';
+import { Settings } from '../../redux/slices/settings';
+import { defaultKeyBinds, KeyBinds } from '../../types/KeyBinds';
 
-export const addField = async (userId: string): Promise<void> => {
+export const updateKeyBinds = async (userId: string, keyBinds: KeyBinds): Promise<void> => {
   const userRef = doc(db, 'users', userId);
   const userDoc = await getDoc(userRef);
 
@@ -13,18 +14,18 @@ export const addField = async (userId: string): Promise<void> => {
   await setDoc(userRef,
     {
       settings: {
-        chuj: 'mi w dupe',
+        keyBinds,
       },
     },
     { merge: true });
 };
 
-export const getField = async (userId: string): Promise<Settings> => {
+export const getUserSettings = async (userId: string): Promise<Settings> => {
   const userRef = doc(db, 'users', userId);
   const userDoc = await getDoc(userRef);
 
   if (!userDoc.exists()) {
-    throw new Error('User not found.');
+    return { keyBinds: defaultKeyBinds };
   }
 
   const settings = userDoc.data().settings as Settings;
@@ -33,5 +34,5 @@ export const getField = async (userId: string): Promise<Settings> => {
     return settings;
   }
 
-  return {};
+  return { keyBinds: defaultKeyBinds };
 };
