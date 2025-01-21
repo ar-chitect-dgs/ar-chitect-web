@@ -29,7 +29,7 @@ const ModelsList = (): JSX.Element => {
 
   const handleAddModel = (model: SelectedModel) => {
     console.log('Adding model:', model);
-    dispatch(addModel(model.id, model.name, model.color, 'chair_2_creme.glb'));
+    dispatch(addModel(model.id, model.name, model.color, model.url));
   };
 
   return (
