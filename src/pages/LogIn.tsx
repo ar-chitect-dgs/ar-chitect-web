@@ -3,19 +3,16 @@ import {
   GoogleAuthProvider,
   signInWithEmailAndPassword,
   signInWithPopup,
-  User,
 } from 'firebase/auth';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
-import { getUserSettings } from '../api/settings';
 import googleIcon from '../assets/google.svg';
 import Card from '../components/card/Card';
 import FilledButton from '../components/filledButton/FilledButton';
 import TextButton from '../components/textButton/TextButton';
 import { auth } from '../firebaseConfig';
 import { useAppDispatch } from '../redux';
-import { applyNewKeyBinds } from '../redux/slices/settings';
 import './styles/LogIn.css';
 
 const Login = (): JSX.Element => {
