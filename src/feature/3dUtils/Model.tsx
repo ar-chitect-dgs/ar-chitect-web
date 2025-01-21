@@ -79,16 +79,14 @@ export function Model({
       </mesh>
       <mesh
         position={[0, height / 2, 0]}
-        // rotation={[0, 0, 0]}
         userData={{ name: MODEL, id: inProjectId }}
         castShadow={false}
-        visible={false}
       >
         <boxGeometry args={[depth + 0.1, height + 0.1, width + 0.1]} />
         <meshStandardMaterial
           color="lightblue"
           transparent
-          opacity={1}
+          opacity={opacity}
           visible={hovered || active}
         />
         <Outlines />
