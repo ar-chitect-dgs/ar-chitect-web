@@ -21,7 +21,8 @@
     "delete": "Usuń",
     "copy": "Kopiuj",
     "saveChanges": "Zapisz zmiany",
-    "reset": "Przywróć domyślne"
+    "reset": "Przywróć domyślne",
+    "unsavedChanges": "Masz niezapisane zmiany. Czy chcesz kontynuować?"
   },
   "mobile": {
     "title": "Doświadcz pełnej wersji ARchitect Mobile",
@@ -124,6 +125,7 @@
     "saveProjectButton": "Zapisz projekt",
     "saveProjectError": "Musisz być zalogowany, aby zapisać projekt.",
     "saveProjectSuccess": "Projekt zapisany pomyślnie.",
-    "saveProjectFailure": "Błąd podczas zapisywania projektu."
+    "saveProjectFailure": "Błąd podczas zapisywania projektu.",
+    "unsavedChanges": "Masz niezapisane zmiany. Czy chcesz kontynuować?"
   }
 }

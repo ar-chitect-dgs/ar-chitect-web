@@ -33,7 +33,7 @@ const EditorToolbar = (): JSX.Element => {
   const [isDirty, setIsDirty] = useState(true);
   const dispatch = useAppDispatch();
 
-  usePrompt({ when: isDirty, message: 'You have unsaved changes! Do you want to continue?' });
+  usePrompt({ when: isDirty, message: t('editorToolbar.unsavedChanges') });
 
   const captureScreenshot = async (
     userId: string,

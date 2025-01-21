@@ -21,7 +21,8 @@
     "delete": "Delete",
     "copy": "Copy",
     "saveChanges": "Save changes",
-    "reset": "Reset to defaults"
+    "reset": "Reset to defaults",
+    "unsavedChanges": "You have unsaved changes. Do you want to continue?"
   },
   "mobile": {
     "title": "Get the full experience with ARchitect Mobile",
@@ -124,6 +125,7 @@
     "saveProjectButton": "Save Project",
     "saveProjectError": "You must be logged in to save a project.",
     "saveProjectSuccess": "Project saved successfully.",
-    "saveProjectFailure": "Error saving project."
+    "saveProjectFailure": "Error saving project.",
+    "unsavedChanges": "You have unsaved changes. Do you want to continue?"
   }
 }

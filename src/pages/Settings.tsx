@@ -30,7 +30,7 @@ const KeyBindSettings = (): JSX.Element => {
   const [isDirty, setIsDirty] = useState(false);
   const dispatch = useAppDispatch();
 
-  usePrompt({ message: 'You have unsaved changes! Do you want to continue?', when: isDirty });
+  usePrompt({ message: t('settings.unsavedChanges'), when: isDirty });
 
   const availableActions: EditorAction[] = Object.values(EditorAction)
     .filter((value): value is EditorAction => typeof value !== 'string') as EditorAction[];
