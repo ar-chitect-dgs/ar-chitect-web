@@ -60,8 +60,10 @@ const KeyBindSettings = (): JSX.Element => {
   };
 
   const resetToDefaults = () => {
-    setIsDirty(true);
-    setKeyBinds(defaultKeyBinds);
+    if (keyBinds !== defaultKeyBinds) {
+      setIsDirty(true);
+      setKeyBinds(defaultKeyBinds);
+    }
   };
 
   if (user == null) {
