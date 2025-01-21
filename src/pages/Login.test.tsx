@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import {
   fireEvent,
   render,
+  RenderResult,
   screen,
   waitFor,
 } from '@testing-library/react';
@@ -14,14 +15,17 @@ import { PropsWithChildren } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { auth } from '../firebaseConfig';
+
 import rootReducer from '../redux';
 import Login from './LogIn';
 
 const mockNavigate = jest.fn();
 
+type ExtendedRenderResult = RenderResult & { store: ReturnType<typeof configureStore> };
+
 export function renderWithProviders(
   ui: React.ReactElement,
-) {
+): ExtendedRenderResult {
   const store = configureStore({ reducer: rootReducer });
 
   const Wrapper = ({ children }: PropsWithChildren) => (
@@ -31,7 +35,7 @@ export function renderWithProviders(
   return {
     store,
     ...render(ui, { wrapper: Wrapper }),
-  };
+  } as ExtendedRenderResult;
 }
 
 jest.mock('firebase/auth');
