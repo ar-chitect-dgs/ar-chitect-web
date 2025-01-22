@@ -1,24 +1,52 @@
+import { configureStore } from '@reduxjs/toolkit';
 import {
-  render,
-  screen,
   fireEvent,
+  render,
+  RenderResult,
+  screen,
   waitFor,
 } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
 import {
+  GoogleAuthProvider,
   signInWithEmailAndPassword,
   signInWithPopup,
-  GoogleAuthProvider,
 } from 'firebase/auth';
-import Login from './LogIn';
+import { PropsWithChildren } from 'react';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
 import { auth } from '../firebaseConfig';
 
+import rootReducer from '../redux';
+import Login from './LogIn';
+
 const mockNavigate = jest.fn();
+
+type ExtendedRenderResult = RenderResult & { store: ReturnType<typeof configureStore> };
+
+export function renderWithProviders(
+  ui: React.ReactElement,
+): ExtendedRenderResult {
+  const store = configureStore({ reducer: rootReducer });
+
+  const Wrapper = ({ children }: PropsWithChildren) => (
+    <Provider store={store}>{children}</Provider>
+  );
+
+  return {
+    store,
+    ...render(ui, { wrapper: Wrapper }),
+  } as ExtendedRenderResult;
+}
 
 jest.mock('firebase/auth');
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useNavigate: () => jest.fn(mockNavigate),
+}));
+jest.mock('../firebaseConfig', () => ({
+  auth: {
+    onAuthStateChanged: jest.fn((callback) => callback(null)),
+  },
 }));
 
 describe('Login Component', () => {
@@ -27,7 +55,7 @@ describe('Login Component', () => {
   });
 
   it('should render login form', () => {
-    render(
+    renderWithProviders(
       <BrowserRouter>
         <Login />
       </BrowserRouter>,
@@ -39,7 +67,7 @@ describe('Login Component', () => {
   it('should login with email and password successfully', async () => {
     (signInWithEmailAndPassword as jest.Mock).mockResolvedValue({});
 
-    render(
+    renderWithProviders(
       <BrowserRouter>
         <Login />
       </BrowserRouter>,
@@ -68,7 +96,7 @@ describe('Login Component', () => {
       new Error('Invalid credentials'),
     );
 
-    render(
+    renderWithProviders(
       <BrowserRouter>
         <Login />
       </BrowserRouter>,
@@ -95,7 +123,7 @@ describe('Login Component', () => {
   it('should login with Google successfully', async () => {
     (signInWithPopup as jest.Mock).mockResolvedValue({});
 
-    render(
+    renderWithProviders(
       <BrowserRouter>
         <Login />
       </BrowserRouter>,
@@ -117,7 +145,7 @@ describe('Login Component', () => {
       new Error('Google login failed'),
     );
 
-    render(
+    renderWithProviders(
       <BrowserRouter>
         <Login />
       </BrowserRouter>,

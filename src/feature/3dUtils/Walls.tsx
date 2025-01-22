@@ -5,7 +5,7 @@ export function Walls({ points, closed } : {
   points: Point2D[],
   closed?: boolean,
 }): JSX.Element {
-  const wallHeight = 2;
+  const wallHeight = 3;
 
   const walls = [];
   const vertices = closed ? [...points, points[0]] : [...points];

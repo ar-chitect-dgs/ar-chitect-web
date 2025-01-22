@@ -1,5 +1,5 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import { fetchAllProjects } from '../api/projectsApi';
+import { fetchAllProjects } from '../api/projects';
 import Projects from './Projects';
 
 jest.mock('firebase/auth');
@@ -8,7 +8,7 @@ jest.mock('react-router-dom');
 jest.mock('../auth/AuthProvider', () => ({
   useAuth: () => ({ user: { uid: '123' } }),
 }));
-jest.mock('../api/projectsApi');
+jest.mock('../api/projects');
 
 describe('Projects Component', () => {
   beforeEach(() => {

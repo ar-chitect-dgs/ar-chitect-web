@@ -22,7 +22,11 @@ export function Floor({ points } : {points: Point2D[]}): JSX.Element {
   if (points.length < 2) return (<></>);
 
   return (
-    <mesh geometry={geometry} rotation={[Math.PI / 2, 0, 0]} position={[0, 0.01, 0]}>
+    <mesh
+      geometry={geometry}
+      rotation={[Math.PI / 2, 0, 0]}
+      position={[0, 0.01, 0]}
+    >
       <meshStandardMaterial color="#f7e9d2" />
     </mesh>
   );

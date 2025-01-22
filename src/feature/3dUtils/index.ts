@@ -5,5 +5,5 @@ export { RoomCorners as Vertices } from './RoomCorners';
 export { Sphere, SphereType } from './Sphere';
 export { Walls } from './Walls';
 
-export const RAYCASTER_MODEL = 'model';
-export const RAYCASTER_GROUND = 'ground';
+export const MODEL = 'model';
+export const GROUND = 'ground';

@@ -12,18 +12,16 @@ import {
 } from '../../redux/slices/scene';
 import { positionToString, round } from '../../utils/utils';
 import FilledButton from '../filledButton/FilledButton';
-import { ValueSlider } from '../valueSlider/ValueSlider';
 
+import { EditorAction } from '../../types/KeyBinds';
 import './Properties.css';
-import {
-  DESELECT,
-  MOVE_BACK, MOVE_DOWN, MOVE_FRONT, MOVE_LEFT, MOVE_RIGHT,
-  MOVE_UP,
-} from '../../config/keyBinds';
+import { settingsSelector } from '../../redux/slices/settings';
+import { ValueSlider } from '../valueSlider/ValueSlider';
 
 function Properties(): JSX.Element {
   const dispatch = useAppDispatch();
   const { scene } = useSelector(sceneSelector);
+  const { keyBinds } = useSelector(settingsSelector);
 
   const id = scene.activeObjectId;
 
@@ -81,7 +79,13 @@ function Properties(): JSX.Element {
       if (event.key.length === 1) key = event.key.toUpperCase();
 
       switch (key) {
-        case MOVE_LEFT:
+        case keyBinds[EditorAction.DELETE]:
+          deleteObject();
+          break;
+        case keyBinds[EditorAction.COPY]:
+          copyObject();
+          break;
+        case keyBinds[EditorAction.MOVE_LEFT]:
           dispatch(
             moveObject(
               id,
@@ -90,7 +94,7 @@ function Properties(): JSX.Element {
             ),
           );
           break;
-        case MOVE_RIGHT:
+        case keyBinds[EditorAction.MOVE_RIGHT]:
           dispatch(
             moveObject(
               id,
@@ -99,7 +103,7 @@ function Properties(): JSX.Element {
             ),
           );
           break;
-        case MOVE_BACK:
+        case keyBinds[EditorAction.MOVE_BACK]:
           dispatch(
             moveObject(
               id,
@@ -108,7 +112,7 @@ function Properties(): JSX.Element {
             ),
           );
           break;
-        case MOVE_FRONT:
+        case keyBinds[EditorAction.MOVE_FRONT]:
           dispatch(
             moveObject(
               id,
@@ -117,7 +121,7 @@ function Properties(): JSX.Element {
             ),
           );
           break;
-        case MOVE_DOWN:
+        case keyBinds[EditorAction.MOVE_DOWN]:
           dispatch(
             moveObject(
               id,
@@ -126,7 +130,7 @@ function Properties(): JSX.Element {
             ),
           );
           break;
-        case MOVE_UP:
+        case keyBinds[EditorAction.MOVE_UP]:
           dispatch(
             moveObject(
               id,
@@ -135,7 +139,7 @@ function Properties(): JSX.Element {
             ),
           );
           break;
-        case DESELECT:
+        case keyBinds[EditorAction.DESELECT]:
           dispatch(disactivateObject());
           break;
         default:
@@ -155,6 +159,7 @@ function Properties(): JSX.Element {
 
   const { name, position, rotation } = scene.objects[id];
 
+  // todo will make it enable-able in settings in seperate PR
   return (
     <div className="container">
       <div className="name">{name}</div>
@@ -167,7 +172,9 @@ function Properties(): JSX.Element {
       </div>
       <div className="button-panel">
         <FilledButton onClick={copyObject}>Copy</FilledButton>
-        <FilledButton onClick={deleteObject}>Delete</FilledButton>
+        <FilledButton onClick={deleteObject} className="delete-obj-button">
+          Delete
+        </FilledButton>
       </div>
     </div>
   );

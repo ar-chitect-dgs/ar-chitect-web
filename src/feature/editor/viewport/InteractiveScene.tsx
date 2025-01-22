@@ -5,16 +5,23 @@ import { useSelector } from 'react-redux';
 import * as THREE from 'three';
 import { useAppDispatch } from '../../../redux';
 import {
-  sceneSelector, moveObjectTo,
-  activateObject, disactivateObject,
-  rotateObject, Axis,
+  activateObject,
+  Axis,
+  disactivateObject,
   hoverObject,
+  moveObjectTo,
+  rotateObject,
+  sceneSelector,
   unhoverObject,
 } from '../../../redux/slices/scene';
+import { snapObject } from '../../../utils/utils';
 import {
-  Floor, Walls, Model, Ground,
-  RAYCASTER_MODEL,
-  RAYCASTER_GROUND,
+  Floor,
+  Ground,
+  GROUND,
+  Model,
+  MODEL,
+  Walls,
 } from '../../3dUtils';
 
 export function InteractiveScene(): JSX.Element {
@@ -23,6 +30,7 @@ export function InteractiveScene(): JSX.Element {
   const { scene } = useSelector(sceneSelector);
   const dispatch = useAppDispatch();
   const [dragging, setDragging] = useState(false);
+  const [activeModelDepth, setActiveModelDepth] = useState(0);
 
   const intersectionAction = (
     hitAction: (i: THREE.Intersection) => boolean,
@@ -50,7 +58,7 @@ export function InteractiveScene(): JSX.Element {
 
   const hover = intersectionAction(
     (intersection: THREE.Intersection) => {
-      if (intersection.object.userData.name === RAYCASTER_MODEL) {
+      if (intersection.object.userData.name === MODEL) {
         const { id } = intersection.object.userData;
 
         dispatch(hoverObject(id));
@@ -63,14 +71,23 @@ export function InteractiveScene(): JSX.Element {
 
   const move = intersectionAction(
     (intersection: THREE.Intersection) => {
-      if (intersection.object.userData.name === RAYCASTER_GROUND) {
+      if (intersection.object.userData.name === GROUND) {
         const { point } = intersection;
+
+        const { snapped, position, rotation } = snapObject(
+          new THREE.Vector2(point.x, point.z), activeModelDepth, scene.corners,
+        );
+
+        if (snapped) {
+          dispatch(rotateObject(scene.activeObjectId as number, rotation, Axis.Y));
+        }
 
         dispatch(moveObjectTo(
             scene.activeObjectId as number,
-            point.x,
-            point.z,
+            position.x,
+            position.y,
         ));
+
         return true;
       }
       return false;
@@ -79,7 +96,7 @@ export function InteractiveScene(): JSX.Element {
 
   const setActive = intersectionAction(
     (intersection: THREE.Intersection) => {
-      if (intersection.object.userData.name === RAYCASTER_MODEL) {
+      if (intersection.object.userData.name === MODEL) {
         const { id } = intersection.object.userData;
 
         dispatch(activateObject(id));
@@ -95,7 +112,7 @@ export function InteractiveScene(): JSX.Element {
     (intersection: THREE.Intersection) => {
       if (scene.activeObjectId == null) return false;
 
-      if (intersection.object.userData.name === RAYCASTER_GROUND) {
+      if (intersection.object.userData.name === GROUND) {
         const { point } = intersection;
 
         const { position } = scene.objects[scene.activeObjectId];
@@ -170,9 +187,11 @@ export function InteractiveScene(): JSX.Element {
           name={model.name || ''}
           hovered={model.inProjectId === scene.hoveredObjectId}
           active={model.inProjectId === scene.activeObjectId}
+          passDepthToParent={
+            model.inProjectId === scene.activeObjectId ? setActiveModelDepth : undefined
+          }
         />
       ))}
-
     </mesh>
   );
 }

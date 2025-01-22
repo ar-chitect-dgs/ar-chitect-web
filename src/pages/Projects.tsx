@@ -1,22 +1,20 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+
 import { useTranslation } from 'react-i18next';
-import { deleteProject, fetchAllProjects } from '../api/projectsApi';
-import { ApiProject } from '../api/types';
 import { useAuth } from '../auth/AuthProvider';
 import ProjectTile from '../components/projectTile/ProjectTile';
 import ScrollBar from '../components/scrollbar/ScrollBar';
 import { ROUTES } from '../feature/navigation/routes';
+import { setProject } from '../redux/slices/project';
 import { setScene } from '../redux/slices/scene';
 import { mapApiProjectToProjectScene } from '../utils/mappers';
-import { setProject } from '../redux/slices/project';
-import NotificationPopup, {
-  initialSnackBarState,
-  setOpenSnackBarState,
-  SnackBarState,
-} from '../components/notificationPopup/NotificationPopup';
+
 import './styles/Projects.css';
+import { fetchAllProjects, deleteProject } from '../api/projects';
+import { ApiProject } from '../api/projects/types';
+import NotificationPopup, { SnackBarState, initialSnackBarState, setOpenSnackBarState } from '../components/notificationPopup/NotificationPopup';
 
 const Projects = (): JSX.Element => {
   const [projects, setProjects] = useState<ApiProject[]>([]);

@@ -1,5 +1,5 @@
-import { fetchGLBUrl } from '../api/projectsApi';
-import { ApiProject } from '../api/types';
+import { fetchGLBUrl } from '../api/projects';
+import { ApiProject } from '../api/projects/types';
 import { Object3D } from '../types/Object3D';
 import { Project } from '../types/Project';
 import { ProjectScene } from '../types/ProjectScene';
