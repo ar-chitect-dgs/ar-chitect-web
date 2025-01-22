@@ -110,9 +110,7 @@ const AppRouter = (): JSX.Element => {
   );
 
   return (
-    <>
-      <RouterProvider router={router} />
-    </>
+    <RouterProvider router={router} />
   );
 };
 

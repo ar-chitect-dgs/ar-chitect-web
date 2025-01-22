@@ -89,7 +89,6 @@ export function Model({
           opacity={opacity}
           visible={hovered || active}
         />
-        <Outlines />
       </mesh>
     </mesh>
   );
