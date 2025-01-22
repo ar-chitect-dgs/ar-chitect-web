@@ -45,8 +45,7 @@ export const fetchGLBUrl = async (
     throw new Error(`Color ${color} not found for model ${objectId}`);
   }
 
-  const reference = ref(storage, MODELS_DIRECTORY + colorData.url);
-
+  const reference = ref(storage, `${MODELS_DIRECTORY}/${colorData.url}`);
   const url = await getDownloadURL(reference);
   return url;
 };
