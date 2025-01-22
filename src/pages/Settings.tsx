@@ -6,7 +6,7 @@ import {
   Select,
   SelectChangeEvent,
 } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
@@ -34,24 +34,6 @@ const KeyBindSettings = (): JSX.Element => {
 
   const availableActions: EditorAction[] = Object.values(EditorAction)
     .filter((value): value is EditorAction => typeof value !== 'string') as EditorAction[];
-
-  const beforeunload = (e: BeforeUnloadEvent) => {
-    console.log('hi');
-    alert('chuj mi w dupe');
-
-    if (isDirty) {
-      e.preventDefault();
-      e.returnValue = true;
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener('beforeunload', beforeunload);
-
-    return () => {
-      window.removeEventListener('beforeunload', beforeunload);
-    };
-  }, []);
 
   const changeListening = (action: EditorAction | null) => {
     setListening(action);
