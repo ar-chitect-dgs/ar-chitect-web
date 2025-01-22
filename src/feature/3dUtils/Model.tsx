@@ -1,5 +1,4 @@
 /* eslint-disable react/no-unknown-property */
-import { Outlines } from '@react-three/drei';
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
