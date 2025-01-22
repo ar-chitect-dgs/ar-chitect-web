@@ -22,7 +22,7 @@
     "copy": "Copy",
     "saveChanges": "Save changes",
     "reset": "Reset to defaults",
-    "unsavedChanges": "You have unsaved changes. Do you want to continue?"
+    "unsavedChanges": "Are you sure you want to exit without saving changes?"
   },
   "mobile": {
     "title": "Get the full experience with ARchitect Mobile",
@@ -126,6 +126,6 @@
     "saveProjectError": "You must be logged in to save a project.",
     "saveProjectSuccess": "Project saved successfully.",
     "saveProjectFailure": "Error saving project.",
-    "unsavedChanges": "You have unsaved changes. Do you want to continue?"
+    "unsavedChanges": "Are you sure you want to exit without saving changes?"
   }
 }
