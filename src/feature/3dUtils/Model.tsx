@@ -2,8 +2,8 @@
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import { SceneObject } from '../../types/Scene';
 import { MODEL } from '.';
+import { SceneObject } from '../../types/Scene';
 
 type ModelProps = SceneObject & {
   hovered: boolean,
@@ -78,7 +78,6 @@ export function Model({
       </mesh>
       <mesh
         position={[0, height / 2, 0]}
-        // rotation={[0, 0, 0]}
         userData={{ name: MODEL, id: inProjectId }}
         castShadow={false}
       >

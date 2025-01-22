@@ -8,7 +8,20 @@
   },
   "settings": {
     "title": "Settings",
-    "language": "Language"
+    "language": "Language",
+    "moveUp": "Move model up",
+    "moveDown": "Move model down",
+    "moveLeft": "Move model left", 
+    "moveRight": "Move model right",
+    "moveFront": "Move model forward",
+    "moveBack": "Move model backward",
+    "rotateCw": "Rotate clockwise",
+    "rotateCcw": "Rotate counter-clockwise",
+    "deselect": "Deselect",
+    "delete": "Delete",
+    "copy": "Copy",
+    "saveChanges": "Save changes",
+    "reset": "Reset to defaults"
   },
   "mobile": {
     "title": "Get the full experience with ARchitect Mobile",

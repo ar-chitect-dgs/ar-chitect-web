@@ -3,6 +3,7 @@ import { ReactNode } from 'react';
 
 type ButtonProps = {
   onClick?: () => void;
+  onKeyDown?: (event: React.KeyboardEvent) => void;
   className?: string;
   type?: 'button' | 'submit' | 'reset';
   children?: ReactNode;
@@ -11,6 +12,7 @@ type ButtonProps = {
 const Button = ({
   children,
   onClick = () => {},
+  onKeyDown = () => {},
 
   className = '',
   type = 'button',
@@ -19,6 +21,7 @@ const Button = ({
     type={type}
     className={`${className} button`}
     onClick={onClick}
+    onKeyDown={onKeyDown}
   >
     {children}
   </button>

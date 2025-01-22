@@ -2,53 +2,23 @@ import {
   collection, deleteDoc, doc, getDoc, getDocs, setDoc,
 } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { db, storage } from '../firebaseConfig';
-import { Scene } from '../types/Scene';
-import { ApiModel, ApiProject, ApiProjects } from './types';
-import { Project } from '../types/Project';
-import { ProjectScene } from '../types/ProjectScene';
+import { db, storage } from '../../firebaseConfig';
+import { Project } from '../../types/Project';
+import { Scene } from '../../types/Scene';
 import {
-  mapApiProjectToProjectScene,
   mapProjectSceneToApiProject,
-} from '../utils/mappers';
+} from '../../utils/mappers';
+import { ApiModel, ApiProject } from './types';
 
-const MODELS_DIRECTORY = 'models/';
-
-export const fetchProjectsData = async (
-  userId: string,
-): Promise<ApiProjects> => {
-  const projectsRef = collection(db, 'users', userId, 'projects');
-  const querySnapshot = await getDocs(projectsRef);
-
-  const projectsData: ApiProjects = {};
-
-  querySnapshot.docs.forEach((doc) => {
-    const projectData = doc.data() as ApiProject;
-    projectsData[doc.id] = projectData;
-  });
-
-  return projectsData;
-};
-
-export const getProjectScene = async (
-  projectId: string,
-  userId: string,
-): Promise<ProjectScene> => {
-  const projectRef = doc(db, 'users', userId, 'projects', projectId);
-  const projectDoc = await getDoc(projectRef);
-
-  if (!projectDoc.exists()) {
-    throw new Error(`Project with ID ${projectId} not found.`);
-  }
-
-  const project = projectDoc.data() as ApiProject;
-  return mapApiProjectToProjectScene(project);
-};
+const MODELS_DIRECTORY = 'models';
+const USERS_DIRECTORY = 'users';
+const PROJECTS_DIRECTORY = 'projects';
+const THUMBNAILS_DIRECTORY = 'thumbnails';
 
 export const fetchAllProjects = async (
   userId: string,
 ): Promise<ApiProject[]> => {
-  const projectsRef = collection(db, 'users', userId, 'projects');
+  const projectsRef = collection(db, USERS_DIRECTORY, userId, PROJECTS_DIRECTORY);
   const snapshot = await getDocs(projectsRef);
 
   const projects: ApiProject[] = [];
@@ -63,7 +33,7 @@ export const fetchGLBUrl = async (
   objectId: string,
   color: string,
 ): Promise<string> => {
-  const modelDoc = await getDoc(doc(db, 'models', objectId));
+  const modelDoc = await getDoc(doc(db, MODELS_DIRECTORY, objectId));
 
   if (!modelDoc.exists()) {
     throw new Error(`Model with ID ${objectId} not found in Firestore`);
@@ -80,11 +50,12 @@ export const fetchGLBUrl = async (
   const url = await getDownloadURL(reference);
   return url;
 };
+
 export const saveProjectThumbnail = async (
   blob: Blob,
   id: string,
 ): Promise<string> => {
-  const storageRef = ref(storage, `projectThumbnails/${id}.png`);
+  const storageRef = ref(storage, `${THUMBNAILS_DIRECTORY}/${id}.png`);
   const snapshot = await uploadBytes(storageRef, blob);
   const url = await getDownloadURL(snapshot.ref);
   return url;
@@ -96,7 +67,7 @@ export const saveProject = async (
   project: Project,
 ): Promise<string> => {
   const apiProject = mapProjectSceneToApiProject(scene, project);
-  const projectsRef = collection(db, 'users', userId, 'projects');
+  const projectsRef = collection(db, USERS_DIRECTORY, userId, PROJECTS_DIRECTORY);
   const projectRef = project.projectId
     ? doc(db, 'users', userId, 'projects', project.projectId)
     : doc(projectsRef);
@@ -111,14 +82,14 @@ export const deleteProject = async (userId: string, projectId?: string): Promise
     throw new Error('Project ID is required to delete a project.');
   }
 
-  const projectRef = doc(db, 'users', userId, 'projects', projectId);
+  const projectRef = doc(db, USERS_DIRECTORY, userId, PROJECTS_DIRECTORY, projectId);
   await deleteDoc(projectRef);
 };
 
 export const fetchModelsList = async (): Promise<
   ApiModel[]
 > => {
-  const modelsRef = collection(db, 'models');
+  const modelsRef = collection(db, MODELS_DIRECTORY);
   const querySnapshot = await getDocs(modelsRef);
 
   const models = querySnapshot.docs.map((doc) => ({
@@ -129,18 +100,4 @@ export const fetchModelsList = async (): Promise<
   }));
 
   return models as ApiModel[];
-};
-
-export const fetchModelColors = async (objectId: string): Promise<string[]> => {
-  const modelRef = doc(db, 'models2', objectId);
-  const modelDoc = await getDoc(modelRef);
-
-  if (!modelDoc.exists()) {
-    throw new Error(`Model with ID ${objectId} not found.`);
-  }
-
-  const modelData = modelDoc.data();
-  const colorVariants = modelData.color_variants || {};
-
-  return Object.keys(colorVariants);
 };

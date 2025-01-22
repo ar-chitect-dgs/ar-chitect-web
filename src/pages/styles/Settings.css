@@ -1,0 +1,30 @@
+.settings-page {
+  color: var(--text-color);
+  padding: 30px;
+  padding-top: 50px;
+  height: 90vh;
+  overflow-y: scroll;
+  padding-right: 300px;
+}
+
+.columns-container {
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+}
+
+.keys {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-size: large;
+  flex-wrap: wrap;
+  height: 600px;
+  min-width: 800px;
+}
+
+.buttons-panel {
+  display: flex;
+  justify-content: left;
+  gap: 10px;
+}

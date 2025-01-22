@@ -1,4 +1,4 @@
-import { Point3D, Point2D } from '../types/Point';
+import { Point2D, Point3D } from '../../types/Point';
 
 export interface ApiObject3D {
   id: string;

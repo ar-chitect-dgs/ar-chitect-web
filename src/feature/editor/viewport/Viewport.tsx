@@ -47,7 +47,7 @@ function EditorViewport(): JSX.Element {
           maxDistance={30}
           maxPolarAngle={Math.PI / 2}
           mouseButtons={{
-            left: 0,
+            left: 1,
             middle: 1,
             right: 2,
             wheel: 8,

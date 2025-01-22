@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { fetchModelsList } from '../../api/projects';
+import { ApiModel } from '../../api/projects/types';
 import { useAppDispatch } from '../../redux';
 import { addModel } from '../../redux/slices/scene';
+import ModelTile, { SelectedModel } from '../modelTile/ModelTile';
 import NotificationPopup, {
   initialSnackBarState,
   SnackBarState,
 } from '../notificationPopup/NotificationPopup';
 import './ModelsList.css';
-import { fetchModelsList } from '../../api/projectsApi';
-import ModelTile, { SelectedModel } from '../modelTile/ModelTile';
-import { ApiModel } from '../../api/types';
 
 const ModelsList = (): JSX.Element => {
   const dispatch = useAppDispatch();
