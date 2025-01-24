@@ -49,7 +49,7 @@ export function Model({
   useEffect(() => {
     if (!meshRef.current) return;
 
-    const boundingBox = new THREE.Box3().setFromObject(meshRef.current as THREE.Object3D, true);
+    const boundingBox = new THREE.Box3().setFromObject(meshRef.current as THREE.Object3D);
 
     setDepth(boundingBox.max.x - boundingBox.min.x);
     setHeight(boundingBox.max.y - boundingBox.min.y);
