@@ -28,7 +28,7 @@ function EditorViewport(): JSX.Element {
     } else {
       document.body.style.cursor = 'auto';
     }
-  }, [scene.activeObjectId, scene.hoveredObjectId]);
+  }, [scene.hoveredObjectId, scene.activeObjectId]);
 
   return (
     <Suspense fallback={<CircularProgress />}>
