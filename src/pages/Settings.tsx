@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
+import { unstable_usePrompt as usePrompt } from 'react-router-dom';
 import { useAuth } from '../auth/AuthProvider';
 import FilledButton from '../components/filledButton/FilledButton';
 import { SettingsTile } from '../components/settingsTile/SettingsTile';
@@ -28,6 +29,8 @@ const KeyBindSettings = (): JSX.Element => {
   const [keyBinds, setKeyBinds] = useState<KeyBinds>(currentKeyBinds);
   const [isDirty, setIsDirty] = useState(false);
   const dispatch = useAppDispatch();
+
+  usePrompt({ message: t('settings.unsavedChanges'), when: isDirty });
 
   const availableActions: EditorAction[] = Object.values(EditorAction)
     .filter((value): value is EditorAction => typeof value !== 'string') as EditorAction[];
