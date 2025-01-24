@@ -20,8 +20,10 @@
     "deselect": "Deselect",
     "delete": "Delete",
     "copy": "Copy",
-    "saveChanges": "Save changes",
-    "reset": "Reset to defaults"
+    "saveChanges": "Save control changes",
+    "reset": "Reset to defaults",
+    "boundingBoxes": "Display bounding boxes",
+    "sliders": "Use sliders in editor"
   },
   "mobile": {
     "title": "Get the full experience with ARchitect Mobile",

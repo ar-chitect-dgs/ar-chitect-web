@@ -20,8 +20,10 @@
     "deselect": "Odznacz",
     "delete": "Usuń",
     "copy": "Kopiuj",
-    "saveChanges": "Zapisz zmiany",
-    "reset": "Przywróć domyślne"
+    "saveChanges": "Zapisz zmiany sterowania",
+    "reset": "Przywróć domyślne",
+    "boundingBoxes": "Wyświetlaj bounding boxes",
+    "sliders": "Używaj suwaków do przesuwania"
   },
   "mobile": {
     "title": "Doświadcz pełnej wersji ARchitect Mobile",

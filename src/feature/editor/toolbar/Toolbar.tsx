@@ -1,7 +1,7 @@
 import { FormControl, FormHelperText, TextField } from '@mui/material';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import { saveProject, saveProjectThumbnail } from '../../../api/projects';
 import FilledButton from '../../../components/filledButton/FilledButton';
 import ModelsList from '../../../components/modelsList/ModelsList';
@@ -11,6 +11,7 @@ import NotificationPopup, {
   SnackBarState,
 } from '../../../components/notificationPopup/NotificationPopup';
 import Properties from '../../../components/properties/Properties';
+import ScrollBar from '../../../components/scrollbar/ScrollBar';
 import { auth } from '../../../firebaseConfig';
 import { useAppDispatch } from '../../../redux';
 import {
@@ -21,7 +22,6 @@ import {
 } from '../../../redux/slices/project';
 import { sceneSelector } from '../../../redux/slices/scene';
 import './Toolbar.css';
-import ScrollBar from '../../../components/scrollbar/ScrollBar';
 
 const EditorToolbar = (): JSX.Element => {
   const { t } = useTranslation();

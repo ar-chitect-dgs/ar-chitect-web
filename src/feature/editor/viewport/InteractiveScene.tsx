@@ -1,4 +1,5 @@
 import { useThree } from '@react-three/fiber';
+import { EffectComposer, Outline, Selection } from '@react-three/postprocessing';
 import { useGesture } from '@use-gesture/react';
 import { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -14,6 +15,7 @@ import {
   sceneSelector,
   unhoverObject,
 } from '../../../redux/slices/scene';
+import { settingsSelector } from '../../../redux/slices/settings';
 import { snapObject } from '../../../utils/utils';
 import {
   Floor,
@@ -24,10 +26,26 @@ import {
   Walls,
 } from '../../3dUtils';
 
+function Postprocessing(): JSX.Element {
+  const { scene } = useSelector(sceneSelector);
+
+  const color = scene.activeObjectId != null ? 0x7489ff : 0xffffff;
+
+  return (
+    <EffectComposer autoClear={false}>
+      <Outline
+        visibleEdgeColor={color}
+        hiddenEdgeColor={color}
+      />
+    </EffectComposer>
+  );
+}
+
 export function InteractiveScene(): JSX.Element {
   const meshRef = useRef<THREE.Mesh>(null);
   const { raycaster } = useThree();
   const { scene } = useSelector(sceneSelector);
+  const { useEditorSliders } = useSelector(settingsSelector);
   const dispatch = useAppDispatch();
   const [dragging, setDragging] = useState(false);
   const [activeModelDepth, setActiveModelDepth] = useState(0);
@@ -157,7 +175,7 @@ export function InteractiveScene(): JSX.Element {
       event.stopPropagation();
       if (dragging) return;
 
-      if (scene.activeObjectId != null) move();
+      if (scene.activeObjectId != null && !useEditorSliders) move();
       else hover();
     },
   }, {
@@ -175,23 +193,26 @@ export function InteractiveScene(): JSX.Element {
       <Walls points={scene.corners} closed />
       <Ground />
 
-      {Object.values(scene.objects).map((model) => (
-        <Model
-          inProjectId={model.inProjectId}
-          color={model.color}
-          key={model.inProjectId}
-          url={model.url}
-          position={model.position}
-          rotation={model.rotation}
-          objectId={model.objectId}
-          name={model.name || ''}
-          hovered={model.inProjectId === scene.hoveredObjectId}
-          active={model.inProjectId === scene.activeObjectId}
-          passDepthToParent={
-            model.inProjectId === scene.activeObjectId ? setActiveModelDepth : undefined
-          }
-        />
-      ))}
+      <Selection>
+        <Postprocessing />
+        {Object.values(scene.objects).map((model) => (
+          <Model
+            inProjectId={model.inProjectId}
+            key={model.inProjectId}
+            color={model.color}
+            url={model.url}
+            position={model.position}
+            rotation={model.rotation}
+            objectId={model.objectId}
+            name={model.name || ''}
+            hovered={model.inProjectId === scene.hoveredObjectId}
+            active={model.inProjectId === scene.activeObjectId}
+            passDepthToParent={
+              model.inProjectId === scene.activeObjectId ? setActiveModelDepth : undefined
+            }
+          />
+        ))}
+      </Selection>
     </mesh>
   );
 }

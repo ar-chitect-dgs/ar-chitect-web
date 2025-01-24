@@ -1,3 +1,4 @@
+import { FlipCameraAndroid } from '@mui/icons-material';
 import { useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../redux';
@@ -13,15 +14,15 @@ import {
 import { positionToString, round } from '../../utils/utils';
 import FilledButton from '../filledButton/FilledButton';
 
-import { EditorAction } from '../../types/KeyBinds';
-import './Properties.css';
 import { settingsSelector } from '../../redux/slices/settings';
+import { EditorAction } from '../../types/KeyBinds';
 import { ValueSlider } from '../valueSlider/ValueSlider';
+import './Properties.css';
 
 function Properties(): JSX.Element {
   const dispatch = useAppDispatch();
   const { scene } = useSelector(sceneSelector);
-  const { keyBinds } = useSelector(settingsSelector);
+  const { keyBinds, useEditorSliders } = useSelector(settingsSelector);
 
   const id = scene.activeObjectId;
 
@@ -159,17 +160,27 @@ function Properties(): JSX.Element {
 
   const { name, position, rotation } = scene.objects[id];
 
-  // todo will make it enable-able in settings in seperate PR
   return (
     <div className="container">
       <div className="name">{name}</div>
-      <div className="position">{positionToString(position)}</div>
-      <div className="sliders">
-        <ValueSlider value={position.x} label="x" handleChange={moveX} />
-        <ValueSlider value={position.y} label="y" handleChange={moveY} />
-        <ValueSlider value={position.z} label="z" handleChange={moveZ} />
-        <ValueSlider value={rotation.y} label="roty" handleChange={rotateY} />
-      </div>
+      {useEditorSliders
+        && (
+          <>
+            <div className="position">{positionToString(position)}</div>
+            <div className="sliders">
+              <ValueSlider value={position.x} min={-20} max={20} label="x" handleChange={moveX} />
+              <ValueSlider value={position.y} min={0} max={3} label="y" handleChange={moveY} />
+              <ValueSlider value={position.z} min={-20} max={20} label="z" handleChange={moveZ} />
+              <ValueSlider
+                value={rotation.y}
+                min={-20}
+                max={20}
+                icon={<FlipCameraAndroid />}
+                handleChange={rotateY}
+              />
+            </div>
+          </>
+        )}
       <div className="button-panel">
         <FilledButton onClick={copyObject}>Copy</FilledButton>
         <FilledButton onClick={deleteObject} className="delete-obj-button">

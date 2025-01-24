@@ -1,4 +1,5 @@
 /* eslint-disable react/no-unknown-property */
+import { Select } from '@react-three/postprocessing';
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
@@ -72,21 +73,25 @@ export function Model({
     <mesh
       position={[position.x, position.y, position.z]}
       rotation={[rotation.x, rotation.y, rotation.z]}
+      castShadow
     >
-      <mesh ref={meshRef}>
-        <primitive object={gltfModel} />
-      </mesh>
+      <Select enabled={hovered} castShadow>
+        <mesh ref={meshRef} castShadow>
+          <primitive object={gltfModel} />
+        </mesh>
+      </Select>
       <mesh
         position={[0, height / 2, 0]}
         userData={{ name: MODEL, id: inProjectId }}
         castShadow={false}
+        visible={false}
       >
         <boxGeometry args={[depth + 0.1, height + 0.1, width + 0.1]} />
         <meshStandardMaterial
           color="lightblue"
           transparent
           opacity={opacity}
-          visible={hovered || active}
+          visible={false}
         />
       </mesh>
     </mesh>

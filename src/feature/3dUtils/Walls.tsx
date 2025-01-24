@@ -32,7 +32,7 @@ export function Walls({ points, closed } : {
         rotation={[0, angle, 0]}
       >
         <boxGeometry args={[distance, wallHeight, 0.1]} />
-        <meshStandardMaterial color="gray" transparent opacity={0.5} />
+        <meshStandardMaterial color="gray" transparent opacity={0.3} />
       </mesh>,
     );
   }

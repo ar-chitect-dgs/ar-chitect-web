@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unknown-property */
-import { ThreeEvent } from '@react-three/fiber';
 import { Grid } from '@react-three/drei';
+import { ThreeEvent } from '@react-three/fiber';
 import { GROUND } from '.';
 
 export function Ground({
@@ -28,7 +28,7 @@ export function Ground({
     infiniteGrid: true,
   };
   return (
-    <>
+    <mesh>
       <Grid position={[0, 0, 0]} {...gridConfig} />
       <mesh
         position={[0, -0.01, 0]}
@@ -38,10 +38,11 @@ export function Ground({
         onPointerUp={onPointerUp}
         onPointerDown={onPointerDown}
         userData={{ name: GROUND }}
+        visible={false}
       >
         <planeGeometry args={[100, 100]} />
-        <meshBasicMaterial visible={false} />
+        <meshBasicMaterial />
       </mesh>
-    </>
+    </mesh>
   );
 }
