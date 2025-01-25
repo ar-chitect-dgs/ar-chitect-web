@@ -24,7 +24,8 @@ import {
 import { changeInteractionState, Interaction, sceneSelector } from '../../../redux/slices/editor';
 import './Toolbar.css';
 import ScrollBar from '../../../components/scrollbar/ScrollBar';
-import Properties from '../../../components/properties/Properties';
+import ModelSliders from '../../../components/modelSliders/ModelSliders';
+import { settingsSelector } from '../../../redux/slices/settings';
 
 const CopyDeletePanel = (): JSX.Element => {
   const { interaction } = useSelector(sceneSelector);
@@ -70,6 +71,7 @@ const EditorToolbar = (): JSX.Element => {
   const { t } = useTranslation();
   const { scene } = useSelector(sceneSelector);
   const project = useSelector(projectSelector);
+  const { useEditorSliders } = useSelector(settingsSelector);
   const [snackbar, setSnackbar] = useState<SnackBarState>(initialSnackBarState);
   const [nameError, setNameError] = useState(false);
   const dispatch = useAppDispatch();
@@ -169,7 +171,7 @@ const EditorToolbar = (): JSX.Element => {
         <CopyDeletePanel />
 
         <div className="editing-panel">
-          <Properties />
+          {useEditorSliders && (<ModelSliders />)}
         </div>
 
         <div className="button-container">

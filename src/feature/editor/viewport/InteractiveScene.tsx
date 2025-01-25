@@ -41,13 +41,16 @@ export function InteractiveScene(): JSX.Element {
   useEffect(() => {
     switch (interaction) {
       case Interaction.Idle:
-        if (scene.activeObjectId != null) {
+        if (scene.activeObjectId != null && !useEditorSliders) {
           document.body.style.cursor = 'grabbing';
-        } else if (scene.hoveredObjectId != null) {
+        } else if (scene.hoveredObjectId != null && !useEditorSliders) {
           document.body.style.cursor = 'grab';
+        } else if (scene.hoveredObjectId != null && useEditorSliders) {
+          document.body.style.cursor = 'pointer';
         } else {
           document.body.style.cursor = 'auto';
         }
+
         break;
 
       case Interaction.Copy:
@@ -64,7 +67,8 @@ export function InteractiveScene(): JSX.Element {
 
       default:
     }
-  }, [scene.activeObjectId, scene.hoveredObjectId, interaction]);
+  }, [scene.activeObjectId, scene.hoveredObjectId,
+    interaction, useEditorSliders]);
 
   const intersectionAction = (
     hitAction: (i: THREE.Intersection) => boolean,
@@ -133,7 +137,11 @@ export function InteractiveScene(): JSX.Element {
       if (intersection.object.userData.name === MODEL) {
         const { id } = intersection.object.userData;
 
-        dispatch(activateObject(id));
+        if (id === scene.activeObjectId) {
+          dispatch(disactivateObject());
+        } else {
+          dispatch(activateObject(id));
+        }
 
         return true;
       }

@@ -61,7 +61,7 @@ export function Model({
 
   let opacity = 0;
   if (active) {
-    opacity = 0.4;
+    opacity = 0.6;
   } else if (hovered) {
     opacity = 0.2;
   }

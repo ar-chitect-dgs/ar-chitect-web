@@ -84,7 +84,7 @@ const sceneSlice = createSlice({
         console.warn(`No object with id ${id} found.`);
       }
 
-      state.scene.activeObjectId = state.scene.activeObjectId == null ? id : null;
+      state.scene.activeObjectId = id;
     },
     move: (state, action: PayloadAction<MovePayload>) => {
       const { id, axis, value } = action.payload;

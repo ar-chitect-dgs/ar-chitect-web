@@ -7,7 +7,6 @@
 
 .display {
   flex: 3;
-  border: #282c34 solid 2px;
 }
 
 .Display canvas {

@@ -36,7 +36,7 @@ function EditorViewport(): JSX.Element {
             wheel: 8,
           }}
         />
-        <ambientLight intensity={0} />
+        <ambientLight intensity={2} />
         <pointLight position={[0, 2, 0]} decay={0} intensity={3} />
 
         <InteractiveScene />
