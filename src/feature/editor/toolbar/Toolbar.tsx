@@ -3,8 +3,6 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { unstable_usePrompt as usePrompt } from 'react-router-dom';
-import { MuiColorInput } from 'mui-color-input';
-import { RestoreRounded } from '@mui/icons-material';
 import { saveProject, saveProjectThumbnail } from '../../../api/projects';
 import FilledButton from '../../../components/filledButton/FilledButton';
 import ModelsList from '../../../components/modelsList/ModelsList';
@@ -24,10 +22,14 @@ import {
   setProjectName,
 } from '../../../redux/slices/project';
 import {
-  changeFloorColor, changeWallColor, resetFloorColor, resetWallColor, sceneSelector,
+  changeFloorColor,
+  changeWallColor,
+  resetFloorColor,
+  resetWallColor,
+  sceneSelector,
 } from '../../../redux/slices/scene';
 import './Toolbar.css';
-import Button from '../../../components/button/Button';
+import ColorPicker from '../../../components/colorPicker/ColorPicker';
 
 const EditorToolbar = (): JSX.Element => {
   const { t } = useTranslation();
@@ -121,30 +123,6 @@ const EditorToolbar = (): JSX.Element => {
             )}
           </FormControl>
         </div>
-
-        <div className="colors-panel">
-          <div className="color-input">
-            <p className="color-label">{t('editorToolbar.wallColor')}</p>
-            <MuiColorInput
-              value={scene.wallColor}
-              onChange={(c: string) => dispatch(changeWallColor(c))}
-            />
-            <Button className="color-restore" onClick={() => dispatch(resetWallColor())}>
-              <RestoreRounded />
-            </Button>
-          </div>
-          <div className="color-input">
-            <p className="color-label">{t('editorToolbar.floorColor')}</p>
-            <MuiColorInput
-              value={scene.floorColor}
-              onChange={(c: string) => dispatch(changeFloorColor(c))}
-            />
-            <Button className="color-restore" onClick={() => dispatch(resetFloorColor())}>
-              <RestoreRounded />
-            </Button>
-          </div>
-        </div>
-
         <div className="adding-panel">
           <div className="header">{t('editorToolbar.addModelHeader')}</div>
           <div className="scrollbar-container">
@@ -155,10 +133,32 @@ const EditorToolbar = (): JSX.Element => {
             </ScrollBar>
           </div>
         </div>
-
-        <div className="editing-panel">
-          <Properties />
+        <div className="context-display">
+          <div className="inside-content-display">
+            {!scene.activeObjectId && (
+              <div className="colors-panel">
+                <ColorPicker
+                  label={t('editorToolbar.wallColor')}
+                  colorValue={scene.wallColor}
+                  onChangeColor={(c: string) => dispatch(changeWallColor(c))}
+                  onResetColor={() => dispatch(resetWallColor())}
+                />
+                <ColorPicker
+                  label={t('editorToolbar.floorColor')}
+                  colorValue={scene.floorColor}
+                  onChangeColor={(c: string) => dispatch(changeFloorColor(c))}
+                  onResetColor={() => dispatch(resetFloorColor())}
+                />
+              </div>
+            )}
+            {!!scene.activeObjectId && (
+              <div className="editing-panel">
+                <Properties />
+              </div>
+            )}
+          </div>
         </div>
+
         <div className="button-container">
           <div className="button">
             <FilledButton onClick={handleSaveProject}>
