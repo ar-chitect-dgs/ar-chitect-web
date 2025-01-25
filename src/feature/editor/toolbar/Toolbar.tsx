@@ -1,4 +1,5 @@
 import {
+  CircularProgress,
   FormControl, FormHelperText, TextField,
 } from '@mui/material';
 import { useState } from 'react';
@@ -81,6 +82,7 @@ const EditorToolbar = (): JSX.Element => {
   const [snackbar, setSnackbar] = useState<SnackBarState>(initialSnackBarState);
   const [nameError, setNameError] = useState(false);
   const [isDirty, setIsDirty] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
   const dispatch = useAppDispatch();
 
   usePrompt({ when: isDirty, message: t('editorToolbar.unsavedChanges') });
@@ -106,17 +108,21 @@ const EditorToolbar = (): JSX.Element => {
   };
 
   const handleSaveProject = async () => {
+    setIsSaving(true);
+
     const user = auth.currentUser;
 
     if (!user) {
       setSnackbar(
         setOpenSnackBarState(t('editorToolbar.saveProjectError'), 'error'),
       );
+      setIsSaving(false);
       return;
     }
 
     if (project.projectName.trim() === '') {
       setNameError(true);
+      setIsSaving(false);
       return;
     }
 
@@ -145,6 +151,8 @@ const EditorToolbar = (): JSX.Element => {
       setSnackbar(
         setOpenSnackBarState(t('editorToolbar.saveProjectFailure'), 'error'),
       );
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -196,20 +204,19 @@ const EditorToolbar = (): JSX.Element => {
               </div>
             )}
 
-            <div className="editing-panel">
-              {useEditorSliders && (<ModelSliders />)}
-            </div>
+            {useEditorSliders
+              && (<div className="editing-panel"><ModelSliders /></div>)}
           </div>
         </div>
 
         <CopyDeletePanel />
 
         <div className="button-container">
-          <div className="button">
-            <FilledButton onClick={handleSaveProject}>
-              {t('editorToolbar.saveProjectButton')}
-            </FilledButton>
-          </div>
+          <FilledButton className="save-button" onClick={handleSaveProject}>
+            {isSaving
+              ? <CircularProgress size={25} style={{ color: '#F3F2FF' }} />
+              : t('editorToolbar.saveProjectButton')}
+          </FilledButton>
         </div>
       </div>
 

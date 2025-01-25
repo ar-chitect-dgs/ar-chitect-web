@@ -17,8 +17,8 @@
 }
 
 .inside-content-display {
-  border: 2px solid;
-  border-radius: 10px;
+  border: 2px solid var(--purple-accent-button);
+  border-radius: 3px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -71,6 +71,7 @@
   margin: auto;
   margin-bottom: 20px;
   padding-bottom: 30px;
+  justify-content: center;
 }
 
 .button-panel {
@@ -83,4 +84,9 @@
 
 .delete-obj-button {
   background-color: #ff6a6a;
+}
+
+.save-button {
+  width: 200px;
+  height: 35px;
 }
