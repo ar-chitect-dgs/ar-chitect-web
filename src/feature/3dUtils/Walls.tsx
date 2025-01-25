@@ -5,9 +5,7 @@ import { sceneSelector } from '../../redux/slices/scene';
 
 const WALL_HEIGHT = 3;
 
-function getWallMesh(p1: Point2D, p2: Point2D, key: number): JSX.Element {
-  const { scene } = useSelector(sceneSelector);
-
+function getWallMesh(p1: Point2D, p2: Point2D, key: number, color: string): JSX.Element {
   const dx = p2.x - p1.x;
   const dz = p2.y - p1.y;
   const distance = Math.sqrt(dx * dx + dz * dz) + 0.1; // add 0.1 to prevent jagged corners
@@ -22,7 +20,7 @@ function getWallMesh(p1: Point2D, p2: Point2D, key: number): JSX.Element {
       rotation={[0, angle, 0]}
     >
       <boxGeometry args={[distance, WALL_HEIGHT, 0.1]} />
-      <meshStandardMaterial color={scene.wallColor} transparent opacity={0.5} />
+      <meshStandardMaterial color={color} transparent opacity={0.5} />
     </mesh>
   );
 }
@@ -31,6 +29,8 @@ export function Walls({ points, closed } : {
   points: Point2D[],
   closed?: boolean,
 }): JSX.Element {
+  const { scene } = useSelector(sceneSelector);
+
   const walls = [];
   const vertices = closed ? [...points, points[0]] : [...points];
 
@@ -39,7 +39,7 @@ export function Walls({ points, closed } : {
   if (closed) { vertices.push(vertices[0]); }
 
   for (let i = 0; i < vertices.length - 1; i += 1) {
-    walls.push(getWallMesh(vertices[i], vertices[i + 1], i));
+    walls.push(getWallMesh(vertices[i], vertices[i + 1], i, scene.wallColor));
   }
 
   return (
