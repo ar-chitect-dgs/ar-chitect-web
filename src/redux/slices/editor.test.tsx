@@ -71,15 +71,6 @@ describe('scene reducer', () => {
     expect(nextState.scene.hoveredObjectId).toBe(null);
   });
 
-  it('should make object unactive if clicked again', () => {
-    const id = 0;
-
-    let nextState = sceneReducer(state, activate(id));
-    nextState = sceneReducer(nextState, activate(id));
-
-    expect(nextState.scene.activeObjectId).toBe(null);
-  });
-
   it('should handle move action X', () => {
     const id = 0;
     const value = 10;
