@@ -22,6 +22,25 @@
   padding: 10px;
 }
 
+.colors-panel {
+  padding: 10px;
+}
+
+.color-input {
+  display: flex;
+  justify-content: space;
+  align-items: center;
+}
+
+.color-label {
+  width: 40%;
+}
+
+.color-restore {
+  padding: 5px;
+  height: 100%;
+}
+
 .adding-panel {
   height: 60%;
   display: flex;

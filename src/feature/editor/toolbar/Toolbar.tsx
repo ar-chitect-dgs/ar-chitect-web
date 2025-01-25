@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { unstable_usePrompt as usePrompt } from 'react-router-dom';
+import { MuiColorInput } from 'mui-color-input';
+import { RestoreRounded } from '@mui/icons-material';
 import { saveProject, saveProjectThumbnail } from '../../../api/projects';
 import FilledButton from '../../../components/filledButton/FilledButton';
 import ModelsList from '../../../components/modelsList/ModelsList';
@@ -21,8 +23,11 @@ import {
   setProjectId,
   setProjectName,
 } from '../../../redux/slices/project';
-import { sceneSelector } from '../../../redux/slices/scene';
+import {
+  changeFloorColor, changeWallColor, resetFloorColor, resetWallColor, sceneSelector,
+} from '../../../redux/slices/scene';
 import './Toolbar.css';
+import Button from '../../../components/button/Button';
 
 const EditorToolbar = (): JSX.Element => {
   const { t } = useTranslation();
@@ -117,6 +122,29 @@ const EditorToolbar = (): JSX.Element => {
           </FormControl>
         </div>
 
+        <div className="colors-panel">
+          <div className="color-input">
+            <p className="color-label">{t('editorToolbar.wallColor')}</p>
+            <MuiColorInput
+              value={scene.wallColor}
+              onChange={(c: string) => dispatch(changeWallColor(c))}
+            />
+            <Button className="color-restore" onClick={() => dispatch(resetWallColor())}>
+              <RestoreRounded />
+            </Button>
+          </div>
+          <div className="color-input">
+            <p className="color-label">{t('editorToolbar.floorColor')}</p>
+            <MuiColorInput
+              value={scene.floorColor}
+              onChange={(c: string) => dispatch(changeFloorColor(c))}
+            />
+            <Button className="color-restore" onClick={() => dispatch(resetFloorColor())}>
+              <RestoreRounded />
+            </Button>
+          </div>
+        </div>
+
         <div className="adding-panel">
           <div className="header">{t('editorToolbar.addModelHeader')}</div>
           <div className="scrollbar-container">
@@ -139,6 +167,7 @@ const EditorToolbar = (): JSX.Element => {
           </div>
         </div>
       </div>
+
       <NotificationPopup
         snackbar={snackbar}
         setOpenSnackbar={(open: boolean) =>

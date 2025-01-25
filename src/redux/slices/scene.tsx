@@ -9,6 +9,9 @@ import { RootState, ThunkActionVoid } from '..';
 import { Scene } from '../../types/Scene';
 import { round } from '../../utils/utils';
 
+export const DEFAULT_WALL_COLOR = '#ffffff';
+export const DEFAULT_FLOOR_COLOR = '#8E7358';
+
 export interface SceneState {
   scene: Scene;
 }
@@ -49,6 +52,8 @@ export const initialState: SceneState = {
     objects: {},
     activeObjectId: null,
     hoveredObjectId: null,
+    wallColor: DEFAULT_WALL_COLOR,
+    floorColor: DEFAULT_FLOOR_COLOR,
   },
 };
 
@@ -204,11 +209,21 @@ const sceneSlice = createSlice({
     clearScene: (state) => {
       state.scene = initialState.scene;
     },
+    setWallColor: (state, action: PayloadAction<string>) => {
+      state.scene.wallColor = action.payload;
+    },
+    setFloorColor: (state, action: PayloadAction<string>) => {
+      state.scene.floorColor = action.payload;
+    },
   },
 });
 
 export const {
-  hover, activate, move, moveTo, rotate, add, remove, setScene, clearScene,
+  hover, activate,
+  move, moveTo, rotate,
+  add, remove,
+  setScene, clearScene,
+  setWallColor, setFloorColor,
 } = sceneSlice.actions;
 
 export const sceneSelector = lruMemoize(
@@ -299,5 +314,33 @@ export function deleteModel(
 ): ThunkActionVoid {
   return async (dispatch: Dispatch) => {
     dispatch(remove({ id }));
+  };
+}
+
+export function changeWallColor(
+  color: string,
+): ThunkActionVoid {
+  return async (dispatch: Dispatch) => {
+    dispatch(setWallColor(color));
+  };
+}
+
+export function changeFloorColor(
+  color: string,
+): ThunkActionVoid {
+  return async (dispatch: Dispatch) => {
+    dispatch(setFloorColor(color));
+  };
+}
+
+export function resetWallColor(): ThunkActionVoid {
+  return async (dispatch: Dispatch) => {
+    dispatch(setWallColor(DEFAULT_WALL_COLOR));
+  };
+}
+
+export function resetFloorColor(): ThunkActionVoid {
+  return async (dispatch: Dispatch) => {
+    dispatch(setFloorColor(DEFAULT_FLOOR_COLOR));
   };
 }

@@ -85,7 +85,7 @@ export function Model({
           userData={{ name: MODEL, id: inProjectId }}
           castShadow={false}
         >
-          <boxGeometry args={[depth + 0.1, height + 0.1, width + 0.1]} />
+          <boxGeometry args={[depth, height, width]} />
           <meshStandardMaterial
             color="lightblue"
             transparent

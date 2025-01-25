@@ -1,7 +1,9 @@
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable react/jsx-props-no-spreading */
 import { CircularProgress } from '@mui/material';
-import { CameraControls, ContactShadows } from '@react-three/drei';
+import {
+  CameraControls, ContactShadows, Stats,
+} from '@react-three/drei';
 import {
   Canvas,
 } from '@react-three/fiber';
@@ -47,7 +49,7 @@ function EditorViewport(): JSX.Element {
           maxDistance={30}
           maxPolarAngle={Math.PI / 2}
           mouseButtons={{
-            left: 1,
+            left: 0,
             middle: 1,
             right: 2,
             wheel: 8,
@@ -65,6 +67,7 @@ function EditorViewport(): JSX.Element {
 
         <InteractiveScene />
         <ContactShadows scale={10} blur={3} opacity={0.25} far={10} />
+        <Stats />
       </Canvas>
     </Suspense>
   );
