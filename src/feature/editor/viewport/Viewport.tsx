@@ -2,7 +2,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { CircularProgress } from '@mui/material';
 import {
-  CameraControls, ContactShadows, Stats,
+  CameraControls, ContactShadows,
 } from '@react-three/drei';
 import {
   Canvas,
