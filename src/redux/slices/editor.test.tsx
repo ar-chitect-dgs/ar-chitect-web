@@ -4,11 +4,12 @@ import sceneReducer, {
   Axis,
   hover, move, remove,
   rotate,
-  SceneState,
-} from './scene';
+  EditorState,
+  Interaction,
+} from './editor';
 
 describe('scene reducer', () => {
-  let state: SceneState;
+  let state: EditorState;
 
   beforeEach(() => {
     state = {
@@ -42,6 +43,7 @@ describe('scene reducer', () => {
         wallColor: 'gray',
         floorColor: '#8E7358',
       },
+      interaction: Interaction.Idle,
     };
   });
 
@@ -67,15 +69,6 @@ describe('scene reducer', () => {
   it('should handle activate action with null input', () => {
     const nextState = sceneReducer(state, hover(null));
     expect(nextState.scene.hoveredObjectId).toBe(null);
-  });
-
-  it('should make object unactive if clicked again', () => {
-    const id = 0;
-
-    let nextState = sceneReducer(state, activate(id));
-    nextState = sceneReducer(nextState, activate(id));
-
-    expect(nextState.scene.activeObjectId).toBe(null);
   });
 
   it('should handle move action X', () => {

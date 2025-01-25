@@ -2,7 +2,7 @@
 import * as THREE from 'three';
 import { useSelector } from 'react-redux';
 import { Point2D } from '../../types/Point';
-import { sceneSelector } from '../../redux/slices/scene';
+import { sceneSelector } from '../../redux/slices/editor';
 
 function getShape(points: Point2D[]): THREE.Shape {
   const shape = new THREE.Shape();

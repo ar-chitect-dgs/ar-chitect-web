@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unknown-property */
 import { useSelector } from 'react-redux';
 import { Point2D } from '../../types/Point';
-import { sceneSelector } from '../../redux/slices/scene';
+import { sceneSelector } from '../../redux/slices/editor';
 
 const WALL_HEIGHT = 3;
 

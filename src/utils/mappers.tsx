@@ -1,10 +1,10 @@
 import { fetchGLBUrl } from '../api/projects';
 import { ApiProject } from '../api/projects/types';
+import { DEFAULT_WALL_COLOR, DEFAULT_FLOOR_COLOR } from '../redux/slices/editor';
 import { Object3D } from '../types/Object3D';
 import { Project } from '../types/Project';
 import { ProjectScene } from '../types/ProjectScene';
 import { Scene, SceneObject } from '../types/Scene';
-import { DEFAULT_FLOOR_COLOR, DEFAULT_WALL_COLOR } from '../redux/slices/scene';
 
 export function mapProjectSceneToApiProject(
   scene: Scene,

@@ -19,29 +19,7 @@
     align-self: center;
 }
 
-.listening {
-    background-color: transparent;
-    animation: colorCycle 1.5s infinite;
-    box-shadow: inset -3px 0 0 var(--purple-accent-button), 
-        inset 0 -3px 0 var(--purple-accent-button), 
-        inset 3px 0 0 var(--purple-accent-button), 
-        inset 0 3px 0 var(--purple-accent-button);
-}
 
-@keyframes colorCycle {
-    0% { 
-        color: var(--purple-accent-button);
-        border-color: var(--purple-accent-button);
-    }
-    50% {
-        color: var(--background-color);
-        border-color: var(--background-color);
-    }
-    100% {
-        color: var(--purple-accent-button);
-        border-color: var(--purple-accent-button);
-    }
-}
 
 .popup {
     border-radius: 8px;

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { fetchModelsList } from '../../api/projects';
 import { ApiModel } from '../../api/projects/types';
 import { useAppDispatch } from '../../redux';
-import { addModel } from '../../redux/slices/scene';
+import { addModel } from '../../redux/slices/editor';
 import ModelTile, { SelectedModel } from '../modelTile/ModelTile';
 import NotificationPopup, {
   initialSnackBarState,

@@ -9,7 +9,7 @@ import ScrollBar from '../components/scrollbar/ScrollBar';
 import TemplateTile from '../components/templateTile/TemplateTile';
 import { ROUTES } from '../feature/navigation/routes';
 import { setProject } from '../redux/slices/project';
-import { setScene } from '../redux/slices/scene';
+import { setScene } from '../redux/slices/editor';
 import { mapApiProjectToProjectScene } from '../utils/mappers';
 import './styles/Projects.css';
 

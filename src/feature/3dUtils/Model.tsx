@@ -60,7 +60,7 @@ export function Model({
 
   let opacity = 0;
   if (active) {
-    opacity = 0.4;
+    opacity = 0.6;
   } else if (hovered) {
     opacity = 0.2;
   }
@@ -81,7 +81,7 @@ export function Model({
           userData={{ name: MODEL, id: inProjectId }}
           castShadow={false}
         >
-          <boxGeometry args={[depth, height, width]} />
+          <boxGeometry args={[depth + 0.1, height + 0.1, width + 0.1]} />
           <meshStandardMaterial
             color="lightblue"
             transparent

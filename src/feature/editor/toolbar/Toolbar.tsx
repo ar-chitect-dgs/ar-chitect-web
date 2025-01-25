@@ -1,8 +1,11 @@
-import { FormControl, FormHelperText, TextField } from '@mui/material';
+import {
+  FormControl, FormHelperText, TextField,
+} from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { unstable_usePrompt as usePrompt } from 'react-router-dom';
+import ToggleButton from '../../../components/toggleButton/ToggleButton';
 import { saveProject, saveProjectThumbnail } from '../../../api/projects';
 import FilledButton from '../../../components/filledButton/FilledButton';
 import ModelsList from '../../../components/modelsList/ModelsList';
@@ -11,7 +14,6 @@ import NotificationPopup, {
   setOpenSnackBarState,
   SnackBarState,
 } from '../../../components/notificationPopup/NotificationPopup';
-import Properties from '../../../components/properties/Properties';
 import ScrollBar from '../../../components/scrollbar/ScrollBar';
 import { auth } from '../../../firebaseConfig';
 import { useAppDispatch } from '../../../redux';
@@ -21,20 +23,61 @@ import {
   setProjectId,
   setProjectName,
 } from '../../../redux/slices/project';
-import {
-  changeFloorColor,
-  changeWallColor,
-  resetFloorColor,
-  resetWallColor,
-  sceneSelector,
-} from '../../../redux/slices/scene';
 import './Toolbar.css';
 import ColorPicker from '../../../components/colorPicker/ColorPicker';
+
+import ModelSliders from '../../../components/modelSliders/ModelSliders';
+import { settingsSelector } from '../../../redux/slices/settings';
+import {
+  Interaction, changeInteractionState, sceneSelector,
+  changeWallColor, resetWallColor, changeFloorColor, resetFloorColor,
+} from '../../../redux/slices/editor';
+
+const CopyDeletePanel = (): JSX.Element => {
+  const { interaction } = useSelector(sceneSelector);
+
+  const dispatch = useAppDispatch();
+
+  const clickCopy = () => {
+    if (interaction === Interaction.Copy) {
+      dispatch(changeInteractionState(Interaction.Idle));
+    } else {
+      dispatch(changeInteractionState(Interaction.Copy));
+    }
+  };
+
+  const clickDelete = () => {
+    if (interaction === Interaction.Delete) {
+      dispatch(changeInteractionState(Interaction.Idle));
+    } else {
+      dispatch(changeInteractionState(Interaction.Delete));
+    }
+  };
+
+  return (
+    <div className="button-panel">
+      <ToggleButton
+        onClick={clickCopy}
+        toggled={interaction === Interaction.Copy}
+      >
+        Copy
+      </ToggleButton>
+      <ToggleButton
+        onClick={clickDelete}
+        className="delete-obj-button"
+        toggled={interaction === Interaction.Delete}
+      >
+        Delete
+      </ToggleButton>
+    </div>
+  );
+};
 
 const EditorToolbar = (): JSX.Element => {
   const { t } = useTranslation();
   const { scene } = useSelector(sceneSelector);
   const project = useSelector(projectSelector);
+  const { useEditorSliders } = useSelector(settingsSelector);
   const [snackbar, setSnackbar] = useState<SnackBarState>(initialSnackBarState);
   const [nameError, setNameError] = useState(false);
   const [isDirty, setIsDirty] = useState(true);
@@ -133,9 +176,10 @@ const EditorToolbar = (): JSX.Element => {
             </ScrollBar>
           </div>
         </div>
+
         <div className="context-display">
           <div className="inside-content-display">
-            {!scene.activeObjectId && (
+            {(scene.activeObjectId == null || !useEditorSliders) && (
               <div className="colors-panel">
                 <ColorPicker
                   label={t('editorToolbar.wallColor')}
@@ -151,13 +195,14 @@ const EditorToolbar = (): JSX.Element => {
                 />
               </div>
             )}
-            {!!scene.activeObjectId && (
-              <div className="editing-panel">
-                <Properties />
-              </div>
-            )}
+
+            <div className="editing-panel">
+              {useEditorSliders && (<ModelSliders />)}
+            </div>
           </div>
         </div>
+
+        <CopyDeletePanel />
 
         <div className="button-container">
           <div className="button">

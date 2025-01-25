@@ -6,8 +6,8 @@
 }
 
 .display {
-  flex: 3;
-  border: #282c34 solid 2px;
+  flex-grow: 1;
+  background-color: #f0f0ff;
 }
 
 .Display canvas {
@@ -19,6 +19,8 @@
 
 .toolbar {
   flex: 1;
+  min-width: 450px;
+  max-width: 450px;
   height: 100%;
   flex-direction: column;
   box-sizing: border-box;

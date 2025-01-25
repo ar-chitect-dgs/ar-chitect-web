@@ -9,11 +9,18 @@ import { RootState, ThunkActionVoid } from '..';
 import { Scene } from '../../types/Scene';
 import { round } from '../../utils/utils';
 
-export const DEFAULT_WALL_COLOR = '#ffffff';
+export enum Interaction {
+  Idle = 1,
+  Copy,
+  Delete,
+}
+
+export const DEFAULT_WALL_COLOR = '#FFFFFF';
 export const DEFAULT_FLOOR_COLOR = '#8E7358';
 
-export interface SceneState {
+export interface EditorState {
   scene: Scene;
+  interaction: Interaction,
 }
 
 export enum Axis {
@@ -45,7 +52,11 @@ interface RemoveModelPayload {
   id: number
 }
 
-export const initialState: SceneState = {
+interface ChangeInteractionPayload {
+  interaction: Interaction;
+}
+
+export const initialState: EditorState = {
   scene: {
     corners: [],
     objectIds: [],
@@ -55,6 +66,7 @@ export const initialState: SceneState = {
     wallColor: DEFAULT_WALL_COLOR,
     floorColor: DEFAULT_FLOOR_COLOR,
   },
+  interaction: Interaction.Idle,
 };
 
 const sceneSlice = createSlice({
@@ -77,7 +89,7 @@ const sceneSlice = createSlice({
         console.warn(`No object with id ${id} found.`);
       }
 
-      state.scene.activeObjectId = state.scene.activeObjectId == null ? id : null;
+      state.scene.activeObjectId = id;
     },
     move: (state, action: PayloadAction<MovePayload>) => {
       const { id, axis, value } = action.payload;
@@ -209,6 +221,9 @@ const sceneSlice = createSlice({
     clearScene: (state) => {
       state.scene = initialState.scene;
     },
+    changeInteraction: (state, action: PayloadAction<ChangeInteractionPayload>) => {
+      state.interaction = action.payload.interaction;
+    },
     setWallColor: (state, action: PayloadAction<string>) => {
       state.scene.wallColor = action.payload;
     },
@@ -224,6 +239,7 @@ export const {
   add, remove,
   setScene, clearScene,
   setWallColor, setFloorColor,
+  changeInteraction,
 } = sceneSlice.actions;
 
 export const sceneSelector = lruMemoize(
@@ -314,6 +330,12 @@ export function deleteModel(
 ): ThunkActionVoid {
   return async (dispatch: Dispatch) => {
     dispatch(remove({ id }));
+  };
+}
+
+export function changeInteractionState(i: Interaction): ThunkActionVoid {
+  return async (dispatch: Dispatch) => {
+    dispatch(changeInteraction({ interaction: i }));
   };
 }
 

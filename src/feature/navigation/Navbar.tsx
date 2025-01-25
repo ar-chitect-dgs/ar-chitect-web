@@ -6,7 +6,7 @@ import { ROUTES } from './routes';
 import { clearProject } from '../../redux/slices/project';
 import { useAppDispatch } from '../../redux';
 import { clearCreator } from '../../redux/slices/creator';
-import { clearScene } from '../../redux/slices/scene';
+import { clearScene } from '../../redux/slices/editor';
 
 const Navbar = (): JSX.Element => {
   const { isLoggedIn } = useAuth();

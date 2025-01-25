@@ -7,10 +7,14 @@ import { defaultKeyBinds, EditorAction, KeyBinds } from '../../types/KeyBinds';
 
 export interface Settings {
   keyBinds: KeyBinds;
+  displayBoundingBoxes: boolean;
+  useEditorSliders: boolean;
 }
 
-export const initialState: Settings = {
+export const defaultSettings: Settings = {
   keyBinds: defaultKeyBinds,
+  displayBoundingBoxes: false,
+  useEditorSliders: false,
 };
 
 type SetPayload = {
@@ -20,11 +24,17 @@ type SetPayload = {
 
 const settingsSlice = createSlice({
   name: 'settings',
-  initialState,
+  initialState: defaultSettings,
   reducers: {
-    set: (state: Settings, action: PayloadAction<SetPayload>) => {
+    setKeyBind: (state: Settings, action: PayloadAction<SetPayload>) => {
       const { actionName, key } = action.payload;
       state.keyBinds[actionName] = key;
+    },
+    setBoundingBoxes: (state: Settings, _action: PayloadAction<void>) => {
+      state.displayBoundingBoxes = !state.displayBoundingBoxes;
+    },
+    setEditorSliders: (state: Settings, _action: PayloadAction<void>) => {
+      state.useEditorSliders = !state.useEditorSliders;
     },
     apply: (state: Settings, action: PayloadAction<KeyBinds>) => {
       state.keyBinds = action.payload;
@@ -33,7 +43,7 @@ const settingsSlice = createSlice({
 });
 
 export const {
-  set, apply,
+  setKeyBind: set, apply, setBoundingBoxes, setEditorSliders,
 } = settingsSlice.actions;
 
 export const settingsSelector = lruMemoize(
@@ -55,5 +65,17 @@ export function applyNewKeyBinds(
 ): ThunkActionVoid {
   return async (dispatch: Dispatch) => {
     dispatch(apply(keyBinds));
+  };
+}
+
+export function switchBoundingBoxes(): ThunkActionVoid {
+  return async (dispatch: Dispatch) => {
+    dispatch(setBoundingBoxes());
+  };
+}
+
+export function switchEditorSliders(): ThunkActionVoid {
+  return async (dispatch: Dispatch) => {
+    dispatch(setEditorSliders());
   };
 }

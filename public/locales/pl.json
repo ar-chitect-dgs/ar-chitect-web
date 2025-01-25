@@ -20,8 +20,10 @@
     "deselect": "Odznacz",
     "delete": "Usuń",
     "copy": "Kopiuj",
-    "saveChanges": "Zapisz zmiany",
+    "saveChanges": "Zapisz zmiany sterowania",
     "reset": "Przywróć domyślne",
+    "boundingBoxes": "Wyświetlaj bounding boxes",
+    "sliders": "Używaj suwaków do przesuwania",
     "unsavedChanges": "Czy na pewno chcesz wyjść bez zapisywania zmian?"
   },
   "mobile": {
