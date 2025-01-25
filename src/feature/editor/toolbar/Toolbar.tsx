@@ -177,11 +177,6 @@ const EditorToolbar = (): JSX.Element => {
           </div>
         </div>
 
-        <CopyDeletePanel />
-
-        <div className="editing-panel">
-          {useEditorSliders && (<ModelSliders />)}
-        </div>
         <div className="context-display">
           <div className="inside-content-display">
             {!scene.activeObjectId && (
@@ -200,14 +195,14 @@ const EditorToolbar = (): JSX.Element => {
                 />
               </div>
             )}
-            {!!scene.activeObjectId && (
+
             <div className="editing-panel">
-              chuj
-              {/* chuj<Properties /> */}
+              {useEditorSliders && (<ModelSliders />)}
             </div>
-            )}
           </div>
         </div>
+
+        <CopyDeletePanel />
 
         <div className="button-container">
           <div className="button">

@@ -5,13 +5,13 @@ import {
   MenuItem,
   Select,
   SelectChangeEvent,
-  Switch,
 } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import { unstable_usePrompt as usePrompt } from 'react-router-dom';
+import { Switch } from '../components/switch/Switch';
 import { useAuth } from '../auth/AuthProvider';
 import FilledButton from '../components/filledButton/FilledButton';
 import { SettingsTile } from '../components/settingsTile/SettingsTile';
