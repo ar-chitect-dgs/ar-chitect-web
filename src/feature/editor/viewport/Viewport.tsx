@@ -67,7 +67,6 @@ function EditorViewport(): JSX.Element {
 
         <InteractiveScene />
         <ContactShadows scale={10} blur={3} opacity={0.25} far={10} />
-        <Stats />
       </Canvas>
     </Suspense>
   );
