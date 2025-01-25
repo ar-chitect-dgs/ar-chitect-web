@@ -38,6 +38,12 @@ export function Model({
         const model = gltf.scene.clone(true);
         setGltfModel(model);
         setAaGltfModel(model.clone(true));
+
+        const boundingBox = new THREE.Box3().setFromObject(model as THREE.Object3D);
+
+        setDepth(boundingBox.max.x - boundingBox.min.x);
+        setHeight(boundingBox.max.y - boundingBox.min.y);
+        setWidth(boundingBox.max.z - boundingBox.min.z);
       },
       undefined,
       (error) => {
@@ -45,16 +51,6 @@ export function Model({
       },
     );
   }, [url]);
-
-  useEffect(() => {
-    if (!meshRef.current) return;
-
-    const boundingBox = new THREE.Box3().setFromObject(meshRef.current as THREE.Object3D);
-
-    setDepth(boundingBox.max.x - boundingBox.min.x);
-    setHeight(boundingBox.max.y - boundingBox.min.y);
-    setWidth(boundingBox.max.z - boundingBox.min.z);
-  }, [meshRef.current, url]);
 
   useEffect(() => {
     if (passDepthToParent !== undefined) {
