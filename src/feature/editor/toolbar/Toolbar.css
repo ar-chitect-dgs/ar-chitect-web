@@ -1,7 +1,6 @@
 .root {
-  height: 95%;
+  height: 100vh;
   box-sizing: border-box;
-  margin-bottom: 20px;
 }
 
 .properties-panel {
@@ -12,6 +11,19 @@
   justify-content: start;
 }
 
+.context-display {
+  height: 35%;
+  padding: 10px;
+}
+
+.inside-content-display {
+  border: 2px solid;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .header {
   font-size: larger;
   margin: 5px;
@@ -19,6 +31,10 @@
 
 .project-name-panel {
   height: 10%;
+  padding: 10px;
+}
+
+.colors-panel {
   padding: 10px;
 }
 
@@ -33,6 +49,7 @@
 
 .editing-panel {
   padding: 10px;
+  width: 100%;
   height: 30%;
 }
 
@@ -52,5 +69,5 @@
 
 .button-container {
   margin: auto;
-  margin-bottom: 20px;
+  padding-bottom: 30px;
 }

@@ -1,6 +1,8 @@
 /* eslint-disable react/no-unknown-property */
 import * as THREE from 'three';
+import { useSelector } from 'react-redux';
 import { Point2D } from '../../types/Point';
+import { sceneSelector } from '../../redux/slices/scene';
 
 function getShape(points: Point2D[]): THREE.Shape {
   const shape = new THREE.Shape();
@@ -14,7 +16,9 @@ function getShape(points: Point2D[]): THREE.Shape {
   return shape;
 }
 
-export function Floor({ points } : {points: Point2D[]}): JSX.Element {
+export function Floor({ points }: { points: Point2D[] }): JSX.Element {
+  const { scene } = useSelector(sceneSelector);
+
   const shape = getShape(points);
   const extrudeSettings = { depth: 0.1, bevelEnabled: false };
   const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
@@ -27,7 +31,7 @@ export function Floor({ points } : {points: Point2D[]}): JSX.Element {
       rotation={[Math.PI / 2, 0, 0]}
       position={[0, 0.01, 0]}
     >
-      <meshStandardMaterial color="#f7e9d2" />
+      <meshStandardMaterial color={scene.floorColor} />
     </mesh>
   );
 }

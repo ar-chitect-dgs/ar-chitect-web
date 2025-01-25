@@ -126,6 +126,8 @@
     "saveProjectError": "You must be logged in to save a project.",
     "saveProjectSuccess": "Project saved successfully.",
     "saveProjectFailure": "Error saving project.",
-    "unsavedChanges": "Are you sure you want to exit without saving changes?"
+    "unsavedChanges": "Are you sure you want to exit without saving changes?",
+    "wallColor": "Wall color",
+    "floorColor": "Floor color"
   }
 }

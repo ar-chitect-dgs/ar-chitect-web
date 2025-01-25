@@ -21,8 +21,15 @@ import {
   setProjectId,
   setProjectName,
 } from '../../../redux/slices/project';
-import { sceneSelector } from '../../../redux/slices/scene';
+import {
+  changeFloorColor,
+  changeWallColor,
+  resetFloorColor,
+  resetWallColor,
+  sceneSelector,
+} from '../../../redux/slices/scene';
 import './Toolbar.css';
+import ColorPicker from '../../../components/colorPicker/ColorPicker';
 
 const EditorToolbar = (): JSX.Element => {
   const { t } = useTranslation();
@@ -116,7 +123,6 @@ const EditorToolbar = (): JSX.Element => {
             )}
           </FormControl>
         </div>
-
         <div className="adding-panel">
           <div className="header">{t('editorToolbar.addModelHeader')}</div>
           <div className="scrollbar-container">
@@ -127,10 +133,32 @@ const EditorToolbar = (): JSX.Element => {
             </ScrollBar>
           </div>
         </div>
-
-        <div className="editing-panel">
-          <Properties />
+        <div className="context-display">
+          <div className="inside-content-display">
+            {!scene.activeObjectId && (
+              <div className="colors-panel">
+                <ColorPicker
+                  label={t('editorToolbar.wallColor')}
+                  colorValue={scene.wallColor}
+                  onChangeColor={(c: string) => dispatch(changeWallColor(c))}
+                  onResetColor={() => dispatch(resetWallColor())}
+                />
+                <ColorPicker
+                  label={t('editorToolbar.floorColor')}
+                  colorValue={scene.floorColor}
+                  onChangeColor={(c: string) => dispatch(changeFloorColor(c))}
+                  onResetColor={() => dispatch(resetFloorColor())}
+                />
+              </div>
+            )}
+            {!!scene.activeObjectId && (
+              <div className="editing-panel">
+                <Properties />
+              </div>
+            )}
+          </div>
         </div>
+
         <div className="button-container">
           <div className="button">
             <FilledButton onClick={handleSaveProject}>
@@ -139,6 +167,7 @@ const EditorToolbar = (): JSX.Element => {
           </div>
         </div>
       </div>
+
       <NotificationPopup
         snackbar={snackbar}
         setOpenSnackbar={(open: boolean) =>

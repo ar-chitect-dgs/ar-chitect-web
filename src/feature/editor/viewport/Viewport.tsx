@@ -1,7 +1,9 @@
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable react/jsx-props-no-spreading */
 import { CircularProgress } from '@mui/material';
-import { CameraControls, ContactShadows } from '@react-three/drei';
+import {
+  CameraControls, ContactShadows,
+} from '@react-three/drei';
 import {
   Canvas,
 } from '@react-three/fiber';
@@ -47,7 +49,7 @@ function EditorViewport(): JSX.Element {
           maxDistance={30}
           maxPolarAngle={Math.PI / 2}
           mouseButtons={{
-            left: 1,
+            left: 0,
             middle: 1,
             right: 2,
             wheel: 8,

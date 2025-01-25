@@ -126,6 +126,8 @@
     "saveProjectError": "Musisz być zalogowany, aby zapisać projekt.",
     "saveProjectSuccess": "Projekt zapisany pomyślnie.",
     "saveProjectFailure": "Błąd podczas zapisywania projektu.",
-    "unsavedChanges": "Czy na pewno chcesz wyjść bez zapisywania zmian?"
+    "unsavedChanges": "Czy na pewno chcesz wyjść bez zapisywania zmian?",
+    "wallColor": "Kolor ścian",
+    "floorColor": "Kolor podłogi"
   }
 }
