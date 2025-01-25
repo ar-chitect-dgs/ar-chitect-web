@@ -48,9 +48,6 @@ export const SettingsTile = ({
 
   return (
     <div className="tile">
-      <span className="label">
-        {t(editorActionNames[actionName])}
-      </span>
       <ToggleButton
         className="key-button"
         onClick={() => setListening(listening ? null : actionName)}
@@ -59,6 +56,9 @@ export const SettingsTile = ({
       >
         {actionKey}
       </ToggleButton>
+      <span className="label">
+        {t(editorActionNames[actionName])}
+      </span>
       <Popper open={open} anchorEl={anchor} className="popup">
         Key
         {' '}

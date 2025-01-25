@@ -1,7 +1,6 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import {
   Button,
-  Card,
   Dialog,
   DialogActions,
   DialogContent,
@@ -12,6 +11,7 @@ import {
 import './ProjectTile.css';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import Card from '../card/Card';
 import { ApiProject } from '../../api/projects/types';
 import placeholder from '../../assets/placeholder_project.png';
 
