@@ -2,7 +2,7 @@ import { ReactNode, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import {
   addModel,
-  Axis, deleteModel, disactivateObject, moveObject, sceneSelector,
+  Axis, deleteModel, disactivateObject, moveObject, rotateObject, sceneSelector,
 } from '../../redux/slices/editor';
 import { EditorAction } from '../../types/KeyBinds';
 import { round } from '../../utils/utils';
@@ -87,6 +87,24 @@ export function KeyboardProvider({ children }: { children: ReactNode }): JSX.Ele
             moveObject(
               id,
               roundPosition(scene.objects[id].position.y + step),
+              Axis.Y,
+            ),
+          );
+          break;
+        case keyBinds[EditorAction.ROTATE_CW]:
+          dispatch(
+            rotateObject(
+              id,
+              scene.objects[id].rotation.y - step,
+              Axis.Y,
+            ),
+          );
+          break;
+        case keyBinds[EditorAction.ROTATE_CCW]:
+          dispatch(
+            rotateObject(
+              id,
+              scene.objects[id].rotation.y + step,
               Axis.Y,
             ),
           );

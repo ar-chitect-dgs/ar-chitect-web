@@ -179,7 +179,7 @@ const EditorToolbar = (): JSX.Element => {
 
         <div className="context-display">
           <div className="inside-content-display">
-            {!scene.activeObjectId && (
+            {scene.activeObjectId == null && (
               <div className="colors-panel">
                 <ColorPicker
                   label={t('editorToolbar.wallColor')}
