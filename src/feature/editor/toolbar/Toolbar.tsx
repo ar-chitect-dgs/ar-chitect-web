@@ -1,7 +1,10 @@
-import { FormControl, FormHelperText, TextField } from '@mui/material';
+import {
+  FormControl, FormHelperText, TextField,
+} from '@mui/material';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import ToggleButton from '../../../components/toggleButton/ToggleButton';
 import { saveProject, saveProjectThumbnail } from '../../../api/projects';
 import FilledButton from '../../../components/filledButton/FilledButton';
 import ModelsList from '../../../components/modelsList/ModelsList';
@@ -10,7 +13,6 @@ import NotificationPopup, {
   setOpenSnackBarState,
   SnackBarState,
 } from '../../../components/notificationPopup/NotificationPopup';
-import Properties from '../../../components/properties/Properties';
 import { auth } from '../../../firebaseConfig';
 import { useAppDispatch } from '../../../redux';
 import {
@@ -19,9 +21,50 @@ import {
   setProjectId,
   setProjectName,
 } from '../../../redux/slices/project';
-import { sceneSelector } from '../../../redux/slices/scene';
+import { changeInteractionState, Interaction, sceneSelector } from '../../../redux/slices/editor';
 import './Toolbar.css';
 import ScrollBar from '../../../components/scrollbar/ScrollBar';
+import Properties from '../../../components/properties/Properties';
+
+const CopyDeletePanel = (): JSX.Element => {
+  const { interaction } = useSelector(sceneSelector);
+
+  const dispatch = useAppDispatch();
+
+  const clickCopy = () => {
+    if (interaction === Interaction.Copy) {
+      dispatch(changeInteractionState(Interaction.Idle));
+    } else {
+      dispatch(changeInteractionState(Interaction.Copy));
+    }
+  };
+
+  const clickDelete = () => {
+    if (interaction === Interaction.Delete) {
+      dispatch(changeInteractionState(Interaction.Idle));
+    } else {
+      dispatch(changeInteractionState(Interaction.Delete));
+    }
+  };
+
+  return (
+    <div className="button-panel">
+      <ToggleButton
+        onClick={clickCopy}
+        toggled={interaction === Interaction.Copy}
+      >
+        Copy
+      </ToggleButton>
+      <ToggleButton
+        onClick={clickDelete}
+        className="delete-obj-button"
+        toggled={interaction === Interaction.Delete}
+      >
+        Delete
+      </ToggleButton>
+    </div>
+  );
+};
 
 const EditorToolbar = (): JSX.Element => {
   const { t } = useTranslation();
@@ -123,9 +166,12 @@ const EditorToolbar = (): JSX.Element => {
           </div>
         </div>
 
+        <CopyDeletePanel />
+
         <div className="editing-panel">
           <Properties />
         </div>
+
         <div className="button-container">
           <div className="button">
             <FilledButton onClick={handleSaveProject}>

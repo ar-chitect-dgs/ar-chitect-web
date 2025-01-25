@@ -9,8 +9,15 @@ import { RootState, ThunkActionVoid } from '..';
 import { Scene } from '../../types/Scene';
 import { round } from '../../utils/utils';
 
-export interface SceneState {
+export enum Interaction {
+  Idle = 1,
+  Copy,
+  Delete,
+}
+
+export interface EditorState {
   scene: Scene;
+  interaction: Interaction,
 }
 
 export enum Axis {
@@ -42,7 +49,11 @@ interface RemoveModelPayload {
   id: number
 }
 
-export const initialState: SceneState = {
+interface ChangeInteractionPayload {
+  interaction: Interaction;
+}
+
+export const initialState: EditorState = {
   scene: {
     corners: [],
     objectIds: [],
@@ -50,6 +61,7 @@ export const initialState: SceneState = {
     activeObjectId: null,
     hoveredObjectId: null,
   },
+  interaction: Interaction.Idle,
 };
 
 const sceneSlice = createSlice({
@@ -204,11 +216,15 @@ const sceneSlice = createSlice({
     clearScene: (state) => {
       state.scene = initialState.scene;
     },
+    changeInteraction: (state, action: PayloadAction<ChangeInteractionPayload>) => {
+      state.interaction = action.payload.interaction;
+    },
   },
 });
 
 export const {
   hover, activate, move, moveTo, rotate, add, remove, setScene, clearScene,
+  changeInteraction,
 } = sceneSlice.actions;
 
 export const sceneSelector = lruMemoize(
@@ -299,5 +315,11 @@ export function deleteModel(
 ): ThunkActionVoid {
   return async (dispatch: Dispatch) => {
     dispatch(remove({ id }));
+  };
+}
+
+export function changeInteractionState(i: Interaction): ThunkActionVoid {
+  return async (dispatch: Dispatch) => {
+    dispatch(changeInteraction({ interaction: i }));
   };
 }

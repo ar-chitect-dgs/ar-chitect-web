@@ -1,7 +1,6 @@
 import { useThree } from '@react-three/fiber';
-import { EffectComposer, Outline, Selection } from '@react-three/postprocessing';
 import { useGesture } from '@use-gesture/react';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import * as THREE from 'three';
 import { useAppDispatch } from '../../../redux';
@@ -14,7 +13,11 @@ import {
   rotateObject,
   sceneSelector,
   unhoverObject,
-} from '../../../redux/slices/scene';
+  Interaction,
+  addModel,
+  changeInteractionState,
+  deleteModel,
+} from '../../../redux/slices/editor';
 import { settingsSelector } from '../../../redux/slices/settings';
 import { snapObject } from '../../../utils/utils';
 import {
@@ -26,29 +29,42 @@ import {
   Walls,
 } from '../../3dUtils';
 
-function Postprocessing(): JSX.Element {
-  const { scene } = useSelector(sceneSelector);
-
-  const color = scene.activeObjectId != null ? 0x7489ff : 0xffffff;
-
-  return (
-    <EffectComposer autoClear={false}>
-      <Outline
-        visibleEdgeColor={color}
-        hiddenEdgeColor={color}
-      />
-    </EffectComposer>
-  );
-}
-
 export function InteractiveScene(): JSX.Element {
   const meshRef = useRef<THREE.Mesh>(null);
   const { raycaster } = useThree();
-  const { scene } = useSelector(sceneSelector);
+  const { scene, interaction } = useSelector(sceneSelector);
   const { useEditorSliders } = useSelector(settingsSelector);
   const dispatch = useAppDispatch();
   const [dragging, setDragging] = useState(false);
   const [activeModelDepth, setActiveModelDepth] = useState(0);
+
+  useEffect(() => {
+    switch (interaction) {
+      case Interaction.Idle:
+        if (scene.activeObjectId != null) {
+          document.body.style.cursor = 'grabbing';
+        } else if (scene.hoveredObjectId != null) {
+          document.body.style.cursor = 'grab';
+        } else {
+          document.body.style.cursor = 'auto';
+        }
+        break;
+
+      case Interaction.Copy:
+        document.body.style.cursor = 'copy';
+        break;
+
+      case Interaction.Delete:
+        if (scene.hoveredObjectId != null) {
+          document.body.style.cursor = 'pointer';
+        } else {
+          document.body.style.cursor = 'auto';
+        }
+        break;
+
+      default:
+    }
+  }, [scene.activeObjectId, scene.hoveredObjectId, interaction]);
 
   const intersectionAction = (
     hitAction: (i: THREE.Intersection) => boolean,
@@ -126,6 +142,35 @@ export function InteractiveScene(): JSX.Element {
     () => dispatch(disactivateObject()),
   );
 
+  const copyObject = intersectionAction(
+    (intersection: THREE.Intersection) => {
+      if (intersection.object.userData.name === MODEL) {
+        const { id } = intersection.object.userData;
+
+        const {
+          objectId, name, color, url,
+        } = scene.objects[id];
+        dispatch(addModel(objectId, name, color, url));
+
+        return true;
+      }
+      return false;
+    },
+  );
+
+  const deleteObject = intersectionAction(
+    (intersection: THREE.Intersection) => {
+      if (intersection.object.userData.name === MODEL) {
+        const { id } = intersection.object.userData;
+
+        dispatch(deleteModel(id));
+
+        return true;
+      }
+      return false;
+    },
+  );
+
   const rotate = intersectionAction(
     (intersection: THREE.Intersection) => {
       if (scene.activeObjectId == null) return false;
@@ -168,7 +213,22 @@ export function InteractiveScene(): JSX.Element {
     onClick: ({ event }) => {
       event.stopPropagation();
       if (dragging) return;
-      setActive();
+
+      switch (interaction) {
+        case Interaction.Idle:
+          setActive();
+          break;
+
+        case Interaction.Copy:
+          copyObject();
+          dispatch(changeInteractionState(Interaction.Idle));
+          break;
+
+        case Interaction.Delete:
+          deleteObject();
+          break;
+        default:
+      }
     },
 
     onMove: ({ event }) => {
@@ -193,26 +253,26 @@ export function InteractiveScene(): JSX.Element {
       <Walls points={scene.corners} closed />
       <Ground />
 
-      <Selection>
-        <Postprocessing />
-        {Object.values(scene.objects).map((model) => (
-          <Model
-            inProjectId={model.inProjectId}
-            key={model.inProjectId}
-            color={model.color}
-            url={model.url}
-            position={model.position}
-            rotation={model.rotation}
-            objectId={model.objectId}
-            name={model.name || ''}
-            hovered={model.inProjectId === scene.hoveredObjectId}
-            active={model.inProjectId === scene.activeObjectId}
-            passDepthToParent={
-              model.inProjectId === scene.activeObjectId ? setActiveModelDepth : undefined
+      {Object.values(scene.objects).map((model) => (
+        <Model
+          inProjectId={model.inProjectId}
+          key={model.inProjectId}
+          color={model.color}
+          url={model.url}
+          position={model.position}
+          rotation={model.rotation}
+          objectId={model.objectId}
+          name={model.name || ''}
+          hovered={model.inProjectId === scene.hoveredObjectId}
+          active={model.inProjectId === scene.activeObjectId}
+          passDepthToParent={
+            model.inProjectId === scene.activeObjectId
+              ? setActiveModelDepth
+              : undefined
             }
-          />
-        ))}
-      </Selection>
+        />
+      ))}
+
     </mesh>
   );
 }

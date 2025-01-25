@@ -4,20 +4,16 @@ import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../redux';
 import {
   addModel,
-  Axis,
-  deleteModel,
-  disactivateObject,
-  moveObject,
+  Axis, deleteModel, disactivateObject, moveObject,
   rotateObject,
   sceneSelector,
-} from '../../redux/slices/scene';
+} from '../../redux/slices/editor';
 import { positionToString, round } from '../../utils/utils';
-import FilledButton from '../filledButton/FilledButton';
 
 import { settingsSelector } from '../../redux/slices/settings';
-import { EditorAction } from '../../types/KeyBinds';
 import { ValueSlider } from '../valueSlider/ValueSlider';
 import './Properties.css';
+import { EditorAction } from '../../types/KeyBinds';
 
 function Properties(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -181,12 +177,6 @@ function Properties(): JSX.Element {
             </div>
           </>
         )}
-      <div className="button-panel">
-        <FilledButton onClick={copyObject}>Copy</FilledButton>
-        <FilledButton onClick={deleteObject} className="delete-obj-button">
-          Delete
-        </FilledButton>
-      </div>
     </div>
   );
 }

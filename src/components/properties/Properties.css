@@ -10,15 +10,3 @@
 .name {
   font-weight: bold;
 }
-
-.button-panel {
-  display: flex;
-  justify-content: space-between;
-  height: fit-content;
-  margin: 20px;
-  margin-bottom: 10px;
-}
-
-.delete-obj-button {
-  background-color: #ff6a6a;
-}

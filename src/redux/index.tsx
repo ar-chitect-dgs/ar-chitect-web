@@ -3,7 +3,7 @@ import { combineReducers, configureStore, Dispatch } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 import creatorReducer from './slices/creator';
 import projectReducer from './slices/project';
-import sceneReducer from './slices/scene';
+import sceneReducer from './slices/editor';
 import settingsReducer from './slices/settings';
 
 const rootReducer = combineReducers({

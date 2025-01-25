@@ -6,29 +6,12 @@ import {
   Canvas,
 } from '@react-three/fiber';
 import {
-  Suspense,
-  useEffect,
-  useRef,
+  Suspense, useRef,
 } from 'react';
-import { useSelector } from 'react-redux';
-import {
-  sceneSelector,
-} from '../../../redux/slices/scene';
 import { InteractiveScene } from './InteractiveScene';
 
 function EditorViewport(): JSX.Element {
-  const { scene } = useSelector(sceneSelector);
   const cameraControlRef = useRef<CameraControls | null>(null);
-
-  useEffect(() => {
-    if (scene.activeObjectId != null) {
-      document.body.style.cursor = 'grabbing';
-    } else if (scene.hoveredObjectId != null) {
-      document.body.style.cursor = 'grab';
-    } else {
-      document.body.style.cursor = 'auto';
-    }
-  }, [scene.activeObjectId, scene.hoveredObjectId]);
 
   return (
     <Suspense fallback={<CircularProgress />}>
@@ -47,7 +30,7 @@ function EditorViewport(): JSX.Element {
           maxDistance={30}
           maxPolarAngle={Math.PI / 2}
           mouseButtons={{
-            left: 1,
+            left: 0,
             middle: 1,
             right: 2,
             wheel: 8,

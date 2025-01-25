@@ -4,11 +4,12 @@ import sceneReducer, {
   Axis,
   hover, move, remove,
   rotate,
-  SceneState,
-} from './scene';
+  EditorState,
+  Interaction,
+} from './editor';
 
 describe('scene reducer', () => {
-  let state: SceneState;
+  let state: EditorState;
 
   beforeEach(() => {
     state = {
@@ -40,6 +41,7 @@ describe('scene reducer', () => {
         activeObjectId: null,
         hoveredObjectId: null,
       },
+      interaction: Interaction.Idle,
     };
   });
 

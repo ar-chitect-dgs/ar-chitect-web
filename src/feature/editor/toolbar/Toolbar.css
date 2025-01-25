@@ -54,3 +54,15 @@
   margin: auto;
   margin-bottom: 20px;
 }
+
+.button-panel {
+  display: flex;
+  justify-content: space-between;
+  height: fit-content;
+  margin: 20px;
+  margin-bottom: 10px;
+}
+
+.delete-obj-button {
+  background-color: #ff6a6a;
+}

@@ -11,7 +11,7 @@ import {
   Interaction,
 } from '../../../redux/slices/creator';
 import { projectSelector, setProjectName } from '../../../redux/slices/project';
-import { setScene } from '../../../redux/slices/scene';
+import { setScene } from '../../../redux/slices/editor';
 import { ROUTES } from '../../navigation/routes';
 import './Toolbar.css';
 import TextButton from '../../../components/textButton/TextButton';
