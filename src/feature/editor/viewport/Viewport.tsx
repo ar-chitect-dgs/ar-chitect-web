@@ -22,7 +22,7 @@ function EditorViewport(): JSX.Element {
           far: 2000,
           position: [5, 5, 5],
         }}
-        gl={{ antialias: true }}
+        gl={{ antialias: true, preserveDrawingBuffer: true }}
         tabIndex={0}
       >
         <CameraControls
