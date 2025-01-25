@@ -61,6 +61,7 @@ const Projects = (): JSX.Element => {
       dispatch(setProject(project));
       navigate(ROUTES.EDITOR);
     } catch (error) {
+      console.error('Error loading project:', error);
       setSnackBarState(setOpenSnackBarState(t('projects.mapError'), 'error'));
     }
   };

@@ -41,6 +41,7 @@ export function mapProjectSceneToApiProject(
 
 export async function mapApiProjectToProjectScene(
   apiProject: ApiProject,
+  isTemplate = false,
 ): Promise<ProjectScene> {
   const objects: { [id: number]: SceneObject } = {};
   const objectIds: number[] = [];
@@ -73,10 +74,10 @@ export async function mapApiProjectToProjectScene(
 
   const project: Project = {
     projectName: apiProject.projectName,
-    projectId: apiProject.id || '',
+    projectId: isTemplate ? undefined : apiProject.id,
     thumbnail: apiProject.thumb,
     createdAt: apiProject.createdAt,
-    isNewProject: false,
+    isNewProject: isTemplate,
   };
 
   return { scene, project };

@@ -4,10 +4,24 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-await-in-loop */
 import React, { useState } from 'react';
-import { collection, doc, setDoc } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  setDoc,
+  deleteDoc,
+  getDocs,
+} from 'firebase/firestore';
 import { getDownloadURL, ref } from 'firebase/storage';
-import { Button } from '@mui/material';
+import {
+  Button,
+  Divider,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+} from '@mui/material';
 import { db, storage } from '../firebaseConfig';
+import { useAuth } from '../auth/AuthProvider';
 
 const UploadJsonFiles: React.FC = () => {
   const [collectionName, setCollectionName] = useState('');
@@ -101,10 +115,99 @@ const UploadJsonFiles: React.FC = () => {
   );
 };
 
+const MoveAllToTemplates: React.FC = () => {
+  const { user, isLoggedIn } = useAuth();
+  const [templateName, setTemplateName] = useState('');
+
+  const handleMoveAll = async () => {
+    if (!isLoggedIn || !user) {
+      alert('You must be logged in to perform this action.');
+      return;
+    }
+
+    if (!templateName.trim()) {
+      alert('Please provide a valid template name.');
+      return;
+    }
+
+    try {
+      const userId = user.uid;
+      const userProjectsRef = collection(db, 'users', userId, 'projects');
+      const templateSubCollectionRef = collection(
+        db,
+        'templates',
+        templateName,
+        'projects',
+      );
+
+      const snapshot = await getDocs(userProjectsRef);
+
+      if (snapshot.empty) {
+        alert(`No projects found for user "${userId}".`);
+        return;
+      }
+
+      const batch = snapshot.docs.map(async (projectDoc) => {
+        const projectData = projectDoc.data();
+        const projectId = projectDoc.id;
+
+        // Save the project in the template's subcollection
+        const templateRef = doc(templateSubCollectionRef, projectId);
+        await setDoc(templateRef, { ...projectData, movedBy: userId });
+
+        // Optionally delete the original project
+        await deleteDoc(doc(userProjectsRef, projectId));
+      });
+
+      await Promise.all(batch);
+
+      alert(
+        `All projects moved to the template "${templateName}" successfully.`,
+      );
+    } catch (error) {
+      console.error('Failed to move projects:', error);
+      alert(
+        'An error occurred while moving projects. Check the console for details.',
+      );
+    }
+  };
+
+  return (
+    <div style={{ marginTop: 16 }}>
+      <h3>Move All My Projects to Templates</h3>
+      <div>
+        <FormControl margin="normal">
+          <InputLabel id="template-select-label">Template category</InputLabel>
+          <Select
+            labelId="template-select-label"
+            value={templateName}
+            sx={{ width: 200 }}
+            onChange={(e) => setTemplateName(e.target.value)}
+          >
+            <MenuItem value="Kitchen">Kitchen</MenuItem>
+            <MenuItem value="Bedroom">Bedroom</MenuItem>
+            <MenuItem value="Bathroom">Bathroom</MenuItem>
+          </Select>
+        </FormControl>
+      </div>
+      <Button
+        variant="contained"
+        color="secondary"
+        onClick={handleMoveAll}
+        style={{ marginTop: 16 }}
+      >
+        Move All Projects
+      </Button>
+    </div>
+  );
+};
+
 const Dev = (): JSX.Element => (
   <div style={{ paddingLeft: 30 }}>
     <h1>DEV SETTINGS</h1>
     <UploadJsonFiles />
+    <Divider style={{ margin: '16px 0' }} />
+    <MoveAllToTemplates />
   </div>
 );
 

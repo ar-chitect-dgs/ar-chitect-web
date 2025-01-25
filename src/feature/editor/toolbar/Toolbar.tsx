@@ -2,8 +2,8 @@ import {
   FormControl, FormHelperText, TextField,
 } from '@mui/material';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import ToggleButton from '../../../components/toggleButton/ToggleButton';
 import { saveProject, saveProjectThumbnail } from '../../../api/projects';
 import FilledButton from '../../../components/filledButton/FilledButton';
@@ -13,6 +13,7 @@ import NotificationPopup, {
   setOpenSnackBarState,
   SnackBarState,
 } from '../../../components/notificationPopup/NotificationPopup';
+import ScrollBar from '../../../components/scrollbar/ScrollBar';
 import { auth } from '../../../firebaseConfig';
 import { useAppDispatch } from '../../../redux';
 import {
@@ -23,7 +24,7 @@ import {
 } from '../../../redux/slices/project';
 import { changeInteractionState, Interaction, sceneSelector } from '../../../redux/slices/editor';
 import './Toolbar.css';
-import ScrollBar from '../../../components/scrollbar/ScrollBar';
+
 import ModelSliders from '../../../components/modelSliders/ModelSliders';
 import { settingsSelector } from '../../../redux/slices/settings';
 
@@ -74,7 +75,10 @@ const EditorToolbar = (): JSX.Element => {
   const { useEditorSliders } = useSelector(settingsSelector);
   const [snackbar, setSnackbar] = useState<SnackBarState>(initialSnackBarState);
   const [nameError, setNameError] = useState(false);
+  const [isDirty, setIsDirty] = useState(true);
   const dispatch = useAppDispatch();
+
+  usePrompt({ when: isDirty, message: t('editorToolbar.unsavedChanges') });
 
   const captureScreenshot = async (
     userId: string,
@@ -130,6 +134,7 @@ const EditorToolbar = (): JSX.Element => {
       setSnackbar(
         setOpenSnackBarState(t('editorToolbar.saveProjectSuccess'), 'success'),
       );
+      setIsDirty(false);
     } catch (error) {
       console.log('Error saving project:', error);
       setSnackbar(
