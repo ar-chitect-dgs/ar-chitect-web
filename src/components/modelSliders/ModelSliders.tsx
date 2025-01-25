@@ -59,9 +59,9 @@ function ModelSliders(): JSX.Element {
       <div className="name">{name}</div>
       <div className="position">{positionToString(position)}</div>
       <div className="sliders">
-        <ValueSlider value={position.x} min={-20} max={20} label="x" handleChange={moveX} />
+        <ValueSlider value={position.x} min={-7} max={7} label="x" handleChange={moveX} />
         <ValueSlider value={position.y} min={0} max={3} label="y" handleChange={moveY} />
-        <ValueSlider value={position.z} min={-20} max={20} label="z" handleChange={moveZ} />
+        <ValueSlider value={position.z} min={-7} max={7} label="z" handleChange={moveZ} />
         <ValueSlider
           value={rotation.y}
           min={-Math.PI}
