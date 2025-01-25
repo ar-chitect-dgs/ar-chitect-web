@@ -15,6 +15,9 @@ export enum Interaction {
   Delete,
 }
 
+export const DEFAULT_WALL_COLOR = '#FFFFFF';
+export const DEFAULT_FLOOR_COLOR = '#8E7358';
+
 export interface EditorState {
   scene: Scene;
   interaction: Interaction,
@@ -60,6 +63,8 @@ export const initialState: EditorState = {
     objects: {},
     activeObjectId: null,
     hoveredObjectId: null,
+    wallColor: DEFAULT_WALL_COLOR,
+    floorColor: DEFAULT_FLOOR_COLOR,
   },
   interaction: Interaction.Idle,
 };
@@ -219,11 +224,21 @@ const sceneSlice = createSlice({
     changeInteraction: (state, action: PayloadAction<ChangeInteractionPayload>) => {
       state.interaction = action.payload.interaction;
     },
+    setWallColor: (state, action: PayloadAction<string>) => {
+      state.scene.wallColor = action.payload;
+    },
+    setFloorColor: (state, action: PayloadAction<string>) => {
+      state.scene.floorColor = action.payload;
+    },
   },
 });
 
 export const {
-  hover, activate, move, moveTo, rotate, add, remove, setScene, clearScene,
+  hover, activate,
+  move, moveTo, rotate,
+  add, remove,
+  setScene, clearScene,
+  setWallColor, setFloorColor,
   changeInteraction,
 } = sceneSlice.actions;
 
@@ -321,5 +336,33 @@ export function deleteModel(
 export function changeInteractionState(i: Interaction): ThunkActionVoid {
   return async (dispatch: Dispatch) => {
     dispatch(changeInteraction({ interaction: i }));
+  };
+}
+
+export function changeWallColor(
+  color: string,
+): ThunkActionVoid {
+  return async (dispatch: Dispatch) => {
+    dispatch(setWallColor(color));
+  };
+}
+
+export function changeFloorColor(
+  color: string,
+): ThunkActionVoid {
+  return async (dispatch: Dispatch) => {
+    dispatch(setFloorColor(color));
+  };
+}
+
+export function resetWallColor(): ThunkActionVoid {
+  return async (dispatch: Dispatch) => {
+    dispatch(setWallColor(DEFAULT_WALL_COLOR));
+  };
+}
+
+export function resetFloorColor(): ThunkActionVoid {
+  return async (dispatch: Dispatch) => {
+    dispatch(setFloorColor(DEFAULT_FLOOR_COLOR));
   };
 }

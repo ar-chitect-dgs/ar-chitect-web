@@ -1,5 +1,6 @@
 import { fetchGLBUrl } from '../api/projects';
 import { ApiProject } from '../api/projects/types';
+import { DEFAULT_WALL_COLOR, DEFAULT_FLOOR_COLOR } from '../redux/slices/editor';
 import { Object3D } from '../types/Object3D';
 import { Project } from '../types/Project';
 import { ProjectScene } from '../types/ProjectScene';
@@ -33,6 +34,8 @@ export function mapProjectSceneToApiProject(
     ...firstTimeFields,
     ...(project.thumbnail && { thumb: project.thumbnail }),
     projectName: project.projectName,
+    wallColor: scene.wallColor ?? DEFAULT_WALL_COLOR,
+    floorColor: scene.floorColor ?? DEFAULT_FLOOR_COLOR,
     corners: scene.corners,
     objects,
     modifiedAt: Date.now(),
@@ -66,6 +69,8 @@ export async function mapApiProjectToProjectScene(
 
   const scene: Scene = {
     corners: apiProject.corners,
+    wallColor: apiProject.wallColor ?? DEFAULT_WALL_COLOR,
+    floorColor: apiProject.floorColor ?? DEFAULT_FLOOR_COLOR,
     objectIds,
     objects,
     activeObjectId: null,

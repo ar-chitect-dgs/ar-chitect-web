@@ -128,6 +128,8 @@
     "saveProjectError": "Vous devez être connecté pour sauvegarder un projet.",
     "saveProjectSuccess": "Projet sauvegardé avec succès.",
     "saveProjectFailure": "Erreur lors de la sauvegarde du projet.",
-    "unsavedChanges": "Êtes-vous sûr de vouloir quitter sans sauvegarder les modifications ?"
+    "unsavedChanges": "Êtes-vous sûr de vouloir quitter sans sauvegarder les modifications ?",
+    "wallColor": "Couleur des murs",
+    "floorColor": "Couleur du sol"
   }
 }

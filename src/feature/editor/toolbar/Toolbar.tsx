@@ -4,6 +4,7 @@ import {
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
+import { unstable_usePrompt as usePrompt } from 'react-router-dom';
 import ToggleButton from '../../../components/toggleButton/ToggleButton';
 import { saveProject, saveProjectThumbnail } from '../../../api/projects';
 import FilledButton from '../../../components/filledButton/FilledButton';
@@ -22,11 +23,15 @@ import {
   setProjectId,
   setProjectName,
 } from '../../../redux/slices/project';
-import { changeInteractionState, Interaction, sceneSelector } from '../../../redux/slices/editor';
 import './Toolbar.css';
+import ColorPicker from '../../../components/colorPicker/ColorPicker';
 
 import ModelSliders from '../../../components/modelSliders/ModelSliders';
 import { settingsSelector } from '../../../redux/slices/settings';
+import {
+  Interaction, changeInteractionState, sceneSelector,
+  changeWallColor, resetWallColor, changeFloorColor, resetFloorColor,
+} from '../../../redux/slices/editor';
 
 const CopyDeletePanel = (): JSX.Element => {
   const { interaction } = useSelector(sceneSelector);
@@ -161,7 +166,6 @@ const EditorToolbar = (): JSX.Element => {
             )}
           </FormControl>
         </div>
-
         <div className="adding-panel">
           <div className="header">{t('editorToolbar.addModelHeader')}</div>
           <div className="scrollbar-container">
@@ -178,6 +182,32 @@ const EditorToolbar = (): JSX.Element => {
         <div className="editing-panel">
           {useEditorSliders && (<ModelSliders />)}
         </div>
+        <div className="context-display">
+          <div className="inside-content-display">
+            {!scene.activeObjectId && (
+              <div className="colors-panel">
+                <ColorPicker
+                  label={t('editorToolbar.wallColor')}
+                  colorValue={scene.wallColor}
+                  onChangeColor={(c: string) => dispatch(changeWallColor(c))}
+                  onResetColor={() => dispatch(resetWallColor())}
+                />
+                <ColorPicker
+                  label={t('editorToolbar.floorColor')}
+                  colorValue={scene.floorColor}
+                  onChangeColor={(c: string) => dispatch(changeFloorColor(c))}
+                  onResetColor={() => dispatch(resetFloorColor())}
+                />
+              </div>
+            )}
+            {!!scene.activeObjectId && (
+            <div className="editing-panel">
+              chuj
+              {/* chuj<Properties /> */}
+            </div>
+            )}
+          </div>
+        </div>
 
         <div className="button-container">
           <div className="button">
@@ -187,6 +217,7 @@ const EditorToolbar = (): JSX.Element => {
           </div>
         </div>
       </div>
+
       <NotificationPopup
         snackbar={snackbar}
         setOpenSnackbar={(open: boolean) =>

@@ -40,6 +40,8 @@ describe('scene reducer', () => {
         },
         activeObjectId: null,
         hoveredObjectId: null,
+        wallColor: 'gray',
+        floorColor: '#8E7358',
       },
       interaction: Interaction.Idle,
     };
