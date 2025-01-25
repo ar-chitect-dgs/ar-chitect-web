@@ -1,6 +1,5 @@
 // src/feature/navbar/AppRouter.tsx
 import {
-  Navigate,
   Route,
   BrowserRouter as Router,
   Routes,
@@ -37,7 +36,8 @@ const AppRouter = (): JSX.Element => {
             <Route
               path={ROUTES.HOME}
               element={
-                <Navigate to={isLoggedIn ? ROUTES.PROJECTS : ROUTES.LOGIN} />
+                <Editor />
+                // <Navigate to={isLoggedIn ? ROUTES.PROJECTS : ROUTES.LOGIN} />
               }
             />
             <Route

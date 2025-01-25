@@ -13,6 +13,11 @@
   gap: 50px;
 }
 
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
 .keys {
   display: flex;
   flex-direction: column;
