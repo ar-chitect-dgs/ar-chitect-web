@@ -8,6 +8,9 @@
 .color-label {
   font-size: 18px;
   width: 130px;
+  margin-top: 7px;
+  margin-bottom: 7px;
+
 }
 
 .color-restore {

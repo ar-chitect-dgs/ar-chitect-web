@@ -1,19 +1,18 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import {
   Button,
-  Card,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   IconButton,
 } from '@mui/material';
-
 import './ProjectTile.css';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ApiProject } from '../../api/projects/types';
 import placeholder from '../../assets/placeholder_project.png';
+import Card from '../card/Card';
 
 interface ProjectTileProps {
   project: ApiProject;

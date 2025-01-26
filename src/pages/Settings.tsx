@@ -16,7 +16,10 @@ import { useAuth } from '../auth/AuthProvider';
 import FilledButton from '../components/filledButton/FilledButton';
 import { SettingsTile } from '../components/settingsTile/SettingsTile';
 import {
-  applyNewKeyBinds, settingsSelector, switchBoundingBoxes, switchEditorSliders,
+  applyNewKeyBinds,
+  settingsSelector,
+  switchBoundingBoxes,
+  switchEditorSliders,
 } from '../redux/slices/settings';
 import { defaultKeyBinds, EditorAction, KeyBinds } from '../types/KeyBinds';
 
@@ -35,8 +38,9 @@ const KeyBindSettings = (): JSX.Element => {
 
   usePrompt({ message: t('settings.unsavedChanges'), when: isDirty });
 
-  const availableActions: EditorAction[] = Object.values(EditorAction)
-    .filter((value): value is EditorAction => typeof value !== 'string') as EditorAction[];
+  const availableActions: EditorAction[] = Object.values(EditorAction).filter(
+    (value): value is EditorAction => typeof value !== 'string',
+  ) as EditorAction[];
 
   const changeListening = (action: EditorAction | null) => {
     setListening(action);
@@ -105,10 +109,12 @@ const KeyBindSettings = (): JSX.Element => {
 const Settings = (): JSX.Element => {
   const { i18n, t } = useTranslation();
   const { displayBoundingBoxes, useEditorSliders } = useSelector(settingsSelector);
+  const [language, setLanguage] = useState(i18n.language.split('-')[0]);
   const dispatch = useAppDispatch();
 
   const changeLanguage = (event: SelectChangeEvent<string>) => {
     const language = event.target.value as string;
+    setLanguage(language);
     i18n.changeLanguage(language);
   };
 
@@ -121,7 +127,7 @@ const Settings = (): JSX.Element => {
           <FormControl sx={{ minWidth: 200 }}>
             <InputLabel>{t('settings.language')}</InputLabel>
             <Select
-              value={i18n.language}
+              value={language}
               label="Language"
               onChange={changeLanguage}
               defaultValue="en"

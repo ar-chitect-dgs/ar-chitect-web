@@ -1,11 +1,9 @@
-import {
-  FormControl, FormHelperText, TextField,
-} from '@mui/material';
+import { FormControl, FormHelperText, TextField } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { unstable_usePrompt as usePrompt } from 'react-router-dom';
-import ToggleButton from '../../../components/toggleButton/ToggleButton';
+import Card from '../../../components/card/Card';
 import { saveProject, saveProjectThumbnail } from '../../../api/projects';
 import FilledButton from '../../../components/filledButton/FilledButton';
 import ModelsList from '../../../components/modelsList/ModelsList';
@@ -23,55 +21,19 @@ import {
   setProjectId,
   setProjectName,
 } from '../../../redux/slices/project';
-import './Toolbar.css';
 import ColorPicker from '../../../components/colorPicker/ColorPicker';
-
 import ModelSliders from '../../../components/modelSliders/ModelSliders';
 import { settingsSelector } from '../../../redux/slices/settings';
 import {
-  Interaction, changeInteractionState, sceneSelector,
-  changeWallColor, resetWallColor, changeFloorColor, resetFloorColor,
+  sceneSelector,
+  changeWallColor,
+  resetWallColor,
+  changeFloorColor,
+  resetFloorColor,
 } from '../../../redux/slices/editor';
+import EditStatePanel from '../../../components/editStatePanel/EditStatePanel';
 
-const CopyDeletePanel = (): JSX.Element => {
-  const { interaction } = useSelector(sceneSelector);
-
-  const dispatch = useAppDispatch();
-
-  const clickCopy = () => {
-    if (interaction === Interaction.Copy) {
-      dispatch(changeInteractionState(Interaction.Idle));
-    } else {
-      dispatch(changeInteractionState(Interaction.Copy));
-    }
-  };
-
-  const clickDelete = () => {
-    if (interaction === Interaction.Delete) {
-      dispatch(changeInteractionState(Interaction.Idle));
-    } else {
-      dispatch(changeInteractionState(Interaction.Delete));
-    }
-  };
-
-  return (
-    <div className="button-panel">
-      <ToggleButton
-        onClick={clickCopy}
-        toggled={interaction === Interaction.Copy}
-      >
-        Copy
-      </ToggleButton>
-      <ToggleButton
-        onClick={clickDelete}
-        className="delete-obj-button"
-        toggled={interaction === Interaction.Delete}
-      >
-        Delete
-      </ToggleButton>
-    </div>
-  );
-};
+import './Toolbar.css';
 
 const EditorToolbar = (): JSX.Element => {
   const { t } = useTranslation();
@@ -166,19 +128,32 @@ const EditorToolbar = (): JSX.Element => {
             )}
           </FormControl>
         </div>
+
         <div className="adding-panel">
           <div className="header">{t('editorToolbar.addModelHeader')}</div>
-          <div className="scrollbar-container">
+          <Card className="scrollbar-container">
             <ScrollBar>
               <div className="models-list">
                 <ModelsList />
               </div>
             </ScrollBar>
+          </Card>
+        </div>
+
+        <div className="edit-state-panel">
+          <div className="header">{t('editorToolbar.changeModeHeader')}</div>
+          <div className="inner-edit-state-panel">
+            <EditStatePanel />
           </div>
         </div>
 
         <div className="context-display">
-          <div className="inside-content-display">
+          <div className="header">
+            {(scene.activeObjectId !== null && useEditorSliders)
+              ? t('editorToolbar.changeModelPositionHeader')
+              : t('editorToolbar.changeWallColorHeader')}
+          </div>
+          <Card className="inside-content-display">
             {(scene.activeObjectId == null || !useEditorSliders) && (
               <div className="colors-panel">
                 <ColorPicker
@@ -196,13 +171,13 @@ const EditorToolbar = (): JSX.Element => {
               </div>
             )}
 
-            <div className="editing-panel">
-              {useEditorSliders && (<ModelSliders />)}
-            </div>
-          </div>
+            {(scene.activeObjectId !== null && useEditorSliders) && (
+              <div className="editing-panel">
+                {useEditorSliders && <ModelSliders />}
+              </div>
+            )}
+          </Card>
         </div>
-
-        <CopyDeletePanel />
 
         <div className="button-container">
           <div className="button">
