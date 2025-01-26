@@ -83,6 +83,7 @@
 .button-container {
   margin-bottom: 20px;
   padding-bottom: 30px;
+  display: flex;
   justify-content: center;
 }
 

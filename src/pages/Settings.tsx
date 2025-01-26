@@ -1,5 +1,4 @@
 import {
-  Card,
   FormControl, FormControlLabel,
   InputLabel,
   MenuItem,
@@ -10,6 +9,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
+import Card from '../components/card/Card';
 import {
   settingsSelector,
   switchBoundingBoxes,

@@ -13,7 +13,6 @@ import { useTranslation } from 'react-i18next';
 import Card from '../card/Card';
 import { ApiProject } from '../../api/projects/types';
 import placeholder from '../../assets/placeholder_project.png';
-import Card from '../card/Card';
 
 interface ProjectTileProps {
   project: ApiProject;

@@ -15,7 +15,7 @@ import { SettingsTile } from '../settingsTile/SettingsTile';
 
 import './KeybindSettings.css';
 
-const KeyBindSettings = (): JSX.Element => {
+export const KeyBindSettings = (): JSX.Element => {
   const { user } = useAuth();
   const { t } = useTranslation();
   const [listening, setListening] = useState<EditorAction | null>(null);
