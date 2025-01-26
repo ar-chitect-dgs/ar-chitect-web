@@ -69,6 +69,11 @@ const Login = (): JSX.Element => {
           onChange={(e) => setEmail(e.target.value)}
           margin="normal"
           InputProps={{ sx: { borderRadius: 5 } }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              handleLogin();
+            }
+          }}
         />
         <TextField
           label={t('login.passwordLabel')}
@@ -78,6 +83,11 @@ const Login = (): JSX.Element => {
           onChange={(e) => setPassword(e.target.value)}
           margin="normal"
           InputProps={{ sx: { borderRadius: 5 } }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              handleLogin();
+            }
+          }}
         />
         {error && <Typography color="error">{error}</Typography>}
 

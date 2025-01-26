@@ -98,7 +98,7 @@ function CreatorViewport(): JSX.Element {
     >
       {interaction !== Interaction.AddingVertex
         && <Floor points={polygon} />}
-      <Walls points={polygon} closed={interaction !== Interaction.AddingVertex} />
+      <Walls points={polygon} closed={interaction !== Interaction.AddingVertex} hide={false} />
       <RoomCorners points={polygon} preview={cursor} />
       <Ground
         onClick={onClick}

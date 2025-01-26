@@ -21,7 +21,8 @@ const MAP_COLORS = {
   default: '#a0cdfa',
   grey: '#808080',
   white: '#FFF',
-
+  blue: '#7fc4f5',
+  yellow: '#ebe544',
 };
 
 const ModelTile = ({ model, onClick }: ModelTileProps): JSX.Element => {
