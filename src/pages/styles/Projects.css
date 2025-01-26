@@ -17,13 +17,16 @@
   text-align: center;
   margin: 20px 0;
 }
+
 .scrollbar-outside-container{
   height: 100%;
   padding-top: 30px;
 }
+
 .scrollbar-inside-container{
   padding-right: 30px;
 }
+
 .templates-container {
   display: flex;
   flex-wrap: nowrap;
@@ -52,7 +55,7 @@
 .scrollbar-track-horizontal {
   height: 5px;
   width: 100%;
-  background: transparent; /* Style the horizontal track */
+  background: transparent;
   bottom: 0;
 }
 

@@ -37,7 +37,7 @@ function EditorViewport(): JSX.Element {
           }}
         />
         <ambientLight intensity={2} />
-        <pointLight position={[0, 2, 0]} decay={0} intensity={3} />
+        <pointLight position={[0, 2, 0]} rotation={[0, 0, 0]} decay={0} intensity={3} />
 
         <InteractiveScene />
       </Canvas>

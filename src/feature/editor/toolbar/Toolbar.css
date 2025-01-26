@@ -81,9 +81,10 @@
 }
 
 .button-container {
-  margin: auto;
   margin-bottom: 20px;
   padding-bottom: 30px;
+  display: flex;
+  justify-content: center;
 }
 
 .button-panel {
@@ -96,4 +97,8 @@
 
 .delete-obj-button {
   background-color: #ff6a6a;
+}
+
+.save-button {
+  height: 35px;
 }

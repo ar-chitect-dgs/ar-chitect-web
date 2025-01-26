@@ -7,7 +7,7 @@
     "feature3": "Niezależnie od tego, czy planujesz remont, czy marzysz o idealnym pokoju, nasza aplikacja ułatwia zamianę Twojej wizji w rzeczywistość."
   },
   "settings": {
-    "title": "Ustawienia",
+    "controlsTitle": "Skróty klawiszowe",
     "language": "Język",
     "moveUp": "Przesuń model w górę",
     "moveDown": "Przesuń model w dół",

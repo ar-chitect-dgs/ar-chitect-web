@@ -1,4 +1,4 @@
-import { useThree } from '@react-three/fiber';
+import { useFrame, useThree } from '@react-three/fiber';
 import { useGesture } from '@use-gesture/react';
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -30,13 +30,14 @@ import {
 } from '../../3dUtils';
 
 export function InteractiveScene(): JSX.Element {
-  const meshRef = useRef<THREE.Mesh>(null);
+  const sceneRef = useRef<THREE.Mesh>(null);
   const { raycaster } = useThree();
   const { scene, interaction } = useSelector(sceneSelector);
   const { useEditorSliders } = useSelector(settingsSelector);
   const dispatch = useAppDispatch();
   const [dragging, setDragging] = useState(false);
   const [activeModelDepth, setActiveModelDepth] = useState(0);
+  const [renderWallsToggle, setRenderWallsToggle] = useState(false);
 
   useEffect(() => {
     switch (interaction) {
@@ -70,11 +71,15 @@ export function InteractiveScene(): JSX.Element {
   }, [scene.activeObjectId, scene.hoveredObjectId,
     interaction, useEditorSliders]);
 
+  useFrame(() => {
+    setRenderWallsToggle(!renderWallsToggle);
+  });
+
   const intersectionAction = (
     hitAction: (i: THREE.Intersection) => boolean,
     missedAction?: () => void,
   ) => () => {
-    const intersections = raycaster.intersectObjects([meshRef.current as THREE.Object3D]);
+    const intersections = raycaster.intersectObjects([sceneRef.current as THREE.Object3D]);
 
     let hit = false;
 
@@ -254,11 +259,11 @@ export function InteractiveScene(): JSX.Element {
 
   return (
     <mesh
-      ref={meshRef}
+      ref={sceneRef}
       {...bind() as any}
     >
       <Floor points={scene.corners} />
-      <Walls points={scene.corners} closed />
+      <Walls points={scene.corners} closed _shouldRerender={renderWallsToggle} hide />
       <Ground />
 
       {Object.values(scene.objects).map((model) => (

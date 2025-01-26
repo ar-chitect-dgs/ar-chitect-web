@@ -7,7 +7,8 @@
     "feature3": "Whether you're planning a remodel or dreaming up your perfect room, our app makes it easy to turn your vision into reality."
   },
   "settings": {
-    "title": "Settings",
+    "controlsTitle": "Keyboard shortcuts",
+    "otherTitle": "Other",
     "language": "Language",
     "moveUp": "Move model up",
     "moveDown": "Move model down",

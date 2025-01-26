@@ -15,8 +15,8 @@ export enum Interaction {
   Delete,
 }
 
-export const DEFAULT_WALL_COLOR = '#FFFFFF';
-export const DEFAULT_FLOOR_COLOR = '#8E7358';
+export const DEFAULT_WALL_COLOR = '#b0adaa';
+export const DEFAULT_FLOOR_COLOR = '#8e7358';
 
 export interface EditorState {
   scene: Scene;

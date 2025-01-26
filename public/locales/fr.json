@@ -7,7 +7,7 @@
     "feature3": "Que vous planifiez une rénovation ou rêviez de la pièce parfaite, notre application facilite la transformation de votre vision en réalité."
   },
   "settings": {
-    "title": "Paramètres",
+    "controlsTitle": "Raccourcis clavier",
     "language": "Langue",
     "moveUp": "Déplacer le modèle vers le haut",
     "moveDown": "Déplacer le modèle vers le bas", 
