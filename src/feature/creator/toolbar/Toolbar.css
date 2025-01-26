@@ -9,6 +9,7 @@
 
 .toolbar {
   padding: 10px;
+  padding-right: 30px;
   height: 100%;
   display: flex;
 }
