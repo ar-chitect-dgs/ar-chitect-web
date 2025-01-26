@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { unstable_usePrompt as usePrompt } from 'react-router-dom';
+import Card from '../../../components/card/Card';
 import { saveProject, saveProjectThumbnail } from '../../../api/projects';
 import FilledButton from '../../../components/filledButton/FilledButton';
 import ModelsList from '../../../components/modelsList/ModelsList';
@@ -127,16 +128,18 @@ const EditorToolbar = (): JSX.Element => {
             )}
           </FormControl>
         </div>
+
         <div className="adding-panel">
           <div className="header">{t('editorToolbar.addModelHeader')}</div>
-          <div className="scrollbar-container">
+          <Card className="scrollbar-container">
             <ScrollBar>
               <div className="models-list">
                 <ModelsList />
               </div>
             </ScrollBar>
-          </div>
+          </Card>
         </div>
+
         <div className="edit-state-panel">
           <div className="header">{t('editorToolbar.changeModeHeader')}</div>
           <div className="inner-edit-state-panel">
@@ -150,7 +153,7 @@ const EditorToolbar = (): JSX.Element => {
               ? t('editorToolbar.changeModelPositionHeader')
               : t('editorToolbar.changeWallColorHeader')}
           </div>
-          <div className="inside-content-display">
+          <Card className="inside-content-display">
             {(scene.activeObjectId == null || !useEditorSliders) && (
               <div className="colors-panel">
                 <ColorPicker
@@ -173,7 +176,7 @@ const EditorToolbar = (): JSX.Element => {
                 {useEditorSliders && <ModelSliders />}
               </div>
             )}
-          </div>
+          </Card>
         </div>
 
         <div className="button-container">

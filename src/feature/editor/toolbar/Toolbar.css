@@ -9,21 +9,23 @@
   padding: 10px;
   height: 100%;
   justify-content: start;
+  gap: 10px;
 }
 
 .context-display {
   height: 35%;
-  padding: 10px;
   padding-top: 0px;
 }
 
 .inside-content-display {
-  border: 2px solid var(--purple-accent-button);
-  border-radius: 10px;
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: center;
+  padding: 10px;
+  margin: 5px;
+  margin-top: 10px;
+  box-shadow: none;
 }
 
 .header {
@@ -33,7 +35,6 @@
 
 .project-name-panel {
   height: 10%;
-  padding: 10px;
 }
 
 .colors-panel {
@@ -45,24 +46,24 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
-  padding: 10px;
   border: none;
 }
 
 .edit-state-panel{
-  padding: 10px;
   display: flex;
   flex-direction: column;
 }
 
 .edit-state-panel .header{
-  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.inner-edit-state-panel {
+  padding: 5px;
 }
 
 .editing-panel {
-  padding: 10px;
   width: 100%;
-  height: 30%;
 }
 
 .models-list {
@@ -74,9 +75,9 @@
   flex-direction: column;
   max-height: 90%;
   min-height: 90%;
-  border: 2px solid var(--purple-accent-button);
-  border-radius: 10px;
   padding: 10px;
+  margin: 5px;
+  box-shadow: none;
 }
 
 .button-container {
