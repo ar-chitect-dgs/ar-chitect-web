@@ -1,4 +1,5 @@
 import {
+  Card,
   FormControl, FormControlLabel,
   InputLabel,
   MenuItem,
@@ -8,7 +9,7 @@ import {
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import Card from '../components/card/Card';
+import { useState } from 'react';
 import {
   settingsSelector,
   switchBoundingBoxes,
@@ -22,10 +23,12 @@ import KeyBindSettings from '../components/keybindSettings/KeybindSettings';
 const Settings = (): JSX.Element => {
   const { i18n, t } = useTranslation();
   const { displayBoundingBoxes, useEditorSliders } = useSelector(settingsSelector);
+  const [language, setLanguage] = useState(i18n.language.split('-')[0]);
   const dispatch = useAppDispatch();
 
   const changeLanguage = (event: SelectChangeEvent<string>) => {
     const language = event.target.value as string;
+    setLanguage(language);
     i18n.changeLanguage(language);
   };
 
@@ -43,7 +46,7 @@ const Settings = (): JSX.Element => {
                 <FormControl sx={{ minWidth: 200 }}>
                   <InputLabel>{t('settings.language')}</InputLabel>
                   <Select
-                    value={i18n.language}
+                    value={language}
                     label="Language"
                     onChange={changeLanguage}
                     defaultValue="en"

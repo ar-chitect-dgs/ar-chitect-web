@@ -3,7 +3,8 @@ import { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../redux';
 import {
-  Axis, moveObject,
+  Axis,
+  moveObject,
   rotateObject,
   sceneSelector,
 } from '../../redux/slices/editor';
@@ -59,14 +60,32 @@ function ModelSliders(): JSX.Element {
       <div className="name">{name}</div>
       <div className="position">{positionToString(position)}</div>
       <div className="sliders">
-        <ValueSlider value={position.x} min={-7} max={7} label="x" handleChange={moveX} />
-        <ValueSlider value={position.y} min={0} max={3} label="y" handleChange={moveY} />
-        <ValueSlider value={position.z} min={-7} max={7} label="z" handleChange={moveZ} />
+        <ValueSlider
+          value={position.x}
+          min={-7}
+          max={7}
+          label="x"
+          handleChange={moveX}
+        />
+        <ValueSlider
+          value={position.y}
+          min={0}
+          max={3}
+          label="y"
+          handleChange={moveY}
+        />
+        <ValueSlider
+          value={position.z}
+          min={-7}
+          max={7}
+          label="z"
+          handleChange={moveZ}
+        />
         <ValueSlider
           value={rotation.y}
           min={-Math.PI}
           max={Math.PI}
-          icon={<FlipCameraAndroid />}
+          icon={<FlipCameraAndroid style={{ fontSize: '18px' }} />}
           handleChange={rotateY}
         />
       </div>

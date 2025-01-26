@@ -122,7 +122,10 @@
   "editorToolbar": {
     "projectNameLabel": "Nazwa projektu",
     "nameError": "Nazwa projektu nie może być pusta.",
-    "addModelHeader": "Dodaj model...",
+    "addModelHeader": "Dodaj model:",
+    "changeModeHeader": "Zmień tryb edycji:",
+    "changeModelPositionHeader": "Zmień pozycję modelu:",
+    "changeWallColorHeader": "Zmień kolor ścian i podłogi:",
     "modifyModelHeader": "Modyfikuj wybrany model:",
     "saveProjectButton": "Zapisz projekt",
     "saveProjectError": "Musisz być zalogowany, aby zapisać projekt.",

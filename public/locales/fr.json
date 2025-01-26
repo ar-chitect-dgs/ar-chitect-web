@@ -122,7 +122,10 @@
   "editorToolbar": {
     "projectNameLabel": "Nom du projet",
     "nameError": "Le nom du projet ne peut pas être vide.",
-    "addModelHeader": "Ajouter un modèle...",
+    "addModelHeader": "Ajouter un modèle:",
+    "changeModeHeader": "Changer le mode d'édition:",
+    "changeModelPositionHeader": "Changer la position du modèle:",
+    "changeWallColorHeader": "Changer la couleur des murs et du sol:",
     "modifyModelHeader": "Modifier le modèle sélectionné :",
     "saveProjectButton": "Sauvegarder le projet",
     "saveProjectError": "Vous devez être connecté pour sauvegarder un projet.",
