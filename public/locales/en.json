@@ -122,7 +122,10 @@
   "editorToolbar": {
     "projectNameLabel": "Project Name",
     "nameError": "Project name cannot be empty.",
-    "addModelHeader": "Add a model...",
+    "addModelHeader": "Add a model:",
+    "changeModeHeader": "Change editing mode:",
+    "changeModelPositionHeader": "Change model position:",
+    "changeWallColorHeader": "Change wall and floor color:",
     "modifyModelHeader": "Modify selected model:",
     "saveProjectButton": "Save Project",
     "saveProjectError": "You must be logged in to save a project.",

@@ -14,13 +14,15 @@
 .context-display {
   height: 35%;
   padding: 10px;
+  padding-top: 0px;
 }
 
 .inside-content-display {
-  border: 2px solid;
+  border: 2px solid var(--purple-accent-button);
   border-radius: 10px;
   display: flex;
   align-items: center;
+  flex-direction: column;
   justify-content: center;
 }
 
@@ -47,6 +49,16 @@
   border: none;
 }
 
+.edit-state-panel{
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-state-panel .header{
+  margin-bottom: 10px;
+}
+
 .editing-panel {
   padding: 10px;
   width: 100%;
@@ -63,7 +75,7 @@
   max-height: 90%;
   min-height: 90%;
   border: 2px solid var(--purple-accent-button);
-  border-radius: 3px;
+  border-radius: 10px;
   padding: 10px;
 }
 

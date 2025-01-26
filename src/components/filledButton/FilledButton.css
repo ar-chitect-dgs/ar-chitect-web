@@ -15,7 +15,7 @@
 }
 
 .disabled {
-  background: #dad5e2;
+  background: var(--inactive-grey);
   cursor: default;
 }
 
