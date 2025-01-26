@@ -15,6 +15,7 @@ function getWallMesh(
   key: number,
   color: string,
   height: number,
+  transparent: boolean,
 ): JSX.Element {
   const dx = p2.x - p1.x;
   const dz = p2.y - p1.y;
@@ -30,7 +31,9 @@ function getWallMesh(
       rotation={[0, angle, 0]}
     >
       <boxGeometry args={[distance, height, 0.1]} />
-      <meshStandardMaterial color={color} side={THREE.DoubleSide} />
+      {transparent
+        ? <meshStandardMaterial color={color} side={THREE.DoubleSide} transparent opacity={0.5} />
+        : <meshStandardMaterial color={color} side={THREE.DoubleSide} />}
     </mesh>
   );
 }
@@ -43,12 +46,13 @@ function shouldBeHidden(u: Point2D, v: Point2D, camera: Point2D): boolean {
 }
 
 export function Walls({
-  points, closed, _shouldRerender, hide = true,
+  points, closed, _shouldRerender, hide = true, transparent = false,
 } : {
   points: Point2D[],
   closed?: boolean,
   _shouldRerender?: boolean
   hide?: boolean
+  transparent?: boolean,
 }): JSX.Element {
   const { scene } = useSelector(sceneSelector);
   const { camera } = useThree();
@@ -68,7 +72,7 @@ export function Walls({
       && shouldBeHidden(u, v, { x: camera.position.x, y: camera.position.z })
       ? HIDDEN_WALL_HEIGHT : WALL_HEIGHT;
 
-    walls.push(getWallMesh(u, v, i, scene.wallColor, height));
+    walls.push(getWallMesh(u, v, i, scene.wallColor, height, transparent));
   }
 
   return (
