@@ -191,8 +191,7 @@ const EditorToolbar = (): JSX.Element => {
           setSnackbar((prev: SnackBarState) => ({
             ...prev,
             open,
-          }))
-        }
+          }))}
       />
     </div>
   );
