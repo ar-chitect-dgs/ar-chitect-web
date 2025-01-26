@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import Popper from '@mui/material/Popper';
 import { useTranslation } from 'react-i18next';
-import Button from '../button/Button';
 
 import { EditorAction, editorActionNames } from '../../types/KeyBinds';
 
 import './SettingsTile.css';
+import ToggleButton from '../toggleButton/ToggleButton';
 
 interface SettingsTileProps {
   actionName: EditorAction;
@@ -51,13 +51,14 @@ export const SettingsTile = ({
       <span className="label">
         {t(editorActionNames[actionName])}
       </span>
-      <Button
-        className={`key-button${listening ? ' listening' : ''}`}
+      <ToggleButton
+        className="key-button"
         onClick={() => setListening(listening ? null : actionName)}
         onKeyDown={listenForKey}
+        toggled={listening}
       >
         {actionKey}
-      </Button>
+      </ToggleButton>
       <Popper open={open} anchorEl={anchor} className="popup">
         Key
         {' '}

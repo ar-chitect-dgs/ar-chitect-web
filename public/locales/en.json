@@ -20,8 +20,11 @@
     "deselect": "Deselect",
     "delete": "Delete",
     "copy": "Copy",
-    "saveChanges": "Save changes",
-    "reset": "Reset to defaults"
+    "saveChanges": "Save control changes",
+    "reset": "Reset to defaults",
+    "boundingBoxes": "Display bounding boxes",
+    "sliders": "Use sliders in editor",
+    "unsavedChanges": "Are you sure you want to exit without saving changes?"
   },
   "mobile": {
     "title": "Get the full experience with ARchitect Mobile",
@@ -124,6 +127,9 @@
     "saveProjectButton": "Save Project",
     "saveProjectError": "You must be logged in to save a project.",
     "saveProjectSuccess": "Project saved successfully.",
-    "saveProjectFailure": "Error saving project."
+    "saveProjectFailure": "Error saving project.",
+    "unsavedChanges": "Are you sure you want to exit without saving changes?",
+    "wallColor": "Wall color",
+    "floorColor": "Floor color"
   }
 }

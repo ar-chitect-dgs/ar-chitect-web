@@ -16,4 +16,6 @@ export interface Scene {
   objects: { [id: number]: SceneObject };
   hoveredObjectId: number | null;
   activeObjectId: number | null;
+  wallColor: string;
+  floorColor: string;
 }

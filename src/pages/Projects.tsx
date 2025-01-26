@@ -8,7 +8,7 @@ import ProjectTile from '../components/projectTile/ProjectTile';
 import ScrollBar from '../components/scrollbar/ScrollBar';
 import { ROUTES } from '../feature/navigation/routes';
 import { setProject } from '../redux/slices/project';
-import { setScene } from '../redux/slices/scene';
+import { setScene } from '../redux/slices/editor';
 import { mapApiProjectToProjectScene } from '../utils/mappers';
 
 import './styles/Projects.css';
@@ -61,6 +61,7 @@ const Projects = (): JSX.Element => {
       dispatch(setProject(project));
       navigate(ROUTES.EDITOR);
     } catch (error) {
+      console.error('Error loading project:', error);
       setSnackBarState(setOpenSnackBarState(t('projects.mapError'), 'error'));
     }
   };

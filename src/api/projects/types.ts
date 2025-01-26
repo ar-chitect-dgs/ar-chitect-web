@@ -16,6 +16,8 @@ export interface ApiProject {
   modifiedAt: number;
   thumb: string;
   id?: string;
+  wallColor: string;
+  floorColor: string;
 }
 
 export interface ApiProjects {

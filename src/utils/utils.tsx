@@ -135,7 +135,9 @@ export function snapObject(
 
   const rejectionVector = position.clone().sub(onWallPosition);
   rejectionVector.normalize();
-  const objectOffsetVector = rejectionVector.multiplyScalar((isInFront ? 1 : -1) * (depth / 2));
+  const objectOffsetVector = rejectionVector.multiplyScalar(
+    (isInFront ? 1 : -1) * ((depth / 2) + 0.06),
+  );
 
   const ret = onWallPosition.clone().add(objectOffsetVector);
 

@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 import { Scrollbars } from 'react-custom-scrollbars-2';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { fetchAllProjects } from '../api/projects';
+import { fetchAllTemplates } from '../api/projects';
 import { ApiProject } from '../api/projects/types';
 import { useAuth } from '../auth/AuthProvider';
 import ScrollBar from '../components/scrollbar/ScrollBar';
 import TemplateTile from '../components/templateTile/TemplateTile';
 import { ROUTES } from '../feature/navigation/routes';
 import { setProject } from '../redux/slices/project';
-import { setScene } from '../redux/slices/scene';
+import { setScene } from '../redux/slices/editor';
 import { mapApiProjectToProjectScene } from '../utils/mappers';
 import './styles/Projects.css';
 
@@ -29,13 +29,9 @@ const Templates = (): JSX.Element => {
     const fetchProjects = async () => {
       if (user) {
         try {
-          const data = await fetchAllProjects(user.uid);
-          // todo: templates!
-          setSections([
-            { sectionName: 'Kitchen', projects: data },
-            { sectionName: 'Bathroom', projects: data.slice(1, 3) },
-            { sectionName: 'Bedroom', projects: data.slice(2, 3) },
-          ]);
+          const data = await fetchAllTemplates(['Kitchen', 'Bathroom', 'Bedroom']);
+          console.log(data);
+          setSections(data);
         } catch (error) {
           console.error('Error fetching projects:', error);
         } finally {
@@ -59,7 +55,7 @@ const Templates = (): JSX.Element => {
     console.log(`Navigating to project with ID: ${apiProject.id}`);
 
     try {
-      const { project, scene } = await mapApiProjectToProjectScene(apiProject);
+      const { project, scene } = await mapApiProjectToProjectScene(apiProject, true);
       dispatch(setScene(scene));
       dispatch(setProject(project));
       navigate(ROUTES.EDITOR);
