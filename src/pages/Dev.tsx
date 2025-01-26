@@ -151,11 +151,9 @@ const MoveAllToTemplates: React.FC = () => {
         const projectData = projectDoc.data();
         const projectId = projectDoc.id;
 
-        // Save the project in the template's subcollection
         const templateRef = doc(templateSubCollectionRef, projectId);
         await setDoc(templateRef, { ...projectData, movedBy: userId });
 
-        // Optionally delete the original project
         await deleteDoc(doc(userProjectsRef, projectId));
       });
 

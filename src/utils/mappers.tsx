@@ -55,7 +55,7 @@ export async function mapApiProjectToProjectScene(
       const sceneObject: SceneObject = {
         inProjectId: index,
         objectId: obj.id,
-        name: `Object-${index}`,
+        name: obj.name,
         color: obj.color,
         url,
         position: obj.position,

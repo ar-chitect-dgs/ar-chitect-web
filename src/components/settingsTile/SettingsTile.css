@@ -3,12 +3,12 @@
     padding: 7px;
     justify-content: space-between;
     align-items: center;
-    width: 350px;
+    width: 410px;
     height: 60px;
 }
 
 .label { 
-    width: 200px;
+    width: 240px;
     padding-left: 10px;
     vertical-align: middle;
     text-align: left;

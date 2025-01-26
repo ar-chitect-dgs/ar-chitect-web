@@ -12,7 +12,7 @@
     "language": "Language",
     "moveUp": "Move model up",
     "moveDown": "Move model down",
-    "moveLeft": "Move model left", 
+    "moveLeft": "Move model left",
     "moveRight": "Move model right",
     "moveFront": "Move model forward",
     "moveBack": "Move model backward",
@@ -77,6 +77,11 @@
     "deleteTitle": "Delete Project",
     "deleteBody": "Are you sure you want to delete this project? This action cannot be undone."
   },
+  "templates": {
+    "consistsOf": "Consists of: ",
+    "loadingTemplates": "Loading templates...",
+    "noTemplates": "No templates found."
+  },
   "login": {
     "title": "Login to your existing account",
     "emailLabel": "Email",
@@ -135,5 +140,10 @@
     "unsavedChanges": "Are you sure you want to exit without saving changes?",
     "wallColor": "Wall color",
     "floorColor": "Floor color"
+  },
+  "editStatePanel": {
+    "moving": "Moving",
+    "copying": "Copying",
+    "deleting": "Deleting"
   }
 }

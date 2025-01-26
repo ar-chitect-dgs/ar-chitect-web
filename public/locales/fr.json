@@ -10,13 +10,13 @@
     "controlsTitle": "Raccourcis clavier",
     "language": "Langue",
     "moveUp": "Déplacer le modèle vers le haut",
-    "moveDown": "Déplacer le modèle vers le bas", 
+    "moveDown": "Déplacer le modèle vers le bas",
     "moveLeft": "Déplacer le modèle vers la gauche",
     "moveRight": "Déplacer le modèle vers la droite",
     "moveFront": "Déplacer le modèle vers l'avant",
     "moveBack": "Déplacer le modèle vers l'arrière",
     "rotateCw": "Rotation horaire",
-    "rotateCcw": "Rotation antihoraire", 
+    "rotateCcw": "Rotation antihoraire",
     "deselect": "Désélectionner",
     "delete": "Supprimer",
     "copy": "Copier",
@@ -75,6 +75,11 @@
     "lastEdited": "Dernière édition :",
     "deleteTitle": "Supprimer le projet",
     "deleteBody": "Êtes-vous sûr de vouloir supprimer ce projet ? Cette action est irréversible."
+  },
+  "templates": {
+    "consistsOf": "Composé de : ",
+    "loadingTemplates": "Chargement des modèles...",
+    "noTemplates": "Aucun modèle trouvé."
   },
   "login": {
     "title": "Connectez-vous à votre compte existant",

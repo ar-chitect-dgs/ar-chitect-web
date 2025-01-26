@@ -76,6 +76,11 @@
     "deleteTitle": "Usuń projekt",
     "deleteBody": "Czy na pewno chcesz usunąć ten projekt? Ta akcja jest nieodwracalna."
   },
+  "templates": {
+    "consistsOf": "Składa się z: ",
+    "loadingTemplates": "Ładowanie szablonów...",
+    "noTemplates": "Nie znaleziono szablonów."
+  },
   "login": {
     "title": "Zaloguj się do swojego istniejącego konta",
     "emailLabel": "Email",
@@ -134,5 +139,10 @@
     "unsavedChanges": "Czy na pewno chcesz wyjść bez zapisywania zmian?",
     "wallColor": "Kolor ścian",
     "floorColor": "Kolor podłogi"
+  },
+  "editStatePanel": {
+    "moving": "Przesuwanie",
+    "copying": "Kopiowanie",
+    "deleting": "Usuwanie"
   }
 }

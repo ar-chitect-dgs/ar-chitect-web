@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import {
   changeInteractionState,
   Interaction,
@@ -11,6 +12,7 @@ import './EditStatePanel.css';
 const EditStatePanel = (): JSX.Element => {
   const { interaction } = useSelector(sceneSelector);
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const handleButtonClick = (mode: Interaction) => {
     dispatch(
@@ -25,21 +27,21 @@ const EditStatePanel = (): JSX.Element => {
         onClick={() => handleButtonClick(Interaction.Idle)}
         className={`edit-button ${interaction === Interaction.Idle ? 'active' : ''}`}
       >
-        Moving
+        {t('editStatePanel.moving')}
       </button>
       <button
         type="button"
         onClick={() => handleButtonClick(Interaction.Copy)}
         className={`edit-button ${interaction === Interaction.Copy ? 'active' : ''}`}
       >
-        Copying
+        {t('editStatePanel.copying')}
       </button>
       <button
         type="button"
         onClick={() => handleButtonClick(Interaction.Delete)}
         className={`edit-button ${interaction === Interaction.Delete ? 'active' : ''}`}
       >
-        Deleting
+        {t('editStatePanel.deleting')}
       </button>
     </div>
   );
