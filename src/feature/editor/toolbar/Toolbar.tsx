@@ -1,6 +1,8 @@
 import {
   CircularProgress,
-  FormControl, FormHelperText, TextField,
+  FormControl,
+  FormHelperText,
+  TextField,
 } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -24,15 +26,20 @@ import {
   setProjectId,
   setProjectName,
 } from '../../../redux/slices/project';
-import './Toolbar.css';
 import ColorPicker from '../../../components/colorPicker/ColorPicker';
-
 import ModelSliders from '../../../components/modelSliders/ModelSliders';
 import { settingsSelector } from '../../../redux/slices/settings';
 import {
-  Interaction, changeInteractionState, sceneSelector,
-  changeWallColor, resetWallColor, changeFloorColor, resetFloorColor,
+  Interaction,
+  changeInteractionState,
+  sceneSelector,
+  changeWallColor,
+  resetWallColor,
+  changeFloorColor,
+  resetFloorColor,
 } from '../../../redux/slices/editor';
+
+import './Toolbar.css';
 
 const CopyDeletePanel = (): JSX.Element => {
   const { interaction } = useSelector(sceneSelector);
@@ -206,8 +213,11 @@ const EditorToolbar = (): JSX.Element => {
               </div>
             )}
 
-            {useEditorSliders
-              && (<div className="editing-panel"><ModelSliders /></div>)}
+            {useEditorSliders && (
+              <div className="editing-panel">
+                <ModelSliders />
+              </div>
+            )}
           </div>
         </div>
 
@@ -215,9 +225,11 @@ const EditorToolbar = (): JSX.Element => {
 
         <div className="button-container">
           <FilledButton className="save-button" onClick={handleSaveProject}>
-            {isSaving
-              ? <CircularProgress size={25} style={{ color: '#F3F2FF' }} />
-              : t('editorToolbar.saveProjectButton')}
+            {isSaving ? (
+              <CircularProgress size={25} style={{ color: '#F3F2FF' }} />
+            ) : (
+              t('editorToolbar.saveProjectButton')
+            )}
           </FilledButton>
         </div>
       </div>
