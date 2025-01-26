@@ -1,0 +1,17 @@
+.keys {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: large;
+    flex-wrap: wrap;
+    max-height: 500px;
+    min-width: 800px;
+  }
+  
+  .buttons-panel {
+    display: flex;
+    justify-content: right;
+    margin-top: 10px;
+    gap: 10px;
+  }
+  
