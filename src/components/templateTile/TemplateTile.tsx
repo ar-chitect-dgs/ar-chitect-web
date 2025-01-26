@@ -26,6 +26,7 @@ const TemplateTile = ({ project, onClick }: TemplateTileProps): JSX.Element => (
           <span className="project-name">{project.projectName}</span>
         </div>
         <div className="project-objects">
+          {/* todo localize */}
           Consists of:
           {' '}
           {project.objects.map((obj) => obj.name ?? obj.id).join(', ')}

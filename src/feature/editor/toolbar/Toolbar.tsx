@@ -61,6 +61,7 @@ const CopyDeletePanel = (): JSX.Element => {
         onClick={clickCopy}
         toggled={interaction === Interaction.Copy}
       >
+        {/* todo localize */}
         Copy
       </ToggleButton>
       <ToggleButton
@@ -68,6 +69,7 @@ const CopyDeletePanel = (): JSX.Element => {
         className="delete-obj-button"
         toggled={interaction === Interaction.Delete}
       >
+        {/* todo localize */}
         Delete
       </ToggleButton>
     </div>

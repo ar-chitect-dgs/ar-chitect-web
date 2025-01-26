@@ -109,15 +109,8 @@ function CreatorViewport(): JSX.Element {
       {interaction === Interaction.AddingVertex
         && <Sphere key="preview" position={cursor} type={SphereType.Preview} />}
 
-      <ambientLight intensity={Math.PI / 2} />
-      <spotLight
-        position={[10, 10, 10]}
-        angle={0.15}
-        penumbra={1}
-        decay={0}
-        intensity={Math.PI}
-      />
-      <pointLight position={[-10, -10, -10]} decay={0} intensity={Math.PI} />
+      <ambientLight intensity={2} />
+      <pointLight position={[0, 2, 0]} rotation={[0, 0, 0]} decay={0} intensity={3} />
 
       <OrbitControls
         enablePan={false}

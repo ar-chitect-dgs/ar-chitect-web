@@ -46,6 +46,7 @@ const Templates = (): JSX.Element => {
   let message = null;
 
   if (loading) {
+    /* todo localize */
     message = <div className="projects-message">Loading templates...</div>;
   } else if (sections.length === 0) {
     message = <div className="projects-message">No templates found.</div>;
