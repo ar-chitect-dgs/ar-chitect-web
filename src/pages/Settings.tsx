@@ -21,7 +21,7 @@ import './styles/Settings.css';
 
 const Settings = (): JSX.Element => {
   const { i18n, t } = useTranslation();
-  const { displayBoundingBoxes, useEditorSliders } = useSelector(settingsSelector);
+  const { useEditorSliders } = useSelector(settingsSelector);
   const [language, setLanguage] = useState(i18n.language.split('-')[0]);
   const dispatch = useAppDispatch();
 

@@ -142,7 +142,13 @@ export function InteractiveScene(): JSX.Element {
       if (intersection.object.userData.name === MODEL) {
         const { id } = intersection.object.userData;
 
-        if (id === scene.activeObjectId) {
+        if (useEditorSliders) {
+          if (id === scene.activeObjectId) {
+            dispatch(disactivateObject());
+          } else {
+            dispatch(activateObject(id));
+          }
+        } else if (scene.activeObjectId !== null) {
           dispatch(disactivateObject());
         } else {
           dispatch(activateObject(id));
