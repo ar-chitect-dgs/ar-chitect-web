@@ -1,9 +1,153 @@
+import * as THREE from 'three';
+import { Point2D } from '../types/Point';
+
+export function positionToString(pos: { x: number, y: number, z: number }): string {
+  return `[${pos.x}, ${pos.y}, ${pos.z}]`;
+}
+
+export function round(val: number, decimalPlaces: number): number {
+  return Number(val.toFixed(decimalPlaces));
+}
+
+const pointEps = 0.2;
+
+export function getDistance(p1: Point2D, p2: Point2D): number {
+  const x = (p1.x - p2.x);
+  const y = (p1.y - p2.y);
+  return Math.sqrt(x * x + y * y);
+}
+
+export function arePointsClose(p1: Point2D, p2: Point2D): boolean {
+  return getDistance(p1, p2) < pointEps;
+}
+
+export function arePointsCloseAndDistance(p1: Point2D, p2: Point2D): [boolean, number] {
+  const dist = getDistance(p1, p2);
+  return [dist < pointEps, dist];
+}
+
+function isClockwise(points: Point2D[]): boolean {
+  let sum = 0;
+  for (let i = 0; i < points.length; i += 1) {
+    const v = points[i];
+    const u = points[(i + 1) % points.length];
+
+    sum += (u.x - v.x) * (u.y + v.y);
+  }
+  return sum > 0.0;
+}
+
+export function normalizePoints(p: Point2D[]): Point2D[] {
+  if (p.length === 0) return [];
+
+  let points = [...p];
+
+  if (isClockwise(points)) {
+    points = points.reverse();
+  }
+
+  const sum = points.reduce(
+    (acc, point) => {
+      acc.x += point.x;
+      acc.y += point.y;
+      return acc;
+    },
+    { x: 0, y: 0 },
+  );
+
+  const centerOfMass = {
+    x: round(sum.x / points.length, 2),
+    y: round(sum.y / points.length, 2),
+  };
+
+  return points.map((point) => ({
+    x: round(point.x - centerOfMass.x, 2),
+    y: round(point.y - centerOfMass.y, 2),
+  }));
+}
+
+const snapEps = 0.7;
+
+export function distanceToSegment(
+  point: THREE.Vector2, v: THREE.Vector2, u: THREE.Vector2,
+): number {
+  const l2 = v.distanceToSquared(u);
+  if (l2 === 0) return point.distanceTo(v);
+  const t = Math.max(0, Math.min(1, point.clone().sub(v).dot(u.clone().sub(v)) / l2));
+  const projection = v.clone().add(u.clone().sub(v).multiplyScalar(t));
+  return point.distanceTo(projection);
+}
+
+function clamp(value: number, min: number, max: number): number {
+  return Math.max(min, Math.min(max, value));
+}
+
+export function snapObject(
+  position: THREE.Vector2,
+  depth: number,
+  corners: Point2D[],
+): {
+  snapped: boolean,
+  position: THREE.Vector2,
+  rotation: number,
+} {
+  let minDistance = Infinity;
+
+  let closestWallIndex = -1;
+
+  for (let i = 0; i < corners.length; i += 1) {
+    const v = new THREE.Vector2(corners[i].x, corners[i].y);
+    const u = new THREE.Vector2(
+      corners[(i + 1) % corners.length].x,
+      corners[(i + 1) % corners.length].y,
+    );
+    const distance = distanceToSegment(position, v, u);
+
+    if (distance < minDistance && distance < snapEps) {
+      minDistance = distance;
+      closestWallIndex = i;
+    }
+  }
+
+  if (closestWallIndex === -1) {
+    return { snapped: false, position, rotation: 0 };
+  }
+
+  const i = closestWallIndex;
+  const v = new THREE.Vector2(corners[i].x, corners[i].y);
+  const u = new THREE.Vector2(
+    corners[(i + 1) % corners.length].x,
+    corners[(i + 1) % corners.length].y,
+  );
+
+  const segmentVector = u.clone().sub(v);
+
+  let projection = position.clone().sub(v).dot(segmentVector) / v.distanceToSquared(u);
+  projection = clamp(projection, 0, 1);
+
+  const onWallPosition = v.clone().lerp(
+    u,
+    projection,
+  );
+
+  const isInFront = position.length() < onWallPosition.length();
+
+  const rejectionVector = position.clone().sub(onWallPosition);
+  rejectionVector.normalize();
+  const objectOffsetVector = rejectionVector.multiplyScalar(
+    (isInFront ? 1 : -1) * ((depth / 2) + 0.06),
+  );
+
+  const ret = onWallPosition.clone().add(objectOffsetVector);
+
+  const normal = new THREE.Vector2(segmentVector.y, -segmentVector.x);
+  return { snapped: true, position: ret, rotation: -normal.angle() - Math.PI / 2 };
+
 interface Vector2D {
   x: number;
   y: number;
 }
 
-// Utility function to convert 3D position to a string
 export function positionToString(pos: {
   x: number;
   y: number;
@@ -12,7 +156,6 @@ export function positionToString(pos: {
   return `[${pos.x}, ${pos.y}, ${pos.z}]`;
 }
 
-// Check if point q lies on segment pr
 function onSegment(p: Vector2D, q: Vector2D, r: Vector2D): boolean {
   return (
     q.x <= Math.max(p.x, r.x)
@@ -22,15 +165,12 @@ function onSegment(p: Vector2D, q: Vector2D, r: Vector2D): boolean {
   );
 }
 
-// Find orientation of triplet (p, q, r)
-// Returns 0 if collinear, 1 if clockwise, 2 if counterclockwise
 function orientation(p: Vector2D, q: Vector2D, r: Vector2D): number {
   const val = (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y);
   if (val === 0) return 0; // collinear
   return val > 0 ? 1 : 2; // clockwise or counterclockwise
 }
 
-// Check if two line segments intersect
 function doIntersect(
   p1: Vector2D,
   q1: Vector2D,
@@ -54,22 +194,18 @@ function doIntersect(
   return false;
 }
 
-// Check if a point is inside a polygon
 export function isInsidePolygon(corners: Vector2D[], point: Vector2D): boolean {
   const n = corners.length;
-  if (n < 3) return false; // A polygon must have at least 3 vertices
+  if (n < 3) return false;
 
-  // Create a point for line segment from `point` to infinity
   const extreme: Vector2D = { x: Number.MAX_SAFE_INTEGER, y: point.y };
 
-  // Count intersections of the above line with the sides of the polygon
   let count = 0;
   let i = 0;
   do {
     const next = (i + 1) % n;
 
     if (doIntersect(corners[i], corners[next], point, extreme)) {
-      // If the point is collinear with the line segment, check if it lies on the segment
       if (orientation(corners[i], point, corners[next]) === 0) {
         return onSegment(corners[i], point, corners[next]);
       }
@@ -78,7 +214,6 @@ export function isInsidePolygon(corners: Vector2D[], point: Vector2D): boolean {
     i = next;
   } while (i !== 0);
 
-  // Return true if count is odd, false otherwise
   return count % 2 === 1;
 }
 

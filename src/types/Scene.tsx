@@ -1,18 +1,21 @@
-// position isn't a Vector3 to make Object serializable.
-// see https://redux.js.org/faq/organizing-state#can-i-put-functions-promises-or-other-non-serializable-items-in-my-store-state for reference
+import { Point2D, Point3D } from './Point';
+
 export interface SceneObject {
-  id: number;
+  inProjectId: number; // id in project
+  objectId: string; // id in database
   name: string;
-  position: {
-    x: number;
-    y: number;
-    z: number;
-  };
-  active: boolean;
-  hovered: boolean;
+  color: string;
+  url: string;
+  position: Point3D;
+  rotation: Point3D;
 }
 
 export interface Scene {
+  corners: Point2D[];
   objectIds: number[];
   objects: { [id: number]: SceneObject };
+  hoveredObjectId: number | null;
+  activeObjectId: number | null;
+  wallColor: string;
+  floorColor: string;
 }

@@ -1,117 +1,36 @@
-// Sidebar.tsx
-import {
-  Drawer,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  Typography,
-  Box,
-  Divider,
-} from '@mui/material';
-import { Link, useLocation } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth';
+import React from 'react';
+import SidebarItem from '../sidebarItem/SidebarItem';
 import './Sidebar.css';
 
-const Sidebar = (): JSX.Element => {
-  const location = useLocation();
-  const user = useAuth();
+interface SidebarProps {
+  groups: { name: string; path: string; onClick?: () => void }[][];
+  logo: string;
+}
 
-  const isSelected = (path: string) => location.pathname === path;
-
-  return (
-    <Drawer
-      variant="permanent"
-      anchor="left"
-      sx={{
-        width: 240,
-        flexShrink: 0,
-        '& .MuiDrawer-paper': {
-          width: 240,
-          boxSizing: 'border-box',
-          backgroundColor: '#f5f5f5',
-        },
-      }}
-    >
-      {/* Logo section */}
-      <Box className="logoContainer">
-        <Typography
-          variant="h6"
-          component="div"
-          sx={{ padding: '16px', textAlign: 'center' }}
-        >
-          App Logo
-        </Typography>
-      </Box>
-
-      {/* Navigation links */}
-      <List>
-        <ListItem disablePadding>
-          <ListItemButton
-            component={Link}
-            to="/projects"
-            selected={isSelected('/projects')}
-          >
-            <ListItemText
-              primary="Projects"
-              sx={{ fontWeight: isSelected('/projects') ? 'bold' : 'normal' }}
-            />
-          </ListItemButton>
-        </ListItem>
-        <ListItem disablePadding>
-          <ListItemButton
-            component={Link}
-            to="/editor"
-            selected={isSelected('/editor')}
-          >
-            <ListItemText
-              primary="Editor"
-              sx={{ fontWeight: isSelected('/editor') ? 'bold' : 'normal' }}
-            />
-          </ListItemButton>
-        </ListItem>
-      </List>
-      <Divider />
-      {!user && (
-        <Box sx={{ paddingTop: '16px' }}>
-          <ListItem disablePadding>
-            <ListItemButton
-              component={Link}
-              to="/signup"
-              selected={isSelected('/signup')}
-            >
-              <ListItemText
-                primary="Sign Up"
-                sx={{ fontWeight: isSelected('/signup') ? 'bold' : 'normal' }}
+const Sidebar = ({ groups, logo }: SidebarProps): JSX.Element => (
+  <div className="sidebar">
+    <div className="logo-container">
+      <img src={logo} alt="abc" className="app-logo" />
+    </div>
+    <div className="groups">
+      {groups.map((group, groupIndex) => (
+        // eslint-disable-next-line react/no-array-index-key
+        <div key={groupIndex} className="group">
+          <hr className="group-separator" />
+          <ul className="nav-list">
+            {group.map((link) => (
+              <SidebarItem
+                key={link.path}
+                name={link.name}
+                path={link.path}
+                onClick={link.onClick}
               />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton
-              component={Link}
-              to="/login"
-              selected={isSelected('/login')}
-            >
-              <ListItemText
-                primary="Log In"
-                sx={{ fontWeight: isSelected('/login') ? 'bold' : 'normal' }}
-              />
-            </ListItemButton>
-          </ListItem>
-        </Box>
-      )}
-      {user && (
-        <Box sx={{ paddingTop: '16px' }}>
-          <ListItemButton component={Link} to="/profile">
-            <ListItemText
-              primary="Profile"
-              sx={{ fontWeight: isSelected('/profile') ? 'bold' : 'normal' }}
-            />
-          </ListItemButton>
-        </Box>
-      )}
-    </Drawer>
-  );
-};
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+);
 
 export default Sidebar;

@@ -1,0 +1,10 @@
+.models-list-container {
+  padding: 10px;
+}
+
+.models-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px 2px;
+}
+

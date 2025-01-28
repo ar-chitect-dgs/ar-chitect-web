@@ -1,0 +1,151 @@
+{
+  "welcome": "Welcome to our application",
+  "about": {
+    "description": "Our app is built to bring your design ideas to life.",
+    "feature1": "On the web, you can use our 3D editor to design your room exactly the way you want. Move furniture and customize its colors in real time.",
+    "feature2": "Once you're happy with your design, you can switch to our mobile app to view your creation in augmented reality. Walk through your room as if it's already built to see how it fits your space and make live edits.",
+    "feature3": "Whether you're planning a remodel or dreaming up your perfect room, our app makes it easy to turn your vision into reality."
+  },
+  "settings": {
+    "controlsTitle": "Keyboard shortcuts",
+    "otherTitle": "Other",
+    "language": "Language",
+    "moveUp": "Move model up",
+    "moveDown": "Move model down",
+    "moveLeft": "Move model left",
+    "moveRight": "Move model right",
+    "moveFront": "Move model forward",
+    "moveBack": "Move model backward",
+    "rotateCw": "Rotate clockwise",
+    "rotateCcw": "Rotate counter-clockwise",
+    "deselect": "Deselect",
+    "delete": "Delete",
+    "copy": "Copy",
+    "noSnap": "Toggle snapping to walls",
+    "saveChanges": "Save control changes",
+    "reset": "Reset to defaults",
+    "boundingBoxes": "Display bounding boxes",
+    "sliders": "Use sliders in editor",
+    "unsavedChanges": "Are you sure you want to exit without saving changes?",
+    "keyAlreadyUsed": "Key {{key}} is already used"
+  },
+  "mobile": {
+    "title": "Get the full experience with ARchitect Mobile",
+    "description1": "Web editor is only half of the ARchitect experience.",
+    "description2": "Download our ARchitect mobile app to view and edit your designs in augmented reality!",
+    "reviewsTitle": "What our users are saying:",
+    "review1": {
+      "text": "\"Absolutely incredible! Designing in AR has never been easier. I can't believe how realistic it looks!\"",
+      "author": "- John B."
+    },
+    "review2": {
+      "text": "\"I used ARchitect to design my living room layout, and it turned out perfect! Highly recommend.\"",
+      "author": "- Marci N."
+    },
+    "review3": {
+      "text": "\"This app is a game-changer. Being able to edit designs in augmented reality is so intuitive and fun!\"",
+      "author": "- Alex K."
+    }
+  },
+  "profile": {
+    "noUserLoggedIn": "No user is logged in.",
+    "altText": "Profile Picture",
+    "changeProfilePic": "Change Profile Picture:",
+    "editProfile": "Edit Profile",
+    "changeDisplayName": "Change Display name:",
+    "displayNameLabel": "Display Name",
+    "saveChanges": "Save Changes",
+    "cancel": "Cancel",
+    "displayName": "Display Name",
+    "defaultUser": "User",
+    "email": "Email",
+    "logOut": "Log Out",
+    "deleteAccount": "Delete Account",
+    "deleteAccountTitle": "Delete Account",
+    "deleteAccountConfirmation": "Are you sure you want to delete your account? This action cannot be undone.",
+    "delete": "Delete",
+    "deleteAccountError": "Failed to delete account. Please try again.",
+    "updateSuccess": "Profile updated successfully",
+    "updateError": "Failed to update profile"
+  },
+  "projects": {
+    "title": "Your latest projects",
+    "loading": "Loading projects...",
+    "noProjects": "No projects found. You can create one in the editor!",
+    "fetchError": "Encountered error when obtaining projects",
+    "mapError": "Error mapping project data",
+    "deleteError": "Error deleting project",
+    "lastEdited": "Last edited:",
+    "deleteTitle": "Delete Project",
+    "deleteBody": "Are you sure you want to delete this project? This action cannot be undone."
+  },
+  "templates": {
+    "consistsOf": "Consists of: ",
+    "loadingTemplates": "Loading templates...",
+    "noTemplates": "No templates found."
+  },
+  "login": {
+    "title": "Login to your existing account",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "loginButton": "Log In",
+    "signupText": "Don't have an account?",
+    "signupLink": "Sign-up",
+    "orDivider": "OR",
+    "googleIconAlt": "Google Icon",
+    "googleButton": "Connect with Google",
+    "loginFailed": "Login failed. Please check your email and password and try again."
+  },
+  "signup": {
+    "title": "Create a new account",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "displayNameLabel": "Display Name",
+    "profilePictureHeader": "Choose a profile picture:",
+    "signUpButton": "Sign Up",
+    "alreadyHaveAccountText": "Already have an account?",
+    "loginLink": "Log in",
+    "invalidEmail": "Please enter a valid email",
+    "invalidPassword": "Password must be at least 6 characters",
+    "signUpError": "Error signing up. Please try again."
+  },
+  "navbar": {
+    "yourProjects": "Your projects",
+    "creator": "Creator",
+    "templates": "Templates",
+    "aboutUs": "About us",
+    "mobileApp": "ARchitect Mobile",
+    "signUp": "Sign Up",
+    "logIn": "Log In",
+    "profile": "Profile",
+    "settings": "Settings"
+  },
+  "creatorToolbar": {
+    "projectNameLabel": "Project Name",
+    "stopDeletingVertices": "Stop deleting vertices",
+    "startDeletingVertices": "Start deleting vertices",
+    "goToRoomDesign": "Go to the room design",
+    "errorGettingProject": "Error getting project"
+  },
+  "editorToolbar": {
+    "projectNameLabel": "Project Name",
+    "nameError": "Project name cannot be empty.",
+    "addModelHeader": "Add a model:",
+    "changeModeHeader": "Change editing mode:",
+    "changeModelPositionHeader": "Change model position:",
+    "changeWallColorHeader": "Change wall and floor color:",
+    "modifyModelHeader": "Modify selected model:",
+    "saveProjectButton": "Save Project",
+    "saveProjectError": "You must be logged in to save a project.",
+    "saveProjectSuccess": "Project saved successfully.",
+    "saveProjectFailure": "Error saving project.",
+    "unsavedChanges": "Are you sure you want to exit without saving changes?",
+    "wallColor": "Wall color",
+    "floorColor": "Floor color"
+  },
+  "editStatePanel": {
+    "moving": "Moving",
+    "copying": "Copying",
+    "deleting": "Deleting"
+  }
+}

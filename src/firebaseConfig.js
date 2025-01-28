@@ -1,9 +1,12 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
+const publicKey = 'AIzaSyCvc1jR9urJopY7PrOD08pMqCp9GP_M6zM';
+
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  apiKey: process.env.USE_PRIVATE_KEY ? process.env.REACT_APP_FIREBASE_API_KEY : publicKey,
   authDomain: 'ar-chitect-a0b25.firebaseapp.com',
   projectId: 'ar-chitect-a0b25',
   storageBucket: 'ar-chitect-a0b25.appspot.com',
@@ -13,5 +16,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+
 export const auth = getAuth(app);
 export const storage = getStorage(app);
+export const db = getFirestore(app);

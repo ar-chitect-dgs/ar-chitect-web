@@ -1,0 +1,150 @@
+{
+  "welcome": "Witaj w naszej aplikacji",
+  "about": {
+    "description": "Nasza aplikacja została stworzona, aby ożywić Twoje pomysły na projektowanie.",
+    "feature1": "W Internecie możesz używać naszego edytora 3D, aby zaprojektować pokój dokładnie tak, jak chcesz. Przesuwaj meble i dostosowuj ich kolory w czasie rzeczywistym.",
+    "feature2": "Gdy będziesz zadowolony z projektu, możesz przejść do naszej aplikacji mobilnej, aby zobaczyć swoją kreację w rozszerzonej rzeczywistości. Przechadzaj się po pokoju, jakby był już gotowy, aby sprawdzić, jak pasuje do przestrzeni i wprowadzać zmiany na żywo.",
+    "feature3": "Niezależnie od tego, czy planujesz remont, czy marzysz o idealnym pokoju, nasza aplikacja ułatwia zamianę Twojej wizji w rzeczywistość."
+  },
+  "settings": {
+    "controlsTitle": "Skróty klawiszowe",
+    "language": "Język",
+    "moveUp": "Przesuń model w górę",
+    "moveDown": "Przesuń model w dół",
+    "moveLeft": "Przesuń model w lewo",
+    "moveRight": "Przesuń model w prawo",
+    "moveFront": "Przesuń model do przodu",
+    "moveBack": "Przesuń model do tyłu",
+    "rotateCw": "Obróć zgodnie z ruchem wskazówek zegara",
+    "rotateCcw": "Obróć przeciwnie do ruchu wskazówek zegara",
+    "deselect": "Odznacz",
+    "delete": "Usuń",
+    "copy": "Kopiuj",
+    "noSnap": "Przełącz przyciąganie do ścian",
+    "saveChanges": "Zapisz zmiany sterowania",
+    "reset": "Przywróć domyślne",
+    "boundingBoxes": "Wyświetlaj bounding boxes",
+    "sliders": "Używaj suwaków do przesuwania",
+    "unsavedChanges": "Czy na pewno chcesz wyjść bez zapisywania zmian?",
+    "keyAlreadyUsed": "Klawisz {{key}} jest w użyciu"
+  },
+  "mobile": {
+    "title": "Doświadcz pełnej wersji ARchitect Mobile",
+    "description1": "Edytor internetowy to tylko połowa doświadczenia ARchitect.",
+    "description2": "Pobierz naszą aplikację mobilną ARchitect, aby wyświetlać i edytować swoje projekty w rozszerzonej rzeczywistości!",
+    "reviewsTitle": "Co mówią nasi użytkownicy:",
+    "review1": {
+      "text": "\"Absolutnie niesamowite! Projektowanie w AR nigdy nie było łatwiejsze. Nie mogę uwierzyć, jak realistycznie to wygląda!\"",
+      "author": "- John B."
+    },
+    "review2": {
+      "text": "\"Użyłem ARchitect do zaprojektowania układu mojego salonu, a efekt jest idealny! Zdecydowanie polecam.\"",
+      "author": "- Marci N."
+    },
+    "review3": {
+      "text": "\"Ta aplikacja to prawdziwa rewolucja. Możliwość edytowania projektów w rozszerzonej rzeczywistości jest tak intuicyjna i zabawna!\"",
+      "author": "- Alex K."
+    }
+  },
+  "profile": {
+    "noUserLoggedIn": "Brak zalogowanego użytkownika.",
+    "altText": "Zdjęcie profilowe",
+    "changeProfilePic": "Zmień zdjęcie profilowe:",
+    "editProfile": "Edytuj profil",
+    "changeDisplayName": "Zmień nazwę użytkownika:",
+    "displayNameLabel": "Nazwa użytkownika",
+    "saveChanges": "Zapisz zmiany",
+    "cancel": "Anuluj",
+    "displayName": "Nazwa użytkownika",
+    "defaultUser": "Użytkownik",
+    "email": "Email",
+    "logOut": "Wyloguj się",
+    "deleteAccount": "Usuń konto",
+    "deleteAccountTitle": "Usuń konto",
+    "deleteAccountConfirmation": "Czy na pewno chcesz usunąć swoje konto? Ta akcja jest nieodwracalna.",
+    "delete": "Usuń",
+    "deleteAccountError": "Nie udało się usunąć konta. Proszę spróbować ponownie.",
+    "updateSuccess": "Profil zaktualizowany pomyślnie",
+    "updateError": "Nie udało się zaktualizować profilu"
+  },
+  "projects": {
+    "title": "Twoje najnowsze projekty",
+    "loading": "Ładowanie projektów...",
+    "noProjects": "Brak projektów. Możesz stworzyć jeden w edytorze!",
+    "fetchError": "Błąd podczas pobierania projektów",
+    "mapError": "Błąd mapowania projektu",
+    "deleteError": "Błąd podczas usuwania projektu",
+    "lastEdited": "Ostatnio edytowano:",
+    "deleteTitle": "Usuń projekt",
+    "deleteBody": "Czy na pewno chcesz usunąć ten projekt? Ta akcja jest nieodwracalna."
+  },
+  "templates": {
+    "consistsOf": "Składa się z: ",
+    "loadingTemplates": "Ładowanie szablonów...",
+    "noTemplates": "Nie znaleziono szablonów."
+  },
+  "login": {
+    "title": "Zaloguj się do swojego istniejącego konta",
+    "emailLabel": "Email",
+    "passwordLabel": "Hasło",
+    "loginButton": "Zaloguj się",
+    "signupText": "Nie masz konta?",
+    "signupLink": "Zarejestruj się",
+    "orDivider": "LUB",
+    "googleIconAlt": "Ikona Google",
+    "googleButton": "Zaloguj się przez Google",
+    "loginFailed": "Logowanie nie powiodło się. Sprawdź swój email i hasło i spróbuj ponownie."
+  },
+  "signup": {
+    "title": "Załóż nowe konto",
+    "emailLabel": "Email",
+    "passwordLabel": "Hasło",
+    "displayNameLabel": "Nazwa użytkownika",
+    "profilePictureHeader": "Wybierz zdjęcie profilowe:",
+    "signUpButton": "Zarejestruj się",
+    "alreadyHaveAccountText": "Masz już konto?",
+    "loginLink": "Zaloguj się",
+    "invalidEmail": "Wprowadź prawidłowy adres email",
+    "invalidPassword": "Hasło musi zawierać co najmniej 6 znaków",
+    "signupError": "Rejestracja nie powiodła się. Spróbuj ponownie."
+  },
+  "navbar": {
+    "yourProjects": "Twoje projekty",
+    "creator": "Kreator",
+    "templates": "Szablony",
+    "aboutUs": "O nas",
+    "mobileApp": "ARchitect Mobile",
+    "signUp": "Zarejestruj się",
+    "logIn": "Zaloguj się",
+    "profile": "Profil",
+    "settings": "Ustawienia"
+  },
+  "creatorToolbar": {
+    "projectNameLabel": "Nazwa projektu",
+    "stopDeletingVertices": "Zatrzymaj usuwanie wierzchołków",
+    "startDeletingVertices": "Zacznij usuwać wierzchołki",
+    "goToRoomDesign": "Przejdź do projektu pokoju",
+    "errorGettingProject": "Błąd podczas pobierania projektu"
+  },
+  "editorToolbar": {
+    "projectNameLabel": "Nazwa projektu",
+    "nameError": "Nazwa projektu nie może być pusta.",
+    "addModelHeader": "Dodaj model:",
+    "changeModeHeader": "Zmień tryb edycji:",
+    "changeModelPositionHeader": "Zmień pozycję modelu:",
+    "changeWallColorHeader": "Zmień kolor ścian i podłogi:",
+    "modifyModelHeader": "Modyfikuj wybrany model:",
+    "saveProjectButton": "Zapisz projekt",
+    "saveProjectError": "Musisz być zalogowany, aby zapisać projekt.",
+    "saveProjectSuccess": "Projekt zapisany pomyślnie.",
+    "saveProjectFailure": "Błąd podczas zapisywania projektu.",
+    "unsavedChanges": "Czy na pewno chcesz wyjść bez zapisywania zmian?",
+    "wallColor": "Kolor ścian",
+    "floorColor": "Kolor podłogi"
+  },
+  "editStatePanel": {
+    "moving": "Przesuwanie",
+    "copying": "Kopiowanie",
+    "deleting": "Usuwanie"
+  }
+}

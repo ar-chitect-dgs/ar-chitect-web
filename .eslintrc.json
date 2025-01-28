@@ -14,7 +14,7 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  
+
   "plugins": ["@typescript-eslint", "react", "prettier"],
   "rules": {
     "@typescript-eslint/no-explicit-any": "off",
@@ -31,7 +31,11 @@
     "no-console": "off",
     "react/react-in-jsx-scope": "off",
     "implicit-arrow-linebreak": "off",
-    "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }]
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      { "argsIgnorePattern": "^_" }
+    ],
+    "react/jsx-props-no-spreading": "off"
   },
   "settings": {
     "import/resolver": {

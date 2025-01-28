@@ -1,0 +1,22 @@
+.sidebar-item {
+  margin: 0;
+}
+
+.sidebar-link {
+  display: block;
+  padding: 10px;
+  padding-left: 20px;
+  color: #2C2D76;
+  text-decoration: none;
+  text-align: left;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar-link:hover {
+  background: linear-gradient(to right, #5d30ff1c, transparent);
+
+}
+
+.selected {
+  font-weight: bold;
+}

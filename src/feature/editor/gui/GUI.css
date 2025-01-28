@@ -1,9 +1,0 @@
-.header {
-  font-size: larger;
-  margin: 5px;
-}
-
-.PropertiesPanel {
-  display: flex;
-  flex-direction: column;
-}

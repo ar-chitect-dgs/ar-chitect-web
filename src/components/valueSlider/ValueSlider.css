@@ -1,0 +1,23 @@
+.slider-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: space-between;
+  height: 25px;
+}
+
+.axis-label {
+  font-size: 18px;
+  width: 37px;
+  padding-right: 10px;
+  margin: 0;
+}
+
+.value-label {
+  margin: 0;
+  margin-left: 10px;
+  margin-right: 10px;
+  width: 50px;
+  font-size: 18px;
+  text-align: right;
+}

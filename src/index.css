@@ -5,7 +5,20 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+button {
+  font-family: 'Lexend', sans-serif;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+:root {
+  --text-color: #2c2d76;
+  --background-color: #F3F2FF;
+  --purple-accent-button: #7489FF;
+  --purple-text-color: #9370FF;
+  --red-text-color: #FF4548;
+  --inactive-grey: #D3D3D3;
 }
