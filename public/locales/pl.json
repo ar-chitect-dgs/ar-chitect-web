@@ -24,7 +24,8 @@
     "reset": "Przywróć domyślne",
     "boundingBoxes": "Wyświetlaj bounding boxes",
     "sliders": "Używaj suwaków do przesuwania",
-    "unsavedChanges": "Czy na pewno chcesz wyjść bez zapisywania zmian?"
+    "unsavedChanges": "Czy na pewno chcesz wyjść bez zapisywania zmian?",
+    "keyAlreadyUsed": "Klawisz {{key}} jest w użyciu"
   },
   "mobile": {
     "title": "Doświadcz pełnej wersji ARchitect Mobile",

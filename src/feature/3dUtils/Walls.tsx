@@ -1,10 +1,10 @@
 /* eslint-disable react/no-unknown-property */
-import { useSelector } from 'react-redux';
 import { useThree } from '@react-three/fiber';
-import { Vector2 } from 'three';
+import { useSelector } from 'react-redux';
 import * as THREE from 'three';
-import { Point2D } from '../../types/Point';
+import { Vector2 } from 'three';
 import { sceneSelector } from '../../redux/slices/editor';
+import { Point2D } from '../../types/Point';
 
 const WALL_HEIGHT = 3.5;
 const HIDDEN_WALL_HEIGHT = 0.2;
@@ -42,7 +42,7 @@ function shouldBeHidden(u: Point2D, v: Point2D, camera: Point2D): boolean {
   const wall = new Vector2(v.x - u.x, v.y - u.y);
   const cameraToWallEnd = new Vector2(u.x - camera.x, u.y - camera.y);
 
-  return wall.cross(cameraToWallEnd) >= 0;
+  return cameraToWallEnd.cross(wall) <= 0;
 }
 
 export function Walls({

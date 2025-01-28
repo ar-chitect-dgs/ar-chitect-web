@@ -68,7 +68,6 @@ export function normalizePoints(p: Point2D[]): Point2D[] {
 
 const snapEps = 0.7;
 
-// todo move
 export function distanceToSegment(
   point: THREE.Vector2, v: THREE.Vector2, u: THREE.Vector2,
 ): number {

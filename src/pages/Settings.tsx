@@ -6,19 +6,18 @@ import {
   SelectChangeEvent,
   Switch,
 } from '@mui/material';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { useState } from 'react';
 import Card from '../components/card/Card';
+import KeyBindSettings from '../components/keybindSettings/KeybindSettings';
+import ScrollBar from '../components/scrollbar/ScrollBar';
+import { useAppDispatch } from '../redux';
 import {
   settingsSelector,
-  switchBoundingBoxes,
   switchEditorSliders,
 } from '../redux/slices/settings';
-import { useAppDispatch } from '../redux';
 import './styles/Settings.css';
-import ScrollBar from '../components/scrollbar/ScrollBar';
-import KeyBindSettings from '../components/keybindSettings/KeybindSettings';
 
 const Settings = (): JSX.Element => {
   const { i18n, t } = useTranslation();
@@ -56,12 +55,6 @@ const Settings = (): JSX.Element => {
                     <MenuItem value="pl">Polski</MenuItem>
                   </Select>
                 </FormControl>
-                <FormControlLabel
-                  control={<Switch />}
-                  checked={displayBoundingBoxes}
-                  onChange={() => dispatch(switchBoundingBoxes())}
-                  label={t('settings.boundingBoxes')}
-                />
                 <FormControlLabel
                   control={<Switch />}
                   checked={useEditorSliders}

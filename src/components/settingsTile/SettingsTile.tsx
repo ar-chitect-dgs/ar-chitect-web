@@ -1,11 +1,11 @@
-import { useState } from 'react';
 import Popper from '@mui/material/Popper';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { EditorAction, editorActionNames } from '../../types/KeyBinds';
 
-import './SettingsTile.css';
 import ToggleButton from '../toggleButton/ToggleButton';
+import './SettingsTile.css';
 
 interface SettingsTileProps {
   actionName: EditorAction;
@@ -60,11 +60,7 @@ export const SettingsTile = ({
         {t(editorActionNames[actionName])}
       </span>
       <Popper open={open} anchorEl={anchor} className="popup">
-        Key
-        {' '}
-        {failedKey}
-        {' '}
-        is already used.
+        {t('settings.keyAlreadyUsed', { key: failedKey })}
       </Popper>
     </div>
   );

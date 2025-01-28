@@ -1,4 +1,3 @@
-// todo address this rule
 /* eslint-disable react/no-array-index-key */
 import { Point2D } from '../../types/Point';
 import { arePointsCloseAndDistance } from '../../utils/utils';
