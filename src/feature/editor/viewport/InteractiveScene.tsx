@@ -32,7 +32,7 @@ import {
 export function InteractiveScene(): JSX.Element {
   const sceneRef = useRef<THREE.Mesh>(null);
   const { raycaster } = useThree();
-  const { scene, interaction } = useSelector(sceneSelector);
+  const { scene, interaction, snapToWalls } = useSelector(sceneSelector);
   const { useEditorSliders } = useSelector(settingsSelector);
   const dispatch = useAppDispatch();
   const [dragging, setDragging] = useState(false);
@@ -116,6 +116,15 @@ export function InteractiveScene(): JSX.Element {
     (intersection: THREE.Intersection) => {
       if (intersection.object.userData.name === GROUND) {
         const { point } = intersection;
+
+        if (!snapToWalls) {
+          dispatch(moveObjectTo(
+            scene.activeObjectId as number,
+            point.x,
+            point.z,
+          ));
+          return true;
+        }
 
         const { snapped, position, rotation } = snapObject(
           new THREE.Vector2(point.x, point.z), activeModelDepth, scene.corners,

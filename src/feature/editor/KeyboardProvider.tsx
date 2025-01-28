@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import {
   addModel,
   Axis, deleteModel, disactivateObject, moveObject, rotateObject, sceneSelector,
+  toggleSnapping,
 } from '../../redux/slices/editor';
 import { EditorAction } from '../../types/KeyBinds';
 import { round } from '../../utils/utils';
@@ -111,6 +112,9 @@ export function KeyboardProvider({ children }: { children: ReactNode }): JSX.Ele
           break;
         case keyBinds[EditorAction.DESELECT]:
           dispatch(disactivateObject());
+          break;
+        case keyBinds[EditorAction.NO_SNAP]:
+          dispatch(toggleSnapping());
           break;
         default:
           break;

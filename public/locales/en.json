@@ -21,6 +21,7 @@
     "deselect": "Deselect",
     "delete": "Delete",
     "copy": "Copy",
+    "noSnap": "Toggle snapping to walls",
     "saveChanges": "Save control changes",
     "reset": "Reset to defaults",
     "boundingBoxes": "Display bounding boxes",

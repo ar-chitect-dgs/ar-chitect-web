@@ -10,6 +10,7 @@ export enum EditorAction {
   DESELECT,
   DELETE,
   COPY,
+  NO_SNAP,
 }
 
 export const editorActionNames: Record<EditorAction, string> = {
@@ -24,6 +25,7 @@ export const editorActionNames: Record<EditorAction, string> = {
   [EditorAction.DESELECT]: 'settings.deselect',
   [EditorAction.DELETE]: 'settings.delete',
   [EditorAction.COPY]: 'settings.copy',
+  [EditorAction.NO_SNAP]: 'settings.noSnap',
 };
 
 export type KeyBinds = Record<EditorAction, string>
@@ -40,4 +42,5 @@ export const defaultKeyBinds: KeyBinds = {
   [EditorAction.DESELECT]: 'Escape',
   [EditorAction.DELETE]: 'Delete',
   [EditorAction.COPY]: 'C',
+  [EditorAction.NO_SNAP]: 'Control',
 };

@@ -20,6 +20,7 @@
     "deselect": "Odznacz",
     "delete": "Usuń",
     "copy": "Kopiuj",
+    "noSnap": "Przełącz przyciąganie do ścian",
     "saveChanges": "Zapisz zmiany sterowania",
     "reset": "Przywróć domyślne",
     "boundingBoxes": "Wyświetlaj bounding boxes",
