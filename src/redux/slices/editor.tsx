@@ -21,6 +21,7 @@ export const DEFAULT_FLOOR_COLOR = '#8e7358';
 export interface EditorState {
   scene: Scene;
   interaction: Interaction,
+  snapToWalls: boolean,
 }
 
 export enum Axis {
@@ -67,6 +68,7 @@ export const initialState: EditorState = {
     floorColor: DEFAULT_FLOOR_COLOR,
   },
   interaction: Interaction.Idle,
+  snapToWalls: true,
 };
 
 const sceneSlice = createSlice({
@@ -230,6 +232,9 @@ const sceneSlice = createSlice({
     setFloorColor: (state, action: PayloadAction<string>) => {
       state.scene.floorColor = action.payload;
     },
+    toggleSnap: (state) => {
+      state.snapToWalls = !state.snapToWalls;
+    },
   },
 });
 
@@ -240,6 +245,7 @@ export const {
   setScene, clearScene,
   setWallColor, setFloorColor,
   changeInteraction,
+  toggleSnap,
 } = sceneSlice.actions;
 
 export const sceneSelector = lruMemoize(
@@ -364,5 +370,11 @@ export function resetWallColor(): ThunkActionVoid {
 export function resetFloorColor(): ThunkActionVoid {
   return async (dispatch: Dispatch) => {
     dispatch(setFloorColor(DEFAULT_FLOOR_COLOR));
+  };
+}
+
+export function toggleSnapping(): ThunkActionVoid {
+  return async (dispatch: Dispatch) => {
+    dispatch(toggleSnap());
   };
 }

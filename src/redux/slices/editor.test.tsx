@@ -44,6 +44,7 @@ describe('scene reducer', () => {
         floorColor: '#8E7358',
       },
       interaction: Interaction.Idle,
+      snapToWalls: true,
     };
   });
 

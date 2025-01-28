@@ -68,7 +68,6 @@ export function normalizePoints(p: Point2D[]): Point2D[] {
 
 const snapEps = 0.7;
 
-// todo move
 export function distanceToSegment(
   point: THREE.Vector2, v: THREE.Vector2, u: THREE.Vector2,
 ): number {
@@ -142,5 +141,5 @@ export function snapObject(
   const ret = onWallPosition.clone().add(objectOffsetVector);
 
   const normal = new THREE.Vector2(segmentVector.y, -segmentVector.x);
-  return { snapped: true, position: ret, rotation: Math.PI - normal.angle() };
+  return { snapped: true, position: ret, rotation: -normal.angle() - Math.PI / 2 };
 }

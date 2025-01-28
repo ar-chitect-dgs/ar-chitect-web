@@ -20,11 +20,13 @@
     "deselect": "Désélectionner",
     "delete": "Supprimer",
     "copy": "Copier",
+    "noSnap": "(Dés)activer l'accrochage aux murs",
     "saveChanges": "Sauvegarder les modifications",
     "reset": "Réinitialiser aux valeurs par défaut",
     "boundingBoxes": "Afficher les boîtes englobantes",
     "sliders": "Utiliser les curseurs pour déplacer",
-    "unsavedChanges": "Êtes-vous sûr de vouloir quitter sans sauvegarder les modifications ?"
+    "unsavedChanges": "Êtes-vous sûr de vouloir quitter sans sauvegarder les modifications ?",
+    "keyAlreadyUsed": "La touche {{key}} est déjà utilisée"
   },
   "mobile": {
     "title": "Vivez l'expérience complète avec ARchitect Mobile",

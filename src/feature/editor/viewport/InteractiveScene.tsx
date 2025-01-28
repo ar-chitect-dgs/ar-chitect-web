@@ -32,7 +32,7 @@ import {
 export function InteractiveScene(): JSX.Element {
   const sceneRef = useRef<THREE.Mesh>(null);
   const { raycaster } = useThree();
-  const { scene, interaction } = useSelector(sceneSelector);
+  const { scene, interaction, snapToWalls } = useSelector(sceneSelector);
   const { useEditorSliders } = useSelector(settingsSelector);
   const dispatch = useAppDispatch();
   const [dragging, setDragging] = useState(false);
@@ -117,6 +117,15 @@ export function InteractiveScene(): JSX.Element {
       if (intersection.object.userData.name === GROUND) {
         const { point } = intersection;
 
+        if (!snapToWalls) {
+          dispatch(moveObjectTo(
+            scene.activeObjectId as number,
+            point.x,
+            point.z,
+          ));
+          return true;
+        }
+
         const { snapped, position, rotation } = snapObject(
           new THREE.Vector2(point.x, point.z), activeModelDepth, scene.corners,
         );
@@ -142,7 +151,13 @@ export function InteractiveScene(): JSX.Element {
       if (intersection.object.userData.name === MODEL) {
         const { id } = intersection.object.userData;
 
-        if (id === scene.activeObjectId) {
+        if (useEditorSliders) {
+          if (id === scene.activeObjectId) {
+            dispatch(disactivateObject());
+          } else {
+            dispatch(activateObject(id));
+          }
+        } else if (scene.activeObjectId !== null) {
           dispatch(disactivateObject());
         } else {
           dispatch(activateObject(id));
@@ -197,7 +212,7 @@ export function InteractiveScene(): JSX.Element {
         const vector1 = new THREE.Vector2(point.x - x, point.z - z);
         const vector2 = new THREE.Vector2(1, 0);
 
-        const angle = -vector2.angleTo(vector1) * Math.sign(point.z - z);
+        const angle = -vector2.angleTo(vector1) * Math.sign(point.z - z) + Math.PI / 2;
 
         dispatch(rotateObject(scene.activeObjectId, angle, Axis.Y));
         return true;
