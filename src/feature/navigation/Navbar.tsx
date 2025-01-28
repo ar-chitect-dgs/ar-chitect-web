@@ -3,10 +3,8 @@ import logo from '../../assets/logo.svg';
 import { useAuth } from '../../auth/AuthProvider';
 import Sidebar from '../../components/sidebar/Sidebar';
 import { ROUTES } from './routes';
-import { clearProject } from '../../redux/slices/project';
 import { useAppDispatch } from '../../redux';
 import { clearCreator } from '../../redux/slices/creator';
-import { clearScene } from '../../redux/slices/editor';
 
 const Navbar = (): JSX.Element => {
   const { isLoggedIn } = useAuth();
@@ -15,8 +13,6 @@ const Navbar = (): JSX.Element => {
 
   const handleCreatorClick = () => {
     dispatch(clearCreator());
-    dispatch(clearProject());
-    dispatch(clearScene());
   };
 
   const projectGroup = [

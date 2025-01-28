@@ -16,6 +16,8 @@ import {
   SphereType, Walls,
 } from '../../3dUtils';
 import { RoomCorners } from '../../3dUtils/RoomCorners';
+import { clearScene } from '../../../redux/slices/editor';
+import { clearProject } from '../../../redux/slices/project';
 
 function CreatorViewport(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -23,6 +25,11 @@ function CreatorViewport(): JSX.Element {
   const [cursor, setCursor] = useState<Point2D>({ x: 0, y: 0 });
   const [polygon, setPolygon] = useState<Point2D[]>([]);
   const [clickedVertexId, setClickedVertexId] = useState(-1);
+
+  useEffect(() => {
+    dispatch(clearProject());
+    dispatch(clearScene());
+  }, []);
 
   useEffect(() => {
     setPolygon([...points]);
@@ -37,13 +44,15 @@ function CreatorViewport(): JSX.Element {
     dispatch(addPointToPlane(point.x, point.z));
   };
 
-  const findClickedVertex = () => {
+  const findClickedVertex = (): boolean => {
     for (let i = 0; i < points.length; i += 1) {
       if (arePointsClose(cursor, points[i])) {
         setClickedVertexId(i);
-        return;
+        return true;
       }
     }
+    setClickedVertexId(-1);
+    return false;
   };
 
   const deleteVertex = () => {
@@ -78,8 +87,8 @@ function CreatorViewport(): JSX.Element {
   };
 
   const onPointerDown = (_e: ThreeEvent<MouseEvent>) => {
-    findClickedVertex();
-    if (interaction === Interaction.Idle) {
+    const ok = findClickedVertex();
+    if (ok && interaction === Interaction.Idle) {
       dispatch(changeInteractionState(Interaction.MovingVertex));
     }
   };
