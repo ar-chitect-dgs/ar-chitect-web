@@ -212,7 +212,7 @@ export function InteractiveScene(): JSX.Element {
         const vector1 = new THREE.Vector2(point.x - x, point.z - z);
         const vector2 = new THREE.Vector2(1, 0);
 
-        const angle = -vector2.angleTo(vector1) * Math.sign(point.z - z);
+        const angle = -vector2.angleTo(vector1) * Math.sign(point.z - z) + Math.PI / 2;
 
         dispatch(rotateObject(scene.activeObjectId, angle, Axis.Y));
         return true;

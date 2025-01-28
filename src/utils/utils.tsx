@@ -141,5 +141,5 @@ export function snapObject(
   const ret = onWallPosition.clone().add(objectOffsetVector);
 
   const normal = new THREE.Vector2(segmentVector.y, -segmentVector.x);
-  return { snapped: true, position: ret, rotation: Math.PI - normal.angle() };
+  return { snapped: true, position: ret, rotation: -normal.angle() - Math.PI / 2 };
 }
