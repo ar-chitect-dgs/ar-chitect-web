@@ -65,7 +65,7 @@
 .scrollbar-track-horizontal {
   height: 5px;
   width: 100%;
-  background: transparent; /* Style the horizontal track */
+  background: transparent;
   bottom: 0;
 }
 

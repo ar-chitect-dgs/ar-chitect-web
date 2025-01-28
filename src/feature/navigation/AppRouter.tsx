@@ -1,4 +1,3 @@
-// src/feature/navbar/AppRouter.tsx
 import {
   createBrowserRouter,
   createRoutesFromElements,
