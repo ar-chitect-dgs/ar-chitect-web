@@ -81,7 +81,10 @@
   "templates": {
     "consistsOf": "Composé de : ",
     "loadingTemplates": "Chargement des modèles...",
-    "noTemplates": "Aucun modèle trouvé."
+    "noTemplates": "Aucun modèle trouvé.",
+    "kitchen": "Cuisine",
+    "bedroom": "Chambre / Salon",
+    "bathroom": "Salle de bain"
   },
   "login": {
     "title": "Connectez-vous à votre compte existant",

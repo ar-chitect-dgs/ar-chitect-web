@@ -82,7 +82,10 @@
   "templates": {
     "consistsOf": "Consists of: ",
     "loadingTemplates": "Loading templates...",
-    "noTemplates": "No templates found."
+    "noTemplates": "No templates found.",
+    "kitchen": "Kitchen",
+    "bedroom": "Bedroom / Living room",
+    "bathroom": "Bathroom"
   },
   "login": {
     "title": "Login to your existing account",

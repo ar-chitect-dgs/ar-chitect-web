@@ -14,12 +14,6 @@ import { setProject } from '../redux/slices/project';
 import { mapApiProjectToProjectScene } from '../utils/mappers';
 import './styles/Projects.css';
 
-const TEMPLATES_SECTIONS = {
-  Kitchen: 'Kitchen',
-  Bathroom: 'Bathroom',
-  Bedroom: 'Bedroom / Living room',
-};
-
 interface ProjectSection {
   sectionName: string;
   projects: ApiProject[];
@@ -32,6 +26,12 @@ const Templates = (): JSX.Element => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const TEMPLATES_SECTIONS = {
+    Kitchen: t('templates.kitchen'),
+    Bathroom: t('templates.bathroom'),
+    Bedroom: t('templates.bedroom'),
+  };
 
   useEffect(() => {
     const fetchProjects = async () => {

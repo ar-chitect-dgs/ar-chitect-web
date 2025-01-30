@@ -81,7 +81,10 @@
   "templates": {
     "consistsOf": "Składa się z: ",
     "loadingTemplates": "Ładowanie szablonów...",
-    "noTemplates": "Nie znaleziono szablonów."
+    "noTemplates": "Nie znaleziono szablonów.",
+    "kitchen": "Kuchnia",
+    "bedroom": "Sypialnia / Salon",
+    "bathroom": "Łazienka"
   },
   "login": {
     "title": "Zaloguj się do swojego istniejącego konta",
