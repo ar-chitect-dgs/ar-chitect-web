@@ -23,6 +23,7 @@ const MAP_COLORS = {
   white: '#FFF',
   blue: '#7fc4f5',
   yellow: '#ebe544',
+  black: '#000000',
 };
 
 const ModelTile = ({ model, onClick }: ModelTileProps): JSX.Element => {

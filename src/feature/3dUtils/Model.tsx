@@ -23,9 +23,9 @@ export function Model({
   const [gltfModel, setGltfModel] = useState<THREE.Group | null>(null);
   // Axis aligned copy of the model to compute bounding box
   const [aaGltfModel, setAaGltfModel] = useState<THREE.Group | null>(null);
-  const [depth, setDepth] = useState(0);
-  const [height, setHeight] = useState(0);
   const [width, setWidth] = useState(0);
+  const [height, setHeight] = useState(0);
+  const [depth, setDepth] = useState(0);
 
   const meshRef = useRef<THREE.Mesh>(null);
 
@@ -41,9 +41,9 @@ export function Model({
 
         const boundingBox = new THREE.Box3().setFromObject(model as THREE.Object3D);
 
-        setDepth(boundingBox.max.x - boundingBox.min.x);
+        setWidth(boundingBox.max.x - boundingBox.min.x);
         setHeight(boundingBox.max.y - boundingBox.min.y);
-        setWidth(boundingBox.max.z - boundingBox.min.z);
+        setDepth(boundingBox.max.z - boundingBox.min.z);
       },
       undefined,
       (error) => {
@@ -81,7 +81,7 @@ export function Model({
           userData={{ name: MODEL, id: inProjectId }}
           castShadow={false}
         >
-          <boxGeometry args={[depth + 0.1, height + 0.1, width + 0.1]} />
+          <boxGeometry args={[width + 0.1, height + 0.1, depth + 0.1]} />
           <meshStandardMaterial
             color="lightblue"
             transparent
